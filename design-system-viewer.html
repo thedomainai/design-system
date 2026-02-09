@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Domain AI Company — Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-50:#eef1f8;--primary-100:#dae1f1;--primary-200:#b8c5e3;--primary-300:#8fa5d4;
+    --primary-400:#6b84c0;--primary-500:#5068a4;--primary-600:#445076;--primary-700:#363f60;
+    --primary-800:#292f47;--primary-900:#1c2035;--primary-950:#0f1220;
+    --secondary-50:#f9fafc;--secondary-100:#eef0f5;--secondary-200:#d7dded;--secondary-300:#b5bdd4;
+    --secondary-400:#8f99b8;--secondary-500:#6e7899;--secondary-600:#565f7a;--secondary-700:#454c63;
+    --secondary-800:#373c50;--secondary-900:#2b2f40;--secondary-950:#1a1d2a;
+    --neutral-0:#000000;--neutral-50:#050506;--neutral-100:#0a0a0c;--neutral-200:#141418;
+    --neutral-300:#1e1e24;--neutral-400:#2a2a32;--neutral-500:#3d3d48;--neutral-600:#5a5a68;
+    --neutral-700:#7e7e8c;--neutral-800:#a5a5b0;--neutral-900:#ccccd4;--neutral-950:#e8e8ec;
+    --neutral-1000:#ffffff;
+    --glow-50:#f2f0fa;--glow-100:#e4def2;--glow-200:#cbc0e6;--glow-300:#ad9cce;
+    --glow-400:#8e7cb4;--glow-500:#705c98;--glow-600:#5a4a80;--glow-700:#483e68;
+    --glow-800:#36304f;--glow-900:#241e3a;--glow-950:#140e24;
+    --success-400:#4ade80;--success-500:#22c55e;--success-600:#16a34a;--success-900:#0a2615;
+    --warning-400:#facc15;--warning-500:#eab308;--warning-600:#ca8a04;--warning-900:#2a2008;
+    --error-400:#f87171;--error-500:#ef4444;--error-600:#dc2626;--error-900:#2a0a0a;
+    --info-400:#60a5fa;--info-500:#3b82f6;--info-600:#2563eb;--info-900:#0a1a2e;
+    --font-sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --font-mono:'JetBrains Mono','SF Mono','Fira Code',monospace;
+    --sidebar-width:260px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:32px;}
+  body{font-family:var(--font-sans);background:var(--neutral-0);color:var(--neutral-950);line-height:1.6;overflow-x:hidden;}
+
+  /* ── Sidebar ── */
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--neutral-100);border-right:1px solid var(--neutral-300);padding:32px 0;overflow-y:auto;z-index:100;transition:transform .3s cubic-bezier(0.25,0.1,0.25,1);}
+  .sidebar-header{padding:0 24px 24px;border-bottom:1px solid var(--neutral-300);margin-bottom:16px;}
+  .sidebar-header h1{font-size:15px;font-weight:600;color:var(--neutral-1000);letter-spacing:-0.3px;}
+  .sidebar-header p{font-size:11px;color:var(--neutral-600);margin-top:4px;font-weight:400;}
+  .nav-group{padding:0 12px;}
+  .nav-group a{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;font-weight:400;color:var(--neutral-700);text-decoration:none;border-radius:8px;transition:all .15s ease;margin-bottom:2px;}
+  .nav-group a:hover{color:var(--neutral-950);background:var(--neutral-200);}
+  .nav-group a.active{color:var(--neutral-1000);background:var(--neutral-200);font-weight:500;}
+  .nav-group a .nav-num{font-family:var(--font-mono);font-size:10px;color:var(--neutral-500);width:20px;text-align:right;flex-shrink:0;}
+  .nav-group a.active .nav-num{color:var(--primary-400);}
+
+  /* ── Main ── */
+  .main{margin-left:var(--sidebar-width);min-height:100vh;}
+  .hero{padding:80px 64px 64px;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(80,104,164,0.12) 0%,transparent 70%);}
+  .hero h1{font-size:44px;font-weight:300;letter-spacing:-1px;color:var(--neutral-1000);margin-bottom:8px;}
+  .hero p{font-size:14px;color:var(--neutral-700);max-width:600px;}
+  .content{padding:0 64px 96px;}
+
+  /* ── Section ── */
+  .section{padding-top:64px;}
+  .section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
+  .section-header h2{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--neutral-600);white-space:nowrap;}
+  .section-header::after{content:'';flex:1;height:1px;background:var(--neutral-300);}
+  .section-desc{font-size:14px;color:var(--neutral-700);margin-bottom:24px;max-width:700px;}
+
+  /* ── Principle Cards ── */
+  .principles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+  .principle-card{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:20px;transition:border-color .15s ease;}
+  .principle-card:hover{border-color:var(--neutral-400);}
+  .principle-num{font-family:var(--font-mono);font-size:11px;color:var(--primary-400);margin-bottom:8px;}
+  .principle-title{font-size:16px;font-weight:600;color:var(--neutral-1000);margin-bottom:6px;}
+  .principle-desc{font-size:13px;color:var(--neutral-700);line-height:1.5;}
+
+  /* ── Color Swatches ── */
+  .palette-group{margin-bottom:32px;}
+  .palette-label{font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:8px;display:flex;align-items:baseline;gap:8px;}
+  .palette-label span{font-size:11px;color:var(--neutral-600);font-weight:400;}
+  .swatches{display:flex;gap:2px;border-radius:12px;overflow:hidden;}
+  .swatch{flex:1;min-height:80px;padding:8px 10px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;transition:transform .15s ease;position:relative;}
+  .swatch:hover{transform:scaleY(1.08);z-index:1;}
+  .swatch-label{font-family:var(--font-mono);font-size:10px;font-weight:500;}
+  .swatch-hex{font-family:var(--font-mono);font-size:9px;opacity:.6;margin-top:1px;}
+  .swatch.dark .swatch-label,.swatch.dark .swatch-hex{color:var(--neutral-200);}
+  .swatch.light .swatch-label,.swatch.light .swatch-hex{color:var(--neutral-950);}
+
+  /* ── Semantic Tokens ── */
+  .semantic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:24px;}
+  .semantic-card{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:10px;padding:14px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .15s ease;}
+  .semantic-card:hover{border-color:var(--neutral-400);}
+  .semantic-dot{width:36px;height:36px;border-radius:8px;flex-shrink:0;}
+  .semantic-name{font-size:13px;font-weight:500;color:var(--neutral-900);}
+  .semantic-detail{font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-top:2px;}
+
+  /* ── Status Colors ── */
+  .status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .status-card{border-radius:12px;overflow:hidden;background:var(--neutral-100);border:1px solid var(--neutral-300);}
+  .status-card h3{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--neutral-700);padding:12px 14px 8px;}
+  .status-swatches{display:flex;gap:2px;}
+  .status-swatch{flex:1;height:52px;padding:6px 8px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;}
+
+  /* ── Typography ── */
+  .type-table{width:100%;border-collapse:collapse;}
+  .type-table th{text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);}
+  .type-table td{padding:16px;border-bottom:1px solid var(--neutral-200);vertical-align:middle;}
+  .type-token{font-family:var(--font-mono);font-size:12px;color:var(--primary-400);white-space:nowrap;}
+  .type-meta{font-family:var(--font-mono);font-size:11px;color:var(--neutral-600);}
+
+  /* ── Spacing ── */
+  .spacing-list{display:flex;flex-direction:column;gap:8px;}
+  .spacing-row{display:flex;align-items:center;gap:16px;}
+  .spacing-token{font-family:var(--font-mono);font-size:12px;color:var(--neutral-700);width:80px;text-align:right;flex-shrink:0;}
+  .spacing-value{font-family:var(--font-mono);font-size:11px;color:var(--neutral-600);width:50px;flex-shrink:0;}
+  .spacing-bar{height:20px;background:var(--primary-500);border-radius:4px;opacity:.6;transition:opacity .15s ease;}
+  .spacing-row:hover .spacing-bar{opacity:1;}
+
+  /* ── Grid ── */
+  .bp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .bp-card{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:20px;}
+  .bp-name{font-size:14px;font-weight:600;color:var(--neutral-1000);margin-bottom:4px;}
+  .bp-range{font-family:var(--font-mono);font-size:12px;color:var(--primary-400);margin-bottom:8px;}
+  .bp-detail{font-size:12px;color:var(--neutral-700);line-height:1.6;}
+  .grid-demo{margin-top:24px;background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:20px;overflow:hidden;}
+  .grid-demo-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:12px;}
+  .grid-cols{display:grid;gap:4px;}
+  .grid-col{background:var(--primary-900);border-radius:4px;height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;color:var(--primary-400);}
+
+  /* ── Radius ── */
+  .radius-grid{display:flex;flex-wrap:wrap;gap:20px;align-items:end;}
+  .radius-item{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .radius-box{background:var(--neutral-200);border:1px solid var(--neutral-400);transition:border-color .15s ease;}
+  .radius-item:hover .radius-box{border-color:var(--primary-500);}
+  .radius-label{font-family:var(--font-mono);font-size:11px;color:var(--neutral-700);}
+  .radius-val{font-family:var(--font-mono);font-size:10px;color:var(--neutral-500);}
+
+  /* ── Stroke Width ── */
+  .stroke-grid{display:flex;flex-direction:column;gap:16px;max-width:600px;}
+  .stroke-row{display:flex;align-items:center;gap:20px;}
+  .stroke-token{font-family:var(--font-mono);font-size:12px;color:var(--neutral-700);width:120px;text-align:right;flex-shrink:0;}
+  .stroke-value{font-family:var(--font-mono);font-size:11px;color:var(--neutral-600);width:40px;flex-shrink:0;}
+  .stroke-line{flex:1;border-top-style:solid;border-top-color:var(--primary-400);transition:border-top-color .15s ease;}
+  .stroke-row:hover .stroke-line{border-top-color:var(--glow-200);}
+
+  /* ── Effects ── */
+  .effects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+  .effect-card{border-radius:12px;padding:24px;min-height:140px;display:flex;flex-direction:column;justify-content:flex-end;}
+  .effect-name{font-size:14px;font-weight:600;color:var(--neutral-1000);margin-bottom:4px;}
+  .effect-desc{font-size:12px;color:var(--neutral-700);}
+  .effect-code{font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-top:8px;padding:8px;background:rgba(0,0,0,.3);border-radius:6px;line-height:1.5;white-space:pre-wrap;position:relative;}
+  .copy-btn{position:absolute;top:6px;right:6px;background:var(--neutral-400);color:var(--neutral-900);border:none;border-radius:4px;padding:2px 8px;font-family:var(--font-mono);font-size:9px;cursor:pointer;opacity:0;transition:opacity .15s ease;}
+  .effect-code:hover .copy-btn{opacity:1;}
+
+  /* ── Shadows ── */
+  .shadow-grid{display:flex;flex-wrap:wrap;gap:24px;margin-top:16px;}
+  .shadow-item{width:120px;height:120px;background:var(--neutral-200);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+  .shadow-label{font-family:var(--font-mono);font-size:11px;color:var(--neutral-700);}
+
+  /* ── Elevation ── */
+  .elevation-stack{display:flex;flex-direction:column;gap:0;position:relative;height:340px;max-width:500px;}
+  .elevation-layer{position:absolute;left:0;right:0;border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--neutral-300);transition:transform .2s ease;}
+  .elevation-layer:hover{transform:translateX(8px);}
+  .elevation-name{font-size:13px;font-weight:500;color:var(--neutral-950);}
+  .elevation-z{font-family:var(--font-mono);font-size:11px;color:var(--primary-400);}
+
+  /* ── Motion ── */
+  .motion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+  .motion-card{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:20px;text-align:center;}
+  .motion-demo{width:48px;height:48px;background:var(--primary-500);border-radius:10px;margin:0 auto 12px;transition-property:transform,box-shadow,border-radius;}
+  .motion-name{font-size:13px;font-weight:500;color:var(--neutral-900);margin-bottom:2px;}
+  .motion-val{font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);}
+
+  .anim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:24px;}
+  .anim-card{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:20px;text-align:center;cursor:pointer;}
+  .anim-demo{width:64px;height:40px;background:var(--primary-500);border-radius:8px;margin:0 auto 12px;opacity:0.6;}
+  .anim-name{font-size:13px;font-weight:500;color:var(--neutral-900);}
+  .anim-desc{font-size:11px;color:var(--neutral-600);margin-top:4px;}
+
+  /* ── Iconography ── */
+  .icon-table{width:100%;border-collapse:collapse;max-width:600px;}
+  .icon-table td{padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-size:13px;}
+  .icon-table td:first-child{font-weight:500;color:var(--neutral-800);width:140px;}
+  .icon-table td:last-child{color:var(--neutral-700);}
+
+  /* ── Platform Tabs ── */
+  .tab-bar{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--neutral-300);padding-bottom:0;}
+  .tab-btn{background:none;border:none;color:var(--neutral-600);font-family:var(--font-sans);font-size:13px;font-weight:500;padding:10px 16px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s ease;}
+  .tab-btn:hover{color:var(--neutral-900);}
+  .tab-btn.active{color:var(--neutral-1000);border-bottom-color:var(--primary-500);}
+  .tab-content{display:none;}
+  .tab-content.active{display:block;}
+  .platform-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .platform-list li{font-size:13px;color:var(--neutral-800);padding:10px 14px;background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:8px;line-height:1.5;}
+  .platform-list li::before{content:'';display:inline-block;width:6px;height:6px;background:var(--primary-500);border-radius:50%;margin-right:10px;vertical-align:middle;}
+
+  /* ── Quick Reference ── */
+  .ref-visual{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:16px;padding:32px;max-width:720px;}
+  .ref-layer{border-radius:12px;padding:20px;position:relative;}
+  .ref-label{font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);position:absolute;top:8px;right:12px;}
+  .ref-inner-card{border-radius:10px;padding:16px;margin-top:12px;}
+  .ref-text-line{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .ref-text-role{font-family:var(--font-mono);font-size:10px;color:var(--neutral-500);width:90px;text-align:right;flex-shrink:0;}
+  .ref-btn{display:inline-block;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;margin-top:12px;cursor:default;transition:box-shadow .2s ease;}
+  .ref-btn:hover{box-shadow:0 0 20px rgba(80,104,164,0.15);}
+
+  /* ── Toast ── */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--neutral-400);color:var(--neutral-950);padding:8px 20px;border-radius:8px;font-size:12px;font-family:var(--font-mono);opacity:0;pointer-events:none;transition:all .25s ease;z-index:9999;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ── Mobile ── */
+  .menu-btn{display:none;position:fixed;top:16px;left:16px;z-index:200;width:40px;height:40px;background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:10px;cursor:pointer;align-items:center;justify-content:center;}
+  .menu-btn span{display:block;width:18px;height:2px;background:var(--neutral-800);border-radius:1px;transition:all .2s ease;}
+  .menu-btn span+span{margin-top:4px;}
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:90;}
+
+  @media(max-width:1023px){
+    .sidebar{transform:translateX(-100%);}
+    .sidebar.open{transform:translateX(0);}
+    .main{margin-left:0;}
+    .hero{padding:64px 24px 48px;}
+    .content{padding:0 24px 64px;}
+    .menu-btn{display:flex;}
+    .overlay.open{display:block;}
+    .status-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:639px){
+    .hero h1{font-size:28px;}
+    .effects-grid{grid-template-columns:1fr;}
+    .status-grid{grid-template-columns:1fr;}
+    .swatches{flex-wrap:wrap;}
+    .swatch{min-width:calc(25% - 2px);min-height:64px;}
+  }
+
+  /* ── Hover Buttons ── */
+  .hover-demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;}
+  .hover-demo-card{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:32px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+  .hover-demo-name{font-size:14px;font-weight:600;color:var(--neutral-1000);}
+  .hover-demo-desc{font-size:12px;color:var(--neutral-700);text-align:center;max-width:280px;}
+
+  .btn-gradient-shift{
+    padding:0.9em 1.4em;min-width:120px;min-height:44px;font-family:var(--font-sans);
+    font-size:14px;font-weight:500;border:none;border-radius:8px;color:#fff;cursor:pointer;
+    transition:0.8s;background-size:280% auto;
+    background-image:linear-gradient(325deg,#5068a4 0%,#798bb9 55%,#5068a4 90%);
+    box-shadow:0px 0px 20px rgba(80,104,164,0.5),0px 5px 5px -1px rgba(68,80,118,0.25),inset 4px 4px 8px rgba(196,211,255,0.5),inset -4px -4px 8px rgba(54,63,96,0.35);
+  }
+  .btn-gradient-shift:hover{background-position:right top;}
+  .btn-gradient-shift:focus,.btn-gradient-shift:focus-visible,.btn-gradient-shift:active{
+    outline:none;box-shadow:0 0 0 3px #fff,0 0 0 6px #5068a4;
+  }
+
+  .btn-glow-line{
+    min-width:120px;position:relative;cursor:pointer;padding:12px 17px;border:0;border-radius:7px;
+    font-family:var(--font-sans);font-size:14px;font-weight:500;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.1);
+    background:radial-gradient(ellipse at bottom,#2a2a32 0%,#0a0a0c 45%);
+    color:rgba(232,232,236,0.66);
+    transition:all 1s cubic-bezier(0.15,0.83,0.66,1);
+  }
+  .btn-glow-line::before{
+    content:"";width:70%;height:1px;position:absolute;bottom:0;left:15%;
+    background:linear-gradient(90deg,transparent 0%,#e8e8ec 50%,transparent 100%);
+    opacity:0.2;transition:all 1s cubic-bezier(0.15,0.83,0.66,1);
+  }
+  .btn-glow-line:hover{color:#e8e8ec;transform:scale(1.1) translateY(-3px);}
+  .btn-glow-line:hover::before{opacity:1;}
+
+  @media(prefers-reduced-motion:reduce){
+    .btn-gradient-shift,.btn-glow-line{transition:linear;}
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(80,104,164,0.1)}50%{box-shadow:0 0 40px rgba(80,104,164,0.25)}}
+  @keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>The Domain AI</h1>
+    <p>Design System v1.0</p>
+  </div>
+  <div class="nav-group">
+    <a href="#principles"><span class="nav-num">01</span>Design Principles</a>
+    <a href="#colors"><span class="nav-num">02</span>Color System</a>
+    <a href="#typography"><span class="nav-num">03</span>Typography</a>
+    <a href="#spacing"><span class="nav-num">04</span>Spacing</a>
+    <a href="#grid"><span class="nav-num">05</span>Grid &amp; Layout</a>
+    <a href="#radius"><span class="nav-num">06</span>Shape &amp; Radius</a>
+    <a href="#effects"><span class="nav-num">07</span>Effects</a>
+    <a href="#elevation"><span class="nav-num">08</span>Elevation</a>
+    <a href="#motion"><span class="nav-num">09</span>Motion</a>
+    <a href="#iconography"><span class="nav-num">10</span>Iconography</a>
+    <a href="#platforms"><span class="nav-num">11</span>Platform Guidelines</a>
+    <a href="#reference"><span class="nav-num">12</span>Quick Reference</a>
+    <a href="#components"><span class="nav-num">13</span>Components</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>The Domain AI Company<br>Design System</h1>
+    <p>Dark-first design system. Web Page, Web App, Mobile App, Visual Presentation で統一的に使用します。</p>
+  </div>
+
+  <div class="content">
+
+    <!-- 01 Design Principles -->
+    <section class="section" id="principles">
+      <div class="section-header"><h2>01 &mdash; Design Principles</h2></div>
+      <div class="principles-grid" id="principlesGrid"></div>
+    </section>
+
+    <!-- 02 Color System -->
+    <section class="section" id="colors">
+      <div class="section-header"><h2>02 &mdash; Color System</h2></div>
+
+      <div id="paletteContainer"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:40px 0 8px;">Semantic Tokens</h3>
+      <p class="section-desc" style="margin-bottom:16px;">用途に基づく意味的トークンです。実装時はこちらを優先して使用します。</p>
+      <div class="semantic-grid" id="semanticGrid"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:40px 0 8px;">Light Mode Semantic Tokens</h3>
+      <p class="section-desc" style="margin-bottom:16px;">ダークモードと対になるライトモード用トークンです。同じセマンティック名でテーマを切り替えます。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;">
+        <div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:12px;">Dark Mode</div>
+          <div class="semantic-grid" id="semanticGridDark" style="margin-top:0;"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:12px;">Light Mode</div>
+          <div id="semanticGridLight" style="display:grid;grid-template-columns:1fr;gap:10px;"></div>
+        </div>
+      </div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:40px 0 8px;">Status Colors</h3>
+      <div class="status-grid" id="statusGrid"></div>
+    </section>
+
+    <!-- 03 Typography -->
+    <section class="section" id="typography">
+      <div class="section-header"><h2>03 &mdash; Typography</h2></div>
+      <div class="section-desc">DM Sans（本文・UI全般）と JetBrains Mono（コード・数値）の2書体構成です。Major Third (1.25) スケールを採用しています。</div>
+
+      <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
+        <div style="background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:20px;flex:1;min-width:200px;">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--primary-400);margin-bottom:8px;">Sans</div>
+          <div style="font-size:24px;font-weight:300;color:var(--neutral-1000);">DM Sans</div>
+          <div style="font-size:13px;color:var(--neutral-600);margin-top:4px;">本文・UI全般・見出し</div>
+        </div>
+        <div style="background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:20px;flex:1;min-width:200px;">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--primary-400);margin-bottom:8px;">Mono</div>
+          <div style="font-family:var(--font-mono);font-size:24px;font-weight:400;color:var(--neutral-1000);">JetBrains Mono</div>
+          <div style="font-size:13px;color:var(--neutral-600);margin-top:4px;">コード・数値・トークン</div>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="type-table" id="typeTable"></table>
+      </div>
+    </section>
+
+    <!-- 04 Spacing -->
+    <section class="section" id="spacing">
+      <div class="section-header"><h2>04 &mdash; Spacing</h2></div>
+      <div class="section-desc">8px グリッドベースのスペーシングスケールです。</div>
+      <div class="spacing-list" id="spacingList"></div>
+    </section>
+
+    <!-- 05 Grid & Layout -->
+    <section class="section" id="grid">
+      <div class="section-header"><h2>05 &mdash; Grid &amp; Layout</h2></div>
+      <div class="section-desc">レスポンシブブレークポイントとカラムグリッドの定義です。</div>
+      <div class="bp-grid" id="bpGrid"></div>
+      <div class="grid-demo" style="margin-top:24px;">
+        <div class="grid-demo-label">12-Column Grid Preview</div>
+        <div class="grid-cols" id="gridPreview" style="grid-template-columns:repeat(12,1fr);"></div>
+      </div>
+    </section>
+
+    <!-- 06 Shape & Radius -->
+    <section class="section" id="radius">
+      <div class="section-header"><h2>06 &mdash; Shape &amp; Radius</h2></div>
+      <div class="section-desc">12px (radius-lg) をカードの標準とし、ネスト要素は親より小さい radius を使用します。</div>
+      <div class="radius-grid" id="radiusGrid"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:40px 0 8px;">Border & Stroke Width</h3>
+      <p class="section-desc">1px (stroke-sm) をデフォルトのボーダー幅とし、アイコンは 1.5px (stroke-md) で統一します。</p>
+      <div class="stroke-grid" id="strokeGrid"></div>
+    </section>
+
+    <!-- 07 Effects -->
+    <section class="section" id="effects">
+      <div class="section-header"><h2>07 &mdash; Effects &amp; Embellishments</h2></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glassmorphism — Dark</h3>
+      <div class="effects-grid" id="glassGrid" style="margin-bottom:24px;"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glassmorphism — Light</h3>
+      <div class="effects-grid" id="glassLightGrid" style="margin-bottom:32px;"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Gradients — Dark</h3>
+      <div class="effects-grid" id="gradientGrid" style="margin-bottom:24px;"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Gradients — Light</h3>
+      <div class="effects-grid" id="gradientLightGrid" style="margin-bottom:32px;"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glow Effects</h3>
+      <div class="effects-grid" id="glowGrid" style="margin-bottom:32px;"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Shadows</h3>
+      <div class="shadow-grid" id="shadowGrid"></div>
+    </section>
+
+    <!-- 08 Elevation -->
+    <section class="section" id="elevation">
+      <div class="section-header"><h2>08 &mdash; Elevation &amp; Layers</h2></div>
+      <div class="section-desc">z-index の階層定義です。</div>
+      <div class="elevation-stack" id="elevationStack"></div>
+    </section>
+
+    <!-- 09 Motion -->
+    <section class="section" id="motion">
+      <div class="section-header"><h2>09 &mdash; Motion &amp; Animation</h2></div>
+      <div class="section-desc">ホバーでアニメーションのプレビューを確認できます。</div>
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Duration & Easing</h3>
+      <div class="motion-grid" id="motionGrid"></div>
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Hover Patterns</h3>
+      <p class="section-desc">ボタンをホバーして動作を確認できます。</p>
+      <div class="hover-demo-grid">
+        <div class="hover-demo-card">
+          <div class="hover-demo-name">Gradient Shift</div>
+          <div class="hover-demo-desc">グラデーション背景がスライドし、多層グロウシャドウで深みを出すパターン。CTA・プライマリボタン向け。</div>
+          <button class="btn-gradient-shift">Gradient Shift</button>
+        </div>
+        <div class="hover-demo-card">
+          <div class="hover-demo-name">Glow Line</div>
+          <div class="hover-demo-desc">底辺のグロウラインがフェードインし、ボタン全体が浮上するパターン。セカンダリ・ゴーストボタン向け。</div>
+          <button class="btn-glow-line">Glow Line</button>
+        </div>
+      </div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Animation Patterns</h3>
+      <div class="anim-grid" id="animGrid"></div>
+    </section>
+
+    <!-- 10 Iconography -->
+    <section class="section" id="iconography">
+      <div class="section-header"><h2>10 &mdash; Iconography</h2></div>
+      <table class="icon-table" id="iconTable"></table>
+    </section>
+
+    <!-- 11 Platform Guidelines -->
+    <section class="section" id="platforms">
+      <div class="section-header"><h2>11 &mdash; Platform Guidelines</h2></div>
+      <div class="tab-bar" id="tabBar"></div>
+      <div id="tabContents"></div>
+    </section>
+
+    <!-- 12 Quick Reference -->
+    <section class="section" id="reference">
+      <div class="section-header"><h2>12 &mdash; Quick Reference</h2></div>
+      <div class="section-desc">ダークUI の基本的な構成パターンです。</div>
+      <div class="ref-visual">
+        <div class="ref-layer" style="background:var(--neutral-0);border:1px solid var(--neutral-300);">
+          <span class="ref-label">Page Background &middot; neutral-0</span>
+          <div style="font-size:11px;color:var(--neutral-500);margin-bottom:12px;">#000000</div>
+          <div class="ref-layer" style="background:var(--neutral-100);border:1px solid var(--neutral-300);">
+            <span class="ref-label">Surface &middot; neutral-100</span>
+            <div style="font-size:11px;color:var(--neutral-500);margin-bottom:16px;">#0a0a0c &middot; border: neutral-300</div>
+            <div class="ref-text-line">
+              <span class="ref-text-role">Heading</span>
+              <span style="font-size:22px;font-weight:300;color:var(--neutral-1000);">Display Heading</span>
+            </div>
+            <div class="ref-text-line">
+              <span class="ref-text-role">Body</span>
+              <span style="font-size:14px;color:var(--neutral-950);">Body text in neutral-950</span>
+            </div>
+            <div class="ref-text-line">
+              <span class="ref-text-role">Sub text</span>
+              <span style="font-size:12px;color:var(--neutral-700);">Secondary text in neutral-700</span>
+            </div>
+            <div class="ref-inner-card" style="background:var(--neutral-200);border:1px solid var(--neutral-300);margin-top:16px;">
+              <span class="ref-label">Raised &middot; neutral-200</span>
+              <div style="font-size:11px;color:var(--neutral-500);margin-bottom:12px;">#141418</div>
+              <span class="ref-btn" style="background:var(--primary-500);color:var(--neutral-950);">Primary Button</span>
+              <span class="ref-btn" style="background:transparent;color:var(--neutral-950);border:1px solid var(--neutral-400);margin-left:8px;">Secondary</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Status Usage</h3>
+      <p class="section-desc" style="margin-bottom:16px;">各ステータスカラーの Dark / Light モードでの使い分けです。</p>
+      <div id="statusRefGrid"></div>
+    </section>
+
+    <!-- 13 Components -->
+    <section class="section" id="components">
+      <div class="section-header"><h2>13 &mdash; Components</h2></div>
+      <div class="section-desc">全コンポーネントはデザイントークンから値を導出します。</div>
+
+      <!-- Buttons -->
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Button</h3>
+      <div style="background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:32px;margin-bottom:16px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:16px;">Variants</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:24px;">
+          <button class="btn-gradient-shift">Primary</button>
+          <button class="btn-glow-line">Secondary</button>
+          <button style="padding:12px 17px;min-width:120px;border:0;border-radius:7px;background:transparent;color:var(--neutral-700);font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:color .15s ease;" onmouseenter="this.style.color='#e8e8ec'" onmouseleave="this.style.color='#7e7e8c'">Ghost</button>
+          <button style="padding:12px 17px;min-width:120px;border:0;border-radius:7px;background:#ef4444;color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s ease;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">Danger</button>
+        </div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:16px;">Sizes</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:24px;">
+          <button style="height:32px;padding:0 12px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:12px;font-weight:600;cursor:pointer;">Small</button>
+          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;cursor:pointer;">Medium</button>
+          <button style="height:48px;padding:0 24px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:16px;font-weight:600;cursor:pointer;">Large</button>
+        </div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:16px;">States</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;cursor:pointer;">Default</button>
+          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;box-shadow:0 0 0 2px rgba(68,80,118,0.6),0 0 12px rgba(80,104,164,0.3);cursor:pointer;">Focused</button>
+          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;opacity:0.4;cursor:not-allowed;">Disabled</button>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Card</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:16px;">
+        <div style="background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:24px;transition:border-color .15s ease;" onmouseenter="this.style.borderColor='#2a2a32'" onmouseleave="this.style.borderColor='#1e1e24'">
+          <div style="font-size:14px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;">Standard Card</div>
+          <div style="font-size:13px;color:var(--neutral-700);line-height:1.5;">bg-surface / border-default / radius-lg (12px) / padding: space-6 (24px)</div>
+        </div>
+        <div style="background:rgba(10,10,12,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;background-image:radial-gradient(at 30% 30%,rgba(80,104,164,0.1) 0%,transparent 60%);">
+          <div style="font-size:14px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;">Glass Card</div>
+          <div style="font-size:13px;color:var(--neutral-700);line-height:1.5;">glass / backdrop-filter: blur(24px) / border: rgba(255,255,255,0.06)</div>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Input / Text Field</h3>
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:400px;margin-bottom:16px;">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-bottom:4px;">Default</div>
+          <input type="text" placeholder="Placeholder text..." style="width:100%;height:40px;padding:0 12px;background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:8px;color:var(--neutral-950);font-family:var(--font-sans);font-size:14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease;" onfocus="this.style.borderColor='#5068a4';this.style.boxShadow='0 0 0 2px rgba(68,80,118,0.6),0 0 12px rgba(80,104,164,0.3)'" onblur="this.style.borderColor='#1e1e24';this.style.boxShadow='none'">
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-bottom:4px;">Error</div>
+          <input type="text" value="Invalid value" style="width:100%;height:40px;padding:0 12px;background:var(--neutral-100);border:1px solid #ef4444;border-radius:8px;color:var(--neutral-950);font-family:var(--font-sans);font-size:14px;outline:none;box-shadow:0 0 0 2px rgba(239,68,68,0.3),0 0 12px rgba(239,68,68,0.15);">
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-bottom:4px;">Disabled</div>
+          <input type="text" placeholder="Disabled" disabled style="width:100%;height:40px;padding:0 12px;background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:8px;color:var(--neutral-950);font-family:var(--font-sans);font-size:14px;opacity:0.5;cursor:not-allowed;">
+        </div>
+      </div>
+
+      <!-- Badge -->
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Badge / Tag</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:var(--neutral-300);border-radius:4px;font-size:11px;font-weight:500;color:var(--neutral-700);">Default</span>
+        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#0a2615;border-radius:4px;font-size:11px;font-weight:500;color:#4ade80;">Success</span>
+        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#2a2008;border-radius:4px;font-size:11px;font-weight:500;color:#facc15;">Warning</span>
+        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#2a0a0a;border-radius:4px;font-size:11px;font-weight:500;color:#f87171;">Error</span>
+        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#0a1a2e;border-radius:4px;font-size:11px;font-weight:500;color:#60a5fa;">Info</span>
+      </div>
+
+      <!-- Modal -->
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Modal / Dialog</h3>
+      <div style="position:relative;background:rgba(0,0,0,0.6);border-radius:12px;padding:48px;display:flex;justify-content:center;margin-bottom:16px;">
+        <div style="background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:16px;padding:24px;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+          <div style="font-size:18px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;">Modal Title</div>
+          <div style="font-size:14px;color:var(--neutral-700);margin-bottom:20px;line-height:1.5;">bg-surface-raised / radius-xl (16px) / shadow-lg / padding: space-6</div>
+          <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button style="height:36px;padding:0 14px;border:1px solid var(--neutral-400);border-radius:8px;background:transparent;color:var(--neutral-950);font-family:var(--font-sans);font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+            <button style="height:36px;padding:0 14px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:13px;font-weight:600;cursor:pointer;">Confirm</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Toast / Notification</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+        <div style="background:var(--neutral-400);padding:8px 16px;border-radius:8px;font-family:var(--font-mono);font-size:13px;color:var(--neutral-950);">Default toast message</div>
+        <div style="background:#0a2615;padding:8px 16px;border-radius:8px;font-family:var(--font-mono);font-size:13px;color:#4ade80;">Success notification</div>
+        <div style="background:#2a0a0a;padding:8px 16px;border-radius:8px;font-family:var(--font-mono);font-size:13px;color:#f87171;">Error notification</div>
+      </div>
+
+      <!-- Table -->
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Table</h3>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;max-width:600px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);">Token</th>
+              <th style="text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);">Value</th>
+              <th style="text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);">Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="transition:background .1s ease;" onmouseenter="this.style.background='#0a0a0c'" onmouseleave="this.style.background='transparent'">
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--primary-400);">radius-lg</td>
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--neutral-600);">12px</td>
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-size:14px;color:var(--neutral-800);">Card, Panel</td>
+            </tr>
+            <tr style="transition:background .1s ease;" onmouseenter="this.style.background='#0a0a0c'" onmouseleave="this.style.background='transparent'">
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--primary-400);">radius-md</td>
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--neutral-600);">8px</td>
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-size:14px;color:var(--neutral-800);">Button, Input</td>
+            </tr>
+            <tr style="transition:background .1s ease;" onmouseenter="this.style.background='#0a0a0c'" onmouseleave="this.style.background='transparent'">
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--primary-400);">radius-sm</td>
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--neutral-600);">4px</td>
+              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-size:14px;color:var(--neutral-800);">Tag, Badge</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+/* ── Data ── */
+const principles = [
+  { num:'01', title:'Dark-First', desc:'黒を基調とし、光 (Glow) で情報階層を表現する' },
+  { num:'02', title:'Minimal & Precise', desc:'余白と抑制された要素数で、情報に集中させる' },
+  { num:'03', title:'Ethereal Depth', desc:'グラスモーフィズムと微細なグロウで奥行きを演出する' },
+  { num:'04', title:'Systematic Consistency', desc:'すべての値はトークンから導出し、マジックナンバーを排除する' },
+  { num:'05', title:'Platform Adaptive', desc:'共通トークンを持ちつつ、各プラットフォームの慣習に従う' },
+];
+
+const palettes = [
+  { name:'Primary', sub:'Steel Blue', prefix:'primary', colors:[
+    {l:'50',h:'#eef1f8',t:'light'},{l:'100',h:'#dae1f1',t:'light'},{l:'200',h:'#b8c5e3',t:'light'},
+    {l:'300',h:'#8fa5d4',t:'light'},{l:'400',h:'#6b84c0',t:'dark'},{l:'500',h:'#5068a4',t:'dark'},
+    {l:'600',h:'#445076',t:'dark'},{l:'700',h:'#363f60',t:'dark'},{l:'800',h:'#292f47',t:'dark'},
+    {l:'900',h:'#1c2035',t:'dark'},{l:'950',h:'#0f1220',t:'dark'},
+  ]},
+  { name:'Secondary', sub:'Silver', prefix:'secondary', colors:[
+    {l:'50',h:'#f9fafc',t:'light'},{l:'100',h:'#eef0f5',t:'light'},{l:'200',h:'#d7dded',t:'light'},
+    {l:'300',h:'#b5bdd4',t:'light'},{l:'400',h:'#8f99b8',t:'light'},{l:'500',h:'#6e7899',t:'dark'},
+    {l:'600',h:'#565f7a',t:'dark'},{l:'700',h:'#454c63',t:'dark'},{l:'800',h:'#373c50',t:'dark'},
+    {l:'900',h:'#2b2f40',t:'dark'},{l:'950',h:'#1a1d2a',t:'dark'},
+  ]},
+  { name:'Accent', sub:'Violet Smoke', prefix:'glow', colors:[
+    {l:'50',h:'#f2f0fa',t:'light'},{l:'100',h:'#e4def2',t:'light'},{l:'200',h:'#cbc0e6',t:'light'},
+    {l:'300',h:'#ad9cce',t:'light'},{l:'400',h:'#8e7cb4',t:'dark'},{l:'500',h:'#705c98',t:'dark'},
+    {l:'600',h:'#5a4a80',t:'dark'},{l:'700',h:'#483e68',t:'dark'},{l:'800',h:'#36304f',t:'dark'},
+    {l:'900',h:'#241e3a',t:'dark'},{l:'950',h:'#140e24',t:'dark'},
+  ]},
+  { name:'Neutral', sub:'Black Scale', prefix:'neutral', colors:[
+    {l:'0',h:'#000000',t:'dark'},{l:'50',h:'#050506',t:'dark'},{l:'100',h:'#0a0a0c',t:'dark'},
+    {l:'200',h:'#141418',t:'dark'},{l:'300',h:'#1e1e24',t:'dark'},{l:'400',h:'#2a2a32',t:'dark'},
+    {l:'500',h:'#3d3d48',t:'dark'},{l:'600',h:'#5a5a68',t:'dark'},{l:'700',h:'#7e7e8c',t:'dark'},
+    {l:'800',h:'#a5a5b0',t:'light'},{l:'900',h:'#ccccd4',t:'light'},{l:'950',h:'#e8e8ec',t:'light'},
+    {l:'1000',h:'#ffffff',t:'light'},
+  ]},
+];
+
+const semanticTokens = [
+  {name:'bg-page',maps:'neutral-0',hex:'#000000',desc:'ページ全体の背景'},
+  {name:'bg-surface',maps:'neutral-100',hex:'#0a0a0c',desc:'カード・パネル背景'},
+  {name:'bg-surface-raised',maps:'neutral-200',hex:'#141418',desc:'浮上サーフェス'},
+  {name:'border-default',maps:'neutral-300',hex:'#1e1e24',desc:'通常のボーダー'},
+  {name:'border-hover',maps:'neutral-400',hex:'#2a2a32',desc:'ホバー時ボーダー'},
+  {name:'text-primary',maps:'neutral-950',hex:'#e8e8ec',desc:'本文テキスト'},
+  {name:'text-secondary',maps:'neutral-700',hex:'#7e7e8c',desc:'補助テキスト'},
+  {name:'text-muted',maps:'neutral-500',hex:'#3d3d48',desc:'非活性テキスト'},
+  {name:'interactive',maps:'primary-500',hex:'#5068a4',desc:'ボタン・リンク'},
+  {name:'interactive-hover',maps:'primary-400',hex:'#6b84c0',desc:'ホバー状態'},
+  {name:'focus-ring',maps:'primary-600',hex:'#445076',desc:'フォーカスインジケーター'},
+  {name:'glow-effect',maps:'glow-400',hex:'#8e7cb4',desc:'グロウエフェクト'},
+];
+
+const statusColors = [
+  {name:'Success',colors:[{l:'400',h:'#4ade80',t:'light'},{l:'500',h:'#22c55e',t:'light'},{l:'600',h:'#16a34a',t:'dark'},{l:'900',h:'#0a2615',t:'dark'}]},
+  {name:'Warning',colors:[{l:'400',h:'#facc15',t:'light'},{l:'500',h:'#eab308',t:'light'},{l:'600',h:'#ca8a04',t:'dark'},{l:'900',h:'#2a2008',t:'dark'}]},
+  {name:'Error',colors:[{l:'400',h:'#f87171',t:'light'},{l:'500',h:'#ef4444',t:'dark'},{l:'600',h:'#dc2626',t:'dark'},{l:'900',h:'#2a0a0a',t:'dark'}]},
+  {name:'Info',colors:[{l:'400',h:'#60a5fa',t:'light'},{l:'500',h:'#3b82f6',t:'dark'},{l:'600',h:'#2563eb',t:'dark'},{l:'900',h:'#0a1a2e',t:'dark'}]},
+];
+
+const typeScale = [
+  {token:'display-xl', size:'56px',rem:'3.5rem',weight:300,lh:'1.1',ls:'-1.5px',usage:'Hero heading',font:'sans'},
+  {token:'display-lg', size:'44px',rem:'2.75rem',weight:300,lh:'1.15',ls:'-1px',usage:'Section heading',font:'sans'},
+  {token:'display-md', size:'36px',rem:'2.25rem',weight:300,lh:'1.2',ls:'-0.5px',usage:'Page title',font:'sans'},
+  {token:'heading-lg', size:'28px',rem:'1.75rem',weight:500,lh:'1.3',ls:'-0.3px',usage:'Card title',font:'sans'},
+  {token:'heading-md', size:'22px',rem:'1.375rem',weight:500,lh:'1.35',ls:'-0.2px',usage:'Subsection',font:'sans'},
+  {token:'heading-sm', size:'18px',rem:'1.125rem',weight:600,lh:'1.4',ls:'0',usage:'Small heading',font:'sans'},
+  {token:'body-lg',    size:'16px',rem:'1rem',weight:400,lh:'1.6',ls:'0',usage:'Body large',font:'sans'},
+  {token:'body-md',    size:'14px',rem:'0.875rem',weight:400,lh:'1.6',ls:'0',usage:'Body (default)',font:'sans'},
+  {token:'body-sm',    size:'12px',rem:'0.75rem',weight:400,lh:'1.5',ls:'0.1px',usage:'Caption',font:'sans'},
+  {token:'label-lg',   size:'14px',rem:'0.875rem',weight:600,lh:'1.2',ls:'0.5px',usage:'Button label',font:'sans'},
+  {token:'label-md',   size:'13px',rem:'0.8125rem',weight:600,lh:'1.2',ls:'2px',usage:'Section label',font:'sans',transform:'uppercase'},
+  {token:'label-sm',   size:'11px',rem:'0.6875rem',weight:500,lh:'1.2',ls:'1.5px',usage:'Tag / Badge',font:'sans'},
+  {token:'mono-md',    size:'13px',rem:'0.8125rem',weight:400,lh:'1.7',ls:'0',usage:'Code block',font:'mono'},
+  {token:'mono-sm',    size:'11px',rem:'0.6875rem',weight:400,lh:'1.5',ls:'0',usage:'Inline code',font:'mono'},
+];
+
+const spacingScale = [
+  {token:'space-0',val:'0px',px:0},
+  {token:'space-1',val:'2px',px:2},
+  {token:'space-2',val:'4px',px:4},
+  {token:'space-3',val:'8px',px:8},
+  {token:'space-4',val:'12px',px:12},
+  {token:'space-5',val:'16px',px:16},
+  {token:'space-6',val:'24px',px:24},
+  {token:'space-7',val:'32px',px:32},
+  {token:'space-8',val:'48px',px:48},
+  {token:'space-9',val:'64px',px:64},
+  {token:'space-10',val:'96px',px:96},
+  {token:'space-11',val:'128px',px:128},
+];
+
+const breakpoints = [
+  {name:'Mobile',range:'0 – 639px',cols:4,gutter:'16px',margin:'16px',maxW:'100%'},
+  {name:'Tablet',range:'640 – 1023px',cols:8,gutter:'24px',margin:'32px',maxW:'100%'},
+  {name:'Desktop',range:'1024 – 1439px',cols:12,gutter:'24px',margin:'auto',maxW:'1200px'},
+  {name:'Wide',range:'1440px+',cols:12,gutter:'32px',margin:'auto',maxW:'1440px'},
+];
+
+const radii = [
+  {token:'radius-none',val:'0px',size:48},
+  {token:'radius-sm',val:'4px',size:48},
+  {token:'radius-md',val:'8px',size:56},
+  {token:'radius-lg',val:'12px',size:64},
+  {token:'radius-xl',val:'16px',size:72},
+  {token:'radius-2xl',val:'24px',size:80},
+  {token:'radius-full',val:'9999px',size:80},
+];
+
+const glassEffects = [
+  {name:'Standard Glass',desc:'基本的なグラスモーフィズム',
+   style:'background:rgba(10,10,12,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.06);',
+   code:'background: rgba(10, 10, 12, 0.6);\nbackdrop-filter: blur(24px);\nborder: 1px solid rgba(255, 255, 255, 0.06);'},
+  {name:'Frosted Glass',desc:'より強い曇りガラス',
+   style:'background:rgba(20,20,24,0.8);backdrop-filter:blur(40px) saturate(1.2);-webkit-backdrop-filter:blur(40px) saturate(1.2);border:1px solid rgba(255,255,255,0.08);',
+   code:'background: rgba(20, 20, 24, 0.8);\nbackdrop-filter: blur(40px) saturate(1.2);\nborder: 1px solid rgba(255, 255, 255, 0.08);'},
+  {name:'Glow Glass',desc:'アクセントカラー付きガラス',
+   style:'background:rgba(15,18,32,0.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(107,132,192,0.15);',
+   code:'background: rgba(15, 18, 32, 0.7);\nbackdrop-filter: blur(24px);\nborder: 1px solid rgba(107, 132, 192, 0.15);'},
+];
+
+const gradients = [
+  {name:'Hero Gradient',desc:'メインビジュアル背景',
+   style:'background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(80,104,164,0.15) 0%,rgba(0,0,0,0) 70%),#0a0a0c;',
+   code:'radial-gradient(ellipse 80% 60% at 50% 0%,\n  rgba(80, 104, 164, 0.15) 0%,\n  transparent 70%)'},
+  {name:'Surface Gradient',desc:'カード・パネル背景',
+   style:'background:linear-gradient(180deg,rgba(30,30,36,0.5) 0%,rgba(10,10,12,0.8) 100%);border:1px solid #1e1e24;',
+   code:'linear-gradient(180deg,\n  rgba(30, 30, 36, 0.5) 0%,\n  rgba(10, 10, 12, 0.8) 100%)'},
+  {name:'Glow Gradient',desc:'CTA・アクセント',
+   style:'background:linear-gradient(135deg,#5068a4 0%,#8e7cb4 50%,#cbc0e6 100%);',
+   code:'linear-gradient(135deg,\n  #5068a4 0%,\n  #8e7cb4 50%,\n  #cbc0e6 100%)'},
+  {name:'Mesh Gradient',desc:'プレゼン背景',
+   style:'background:radial-gradient(at 20% 30%,rgba(80,104,164,0.2) 0%,transparent 50%),radial-gradient(at 80% 70%,rgba(142,124,180,0.15) 0%,transparent 50%),radial-gradient(at 50% 50%,rgba(203,192,230,0.05) 0%,transparent 60%),#000;',
+   code:'radial-gradient(at 20% 30%, rgba(80,104,164,0.2), transparent 50%),\nradial-gradient(at 80% 70%, rgba(142,124,180,0.15), transparent 50%),\nradial-gradient(at 50% 50%, rgba(203,192,230,0.05), transparent 60%)'},
+];
+
+const glassLightEffects = [
+  {name:'Light Glass',desc:'ライトモード・LP ヒーロー',
+   style:'background:rgba(218,225,241,0.5);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.6);',
+   code:'background: rgba(218, 225, 241, 0.5);\nbackdrop-filter: blur(24px);\nborder: 1px solid rgba(255, 255, 255, 0.6);'},
+  {name:'Light Frosted Glass',desc:'ライトモード・カード',
+   style:'background:rgba(238,240,245,0.6);backdrop-filter:blur(40px) saturate(1.3);-webkit-backdrop-filter:blur(40px) saturate(1.3);border:1px solid rgba(255,255,255,0.7);',
+   code:'background: rgba(238, 240, 245, 0.6);\nbackdrop-filter: blur(40px) saturate(1.3);\nborder: 1px solid rgba(255, 255, 255, 0.7);'},
+  {name:'Light Violet Glass',desc:'ライトモード・アクセント',
+   style:'background:rgba(228,222,242,0.5);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(173,156,206,0.2);',
+   code:'background: rgba(228, 222, 242, 0.5);\nbackdrop-filter: blur(24px);\nborder: 1px solid rgba(173, 156, 206, 0.2);'},
+];
+
+const lightGradients = [
+  {name:'Light Hero Gradient',desc:'ライトモード・メインビジュアル',
+   style:'background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(218,225,241,0.6) 0%,rgba(255,255,255,0) 70%),#fff;',
+   code:'radial-gradient(ellipse 80% 60% at 50% 0%,\n  rgba(218, 225, 241, 0.6) 0%,\n  transparent 70%)'},
+  {name:'Light Surface Gradient',desc:'ライトモード・カード背景',
+   style:'background:linear-gradient(180deg,rgba(238,240,245,0.8) 0%,rgba(255,255,255,0.9) 100%);border:1px solid rgba(218,225,241,0.4);',
+   code:'linear-gradient(180deg,\n  rgba(238, 240, 245, 0.8) 0%,\n  rgba(255, 255, 255, 0.9) 100%)'},
+  {name:'Light Violet Gradient',desc:'ライトモード・CTA・アクセント',
+   style:'background:linear-gradient(135deg,#dae1f1 0%,#e4def2 50%,#eef0f5 100%);',
+   code:'linear-gradient(135deg,\n  #dae1f1 0%,\n  #e4def2 50%,\n  #eef0f5 100%)'},
+  {name:'Light Mesh Gradient',desc:'ライトモード・プレゼン背景',
+   style:'background:radial-gradient(at 20% 30%,rgba(218,225,241,0.4) 0%,transparent 50%),radial-gradient(at 80% 70%,rgba(228,222,242,0.3) 0%,transparent 50%),radial-gradient(at 50% 50%,rgba(238,240,245,0.2) 0%,transparent 60%),#fff;',
+   code:'radial-gradient(at 20% 30%, rgba(218,225,241,0.4), transparent 50%),\nradial-gradient(at 80% 70%, rgba(228,222,242,0.3), transparent 50%),\nradial-gradient(at 50% 50%, rgba(238,240,245,0.2), transparent 60%)'},
+];
+
+const glowEffects = [
+  {name:'Subtle Glow',desc:'ホバー・フォーカス',shadow:'0 0 20px rgba(80,104,164,0.15)'},
+  {name:'Medium Glow',desc:'CTA・アクティブ要素',shadow:'0 0 40px rgba(80,104,164,0.25),0 0 80px rgba(142,124,180,0.1)'},
+  {name:'Strong Glow',desc:'ヒーロー・アクセント',shadow:'0 0 60px rgba(80,104,164,0.3),0 0 120px rgba(203,192,230,0.1),0 0 200px rgba(142,124,180,0.05)'},
+];
+
+const shadows = [
+  {name:'shadow-sm',value:'0 1px 2px rgba(0,0,0,0.5)'},
+  {name:'shadow-md',value:'0 4px 12px rgba(0,0,0,0.4)'},
+  {name:'shadow-lg',value:'0 8px 32px rgba(0,0,0,0.5)'},
+  {name:'shadow-xl',value:'0 16px 48px rgba(0,0,0,0.6)'},
+];
+
+const elevationLayers = [
+  {name:'Tooltip',z:500,bg:'#2a2a32'},
+  {name:'Toast',z:400,bg:'#252e48'},
+  {name:'Modal',z:300,bg:'#1e1e24'},
+  {name:'Overlay',z:200,bg:'#141418'},
+  {name:'Dropdown',z:100,bg:'#0a0a0c'},
+  {name:'Raised',z:10,bg:'#050506'},
+  {name:'Base',z:0,bg:'#000000'},
+];
+
+const motionTokens = [
+  {name:'Instant',duration:'100ms',easing:'ease',desc:'ホバー・フォーカス'},
+  {name:'Fast',duration:'150ms',easing:'ease',desc:'ボタン・切り替え'},
+  {name:'Normal',duration:'250ms',easing:'ease-out',desc:'パネル展開'},
+  {name:'Slow',duration:'400ms',easing:'ease-out',desc:'モーダル表示'},
+  {name:'Slower',duration:'600ms',easing:'ease-out',desc:'ページ遷移'},
+];
+
+const animPatterns = [
+  {name:'Fade In',desc:'出現アニメーション',anim:'fadeIn 0.4s ease-out forwards'},
+  {name:'Glow Pulse',desc:'ローディング・注目',anim:'glowPulse 2s ease-in-out infinite'},
+  {name:'Shimmer',desc:'スケルトンローディング',anim:'shimmer 1.5s linear infinite',
+   extraStyle:'background:linear-gradient(90deg,#141418 25%,#1e1e24 50%,#141418 75%);background-size:200% 100%;'},
+];
+
+const iconProps = [
+  ['Style','Outline (stroke width: 1.5px)、角丸'],
+  ['Optical Size','20x20px (UI) / 24x24px (Nav) / 32x32px (Decorative)'],
+  ['Default Color','text-secondary (neutral-700 / #7e7e8c)'],
+  ['Active Color','text-primary (neutral-950 / #e8e8ec)'],
+  ['Recommended Set','Lucide / Phosphor (Outline)'],
+];
+
+const platformData = {
+  'Web Page':[
+    'Hero には gradient-hero + gradient-mesh を背景に適用',
+    'セクション間は space-9 (64px) 以上の余白',
+    'CTA ボタンは gradient-glow + glow-medium を使用',
+    'タイポグラフィは display-xl ~ display-md をヒーローに使用',
+  ],
+  'Web App':[
+    'サーフェス階層を厳密に守る: bg-page → bg-surface → bg-surface-raised',
+    'Glass エフェクトはサイドバー・ヘッダーに限定 (パフォーマンス考慮)',
+    'インタラクティブ要素には必ず focus-ring (glow-ring) を適用',
+    '本文は body-md (14px)、密度の高い UI では body-sm (12px)',
+  ],
+  'iOS App':[
+    'iOS Human Interface Guidelines を優先し、トークンで色・タイポを上書き',
+    'タッチターゲット: 最小 44x44pt',
+    'Spacing: space-4 (12px) を最小パディング',
+    'SF Pro を基本フォントとし、カラートークンのみ本システムから適用',
+    'Dynamic Type をサポートし、Type Scale は参考値として扱う',
+  ],
+  'Presentation':[
+    'アスペクト比: 16:9 (1920x1080)',
+    '背景: neutral-0 + gradient-mesh',
+    'タイトル: display-xl (56px)、DM Sans Light 300',
+    '本文: body-lg (16px) 以上 (視認性確保)',
+    'コードブロック: mono-md、bg-surface 背景 + radius-lg',
+    'グロウエフェクトを図表・キーワードに積極的に使用',
+  ],
+};
+
+/* ── Render Functions ── */
+
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex);
+  const t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1200);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text);
+  const t = document.getElementById('toast');
+  t.textContent = 'Copied!';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1200);
+}
+
+// 01 Principles
+const pg = document.getElementById('principlesGrid');
+principles.forEach(p => {
+  pg.innerHTML += `<div class="principle-card"><div class="principle-num">${p.num}</div><div class="principle-title">${p.title}</div><div class="principle-desc">${p.desc}</div></div>`;
+});
+
+// 02 Colors
+const pc = document.getElementById('paletteContainer');
+palettes.forEach(p => {
+  let html = `<div class="palette-group"><div class="palette-label">${p.name} <span>${p.sub}</span></div><div class="swatches">`;
+  p.colors.forEach(c => {
+    html += `<div class="swatch ${c.t}" style="background:${c.h}" onclick="copyHex('${c.h}')"><span class="swatch-label">${c.l}</span><span class="swatch-hex">${c.h}</span></div>`;
+  });
+  html += '</div></div>';
+  pc.innerHTML += html;
+});
+
+const sg = document.getElementById('semanticGrid');
+semanticTokens.forEach(s => {
+  sg.innerHTML += `<div class="semantic-card" onclick="copyHex('${s.hex}')"><div class="semantic-dot" style="background:${s.hex}"></div><div><div class="semantic-name">${s.name}</div><div class="semantic-detail">${s.maps} &middot; ${s.hex}</div></div></div>`;
+});
+
+// Light mode semantic tokens (side-by-side comparison)
+const lightSemanticTokens = [
+  {name:'bg-page',maps:'neutral-1000',hex:'#ffffff'},
+  {name:'bg-surface',maps:'neutral-950',hex:'#e8e8ec'},
+  {name:'bg-surface-raised',maps:'neutral-1000',hex:'#ffffff'},
+  {name:'border-default',maps:'secondary-200',hex:'#d7dded'},
+  {name:'border-hover',maps:'secondary-300',hex:'#b5bdd4'},
+  {name:'text-primary',maps:'neutral-200',hex:'#141418'},
+  {name:'text-secondary',maps:'neutral-600',hex:'#5a5a68'},
+  {name:'text-muted',maps:'neutral-700',hex:'#7e7e8c'},
+  {name:'interactive',maps:'primary-500',hex:'#5068a4'},
+  {name:'interactive-hover',maps:'primary-600',hex:'#445076'},
+  {name:'focus-ring',maps:'primary-400',hex:'#6b84c0'},
+  {name:'glow-effect',maps:'glow-300',hex:'#ad9cce'},
+];
+const sgd = document.getElementById('semanticGridDark');
+semanticTokens.forEach(s => {
+  sgd.innerHTML += `<div class="semantic-card" onclick="copyHex('${s.hex}')"><div class="semantic-dot" style="background:${s.hex}"></div><div><div class="semantic-name">${s.name}</div><div class="semantic-detail">${s.maps} &middot; ${s.hex}</div></div></div>`;
+});
+const sgl = document.getElementById('semanticGridLight');
+lightSemanticTokens.forEach(s => {
+  sgl.innerHTML += `<div class="semantic-card" onclick="copyHex('${s.hex}')" style="background:#e8e8ec;border-color:#d7dded;"><div class="semantic-dot" style="background:${s.hex};border:1px solid #d7dded;"></div><div><div class="semantic-name" style="color:#141418;">${s.name}</div><div class="semantic-detail" style="color:#5a5a68;">${s.maps} &middot; ${s.hex}</div></div></div>`;
+});
+
+const stg = document.getElementById('statusGrid');
+statusColors.forEach(s => {
+  let html = `<div class="status-card"><h3>${s.name}</h3><div class="status-swatches">`;
+  s.colors.forEach(c => {
+    html += `<div class="status-swatch ${c.t}" style="background:${c.h}" onclick="copyHex('${c.h}')"><span class="swatch-label">${c.l}</span><span class="swatch-hex">${c.h}</span></div>`;
+  });
+  html += '</div></div>';
+  stg.innerHTML += html;
+});
+
+// 03 Typography
+const tt = document.getElementById('typeTable');
+let thtml = '<thead><tr><th>Token</th><th>Preview</th><th>Size</th><th>Weight</th><th>Line Height</th></tr></thead><tbody>';
+typeScale.forEach(t => {
+  const ff = t.font === 'mono' ? 'var(--font-mono)' : 'var(--font-sans)';
+  const tx = t.transform ? `text-transform:${t.transform};` : '';
+  const previewSize = Math.min(parseInt(t.size), 36);
+  thtml += `<tr>
+    <td><span class="type-token">${t.token}</span><br><span class="type-meta">${t.usage}</span></td>
+    <td><span style="font-family:${ff};font-size:${previewSize}px;font-weight:${t.weight};letter-spacing:${t.ls};color:var(--neutral-1000);${tx}">The quick brown fox</span></td>
+    <td><span class="type-meta">${t.size}<br>${t.rem}</span></td>
+    <td><span class="type-meta">${t.weight}</span></td>
+    <td><span class="type-meta">${t.lh}</span></td>
+  </tr>`;
+});
+thtml += '</tbody>';
+tt.innerHTML = thtml;
+
+// 04 Spacing
+const sl = document.getElementById('spacingList');
+const maxPx = 128;
+spacingScale.forEach(s => {
+  const w = s.px === 0 ? 2 : Math.max(2, (s.px / maxPx) * 100);
+  sl.innerHTML += `<div class="spacing-row"><span class="spacing-token">${s.token}</span><span class="spacing-value">${s.val}</span><div class="spacing-bar" style="width:${w}%"></div></div>`;
+});
+
+// 05 Grid
+const bg = document.getElementById('bpGrid');
+breakpoints.forEach(b => {
+  bg.innerHTML += `<div class="bp-card"><div class="bp-name">${b.name}</div><div class="bp-range">${b.range}</div><div class="bp-detail">Columns: ${b.cols}<br>Gutter: ${b.gutter}<br>Margin: ${b.margin}<br>Max: ${b.maxW}</div></div>`;
+});
+const gp = document.getElementById('gridPreview');
+for(let i=1;i<=12;i++) gp.innerHTML += `<div class="grid-col">${i}</div>`;
+
+// 06 Radius
+const rg = document.getElementById('radiusGrid');
+radii.forEach(r => {
+  const rad = r.val === '9999px' ? `${r.size/2}px` : r.val;
+  rg.innerHTML += `<div class="radius-item"><div class="radius-box" style="width:${r.size}px;height:${r.size}px;border-radius:${rad};"></div><div class="radius-label">${r.token}</div><div class="radius-val">${r.val}</div></div>`;
+});
+
+// 06b Stroke Width
+const strokeWidths = [
+  {token:'stroke-hairline',val:'0.5px',px:0.5},
+  {token:'stroke-sm',val:'1px',px:1},
+  {token:'stroke-md',val:'1.5px',px:1.5},
+  {token:'stroke-lg',val:'2px',px:2},
+  {token:'stroke-xl',val:'3px',px:3},
+];
+const swg = document.getElementById('strokeGrid');
+strokeWidths.forEach(s => {
+  swg.innerHTML += `<div class="stroke-row"><span class="stroke-token">${s.token}</span><span class="stroke-value">${s.val}</span><div class="stroke-line" style="border-top-width:${s.px}px;"></div></div>`;
+});
+
+// 07 Effects — Glass
+const gg = document.getElementById('glassGrid');
+const glassBg = 'background-image:radial-gradient(at 30% 30%,rgba(80,104,164,0.15) 0%,transparent 60%),radial-gradient(at 70% 70%,rgba(142,124,180,0.1) 0%,transparent 60%);';
+glassEffects.forEach(e => {
+  gg.innerHTML += `<div class="effect-card" style="${e.style}border-radius:12px;${glassBg}"><div class="effect-name">${e.name}</div><div class="effect-desc">${e.desc}</div><div class="effect-code">${e.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${e.code.replace(/`/g,"\\`")}\`)">Copy</button></div></div>`;
+});
+
+// Glass — Light
+const glg2 = document.getElementById('glassLightGrid');
+const glassLightBg = 'background-image:radial-gradient(at 30% 30%,rgba(218,225,241,0.3) 0%,transparent 60%),radial-gradient(at 70% 70%,rgba(228,222,242,0.2) 0%,transparent 60%);';
+glassLightEffects.forEach(e => {
+  glg2.innerHTML += `<div class="effect-card" style="${e.style}border-radius:12px;${glassLightBg}"><div class="effect-name" style="color:#1a1a2e;">${e.name}</div><div class="effect-desc" style="color:#4a4a5a;">${e.desc}</div><div class="effect-code" style="background:rgba(0,0,0,0.06);color:#3a3a4a;">${e.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${e.code.replace(/`/g,"\\`")}\`)" style="background:#dae1f1;color:#1a1a2e;">Copy</button></div></div>`;
+});
+
+// Gradients — Dark
+const grg = document.getElementById('gradientGrid');
+gradients.forEach(g => {
+  grg.innerHTML += `<div class="effect-card" style="${g.style}border-radius:12px;"><div class="effect-name">${g.name}</div><div class="effect-desc">${g.desc}</div><div class="effect-code">${g.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${g.code.replace(/`/g,"\\`")}\`)">Copy</button></div></div>`;
+});
+
+// Gradients — Light
+const grgl = document.getElementById('gradientLightGrid');
+lightGradients.forEach(g => {
+  grgl.innerHTML += `<div class="effect-card" style="${g.style}border-radius:12px;"><div class="effect-name" style="color:#1a1a2e;">${g.name}</div><div class="effect-desc" style="color:#4a4a5a;">${g.desc}</div><div class="effect-code" style="background:rgba(0,0,0,0.06);color:#3a3a4a;">${g.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${g.code.replace(/`/g,"\\`")}\`)" style="background:#dae1f1;color:#1a1a2e;">Copy</button></div></div>`;
+});
+
+// Glow
+const glg = document.getElementById('glowGrid');
+glowEffects.forEach(g => {
+  glg.innerHTML += `<div class="effect-card" style="background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:12px;box-shadow:${g.shadow};"><div class="effect-name">${g.name}</div><div class="effect-desc">${g.desc}</div></div>`;
+});
+
+// Shadows
+const shg = document.getElementById('shadowGrid');
+shadows.forEach(s => {
+  shg.innerHTML += `<div class="shadow-item" style="box-shadow:${s.value}"><span class="shadow-label">${s.name}</span></div>`;
+});
+
+// 08 Elevation
+const es = document.getElementById('elevationStack');
+elevationLayers.forEach((l, i) => {
+  const top = i * 46;
+  const left = i * 8;
+  es.innerHTML += `<div class="elevation-layer" style="background:${l.bg};top:${top}px;left:${left}px;right:${left}px;z-index:${700 - i * 100};"><span class="elevation-name">${l.name}</span><span class="elevation-z">z-index: ${l.z}</span></div>`;
+});
+
+// 09 Motion
+const mg = document.getElementById('motionGrid');
+motionTokens.forEach(m => {
+  mg.innerHTML += `<div class="motion-card" onmouseenter="this.querySelector('.motion-demo').style.transitionDuration='${m.duration}';this.querySelector('.motion-demo').style.transform='scale(1.2) rotate(8deg)';this.querySelector('.motion-demo').style.boxShadow='0 0 30px rgba(80,104,164,0.3)';" onmouseleave="this.querySelector('.motion-demo').style.transform='';this.querySelector('.motion-demo').style.boxShadow='';">
+    <div class="motion-demo" style="transition-duration:${m.duration};transition-timing-function:${m.easing};"></div>
+    <div class="motion-name">${m.name}</div>
+    <div class="motion-val">${m.duration} &middot; ${m.easing}</div>
+  </div>`;
+});
+
+const ag = document.getElementById('animGrid');
+animPatterns.forEach(a => {
+  const extra = a.extraStyle || '';
+  ag.innerHTML += `<div class="anim-card" onmouseenter="const d=this.querySelector('.anim-demo');d.style.animation='${a.anim}';d.style.opacity='1';" onmouseleave="const d=this.querySelector('.anim-demo');d.style.animation='';d.style.opacity='0.6';">
+    <div class="anim-demo" style="${extra}"></div>
+    <div class="anim-name">${a.name}</div>
+    <div class="anim-desc">${a.desc}</div>
+  </div>`;
+});
+
+// 10 Iconography
+const it = document.getElementById('iconTable');
+iconProps.forEach(([k,v]) => {
+  it.innerHTML += `<tr><td>${k}</td><td>${v}</td></tr>`;
+});
+
+// 11 Platform tabs
+const tb = document.getElementById('tabBar');
+const tc = document.getElementById('tabContents');
+const platformKeys = Object.keys(platformData);
+platformKeys.forEach((key, i) => {
+  tb.innerHTML += `<button class="tab-btn${i===0?' active':''}" onclick="switchTab('${key}',this)">${key}</button>`;
+  let items = platformData[key].map(item => `<li>${item}</li>`).join('');
+  tc.innerHTML += `<div class="tab-content${i===0?' active':''}" data-tab="${key}"><ul class="platform-list">${items}</ul></div>`;
+});
+
+function switchTab(key, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelector(`.tab-content[data-tab="${key}"]`).classList.add('active');
+}
+
+// 12 Status reference — Dark / Light
+const srg = document.getElementById('statusRefGrid');
+// Light mode bg approximations for each status
+const statusLightBg = { Success:'#ecfdf5', Warning:'#fefce8', Error:'#fef2f2', Info:'#eff6ff' };
+const statusLightText = { Success:'#16a34a', Warning:'#ca8a04', Error:'#dc2626', Info:'#2563eb' };
+
+let srgHtml = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">';
+statusColors.forEach(s => {
+  srgHtml += `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);">${s.name}</div>
+    <div style="background:${s.colors[3].h};border:1px solid ${s.colors[2].h};border-radius:8px;padding:12px;">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.5px;color:var(--neutral-600);margin-bottom:6px;">DARK</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:${s.colors[0].h};"></div>
+        <span style="font-family:var(--font-mono);font-size:10px;color:${s.colors[0].h};">400 icon ${s.colors[0].h}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div style="width:8px;height:2px;background:${s.colors[1].h};"></div>
+        <span style="font-family:var(--font-mono);font-size:10px;color:${s.colors[1].h};">500 text ${s.colors[1].h}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:8px;height:8px;border-radius:2px;background:${s.colors[3].h};border:1px solid ${s.colors[2].h};"></div>
+        <span style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);">900 bg ${s.colors[3].h}</span>
+      </div>
+    </div>
+    <div style="background:${statusLightBg[s.name]};border:1px solid #d7dded;border-radius:8px;padding:12px;">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.5px;color:#5a5a68;margin-bottom:6px;">LIGHT</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:${s.colors[2].h};"></div>
+        <span style="font-family:var(--font-mono);font-size:10px;color:${s.colors[2].h};">600 icon ${s.colors[2].h}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div style="width:8px;height:2px;background:${statusLightText[s.name]};"></div>
+        <span style="font-family:var(--font-mono);font-size:10px;color:${statusLightText[s.name]};">600 text ${statusLightText[s.name]}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:8px;height:8px;border-radius:2px;background:${statusLightBg[s.name]};border:1px solid #d7dded;"></div>
+        <span style="font-family:var(--font-mono);font-size:10px;color:#5a5a68;">50 bg ${statusLightBg[s.name]}</span>
+      </div>
+    </div>
+  </div>`;
+});
+srgHtml += '</div>';
+srg.innerHTML = srgHtml;
+
+/* ── Sidebar: Intersection Observer ── */
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-group a');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-group a[href="#${entry.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+/* ── Mobile sidebar toggle ── */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// Close sidebar on nav click (mobile)
+navLinks.forEach(l => l.addEventListener('click', () => {
+  if (window.innerWidth < 1024) toggleSidebar();
+}));
+</script>
+</body>
+</html>

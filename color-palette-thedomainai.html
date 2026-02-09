@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Domain AI Company — Color Palette</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ─── Primary (Steel Blue) ─── */
+    --primary-50:  #eef1f8;
+    --primary-100: #dae1f1;
+    --primary-200: #b8c5e3;
+    --primary-300: #8fa5d4;
+    --primary-400: #6b84c0;
+    --primary-500: #5068a4;
+    --primary-600: #445076;
+    --primary-700: #363f60;
+    --primary-800: #292f47;
+    --primary-900: #1c2035;
+    --primary-950: #0f1220;
+
+    /* ─── Secondary (Silver / Grok Text Gradient) ─── */
+    --secondary-50:  #f9fafc;
+    --secondary-100: #eef0f5;
+    --secondary-200: #d7dded;
+    --secondary-300: #b5bdd4;
+    --secondary-400: #8f99b8;
+    --secondary-500: #6e7899;
+    --secondary-600: #565f7a;
+    --secondary-700: #454c63;
+    --secondary-800: #373c50;
+    --secondary-900: #2b2f40;
+    --secondary-950: #1a1d2a;
+
+    /* ─── Neutral (Pure Black Base) ─── */
+    --neutral-0:   #000000;
+    --neutral-50:  #050506;
+    --neutral-100: #0a0a0c;
+    --neutral-200: #141418;
+    --neutral-300: #1e1e24;
+    --neutral-400: #2a2a32;
+    --neutral-500: #3d3d48;
+    --neutral-600: #5a5a68;
+    --neutral-700: #7e7e8c;
+    --neutral-800: #a5a5b0;
+    --neutral-900: #ccccd4;
+    --neutral-950: #e8e8ec;
+    --neutral-1000:#ffffff;
+
+    /* ─── Accent (Violet Smoke) ─── */
+    --glow-50:  #f2f0fa;
+    --glow-100: #e4def2;
+    --glow-200: #cbc0e6;
+    --glow-300: #ad9cce;
+    --glow-400: #8e7cb4;
+    --glow-500: #705c98;
+    --glow-600: #5a4a80;
+    --glow-700: #483e68;
+    --glow-800: #36304f;
+    --glow-900: #241e3a;
+    --glow-950: #140e24;
+
+    /* ─── Status Colors ─── */
+    --success-400: #4ade80;
+    --success-500: #22c55e;
+    --success-600: #16a34a;
+    --success-900: #0a2615;
+
+    --warning-400: #facc15;
+    --warning-500: #eab308;
+    --warning-600: #ca8a04;
+    --warning-900: #2a2008;
+
+    --error-400:   #f87171;
+    --error-500:   #ef4444;
+    --error-600:   #dc2626;
+    --error-900:   #2a0a0a;
+
+    --info-400:    #60a5fa;
+    --info-500:    #3b82f6;
+    --info-600:    #2563eb;
+    --info-900:    #0a1a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #000;
+    color: #e8e8ec;
+    padding: 48px;
+    min-height: 100vh;
+  }
+
+  .header {
+    margin-bottom: 56px;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    color: #f9fafc;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: 14px;
+    color: #7e7e8c;
+    font-weight: 400;
+  }
+
+  .palette-section {
+    margin-bottom: 48px;
+  }
+  .palette-section h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #5a5a68;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .palette-section h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #1e1e24;
+  }
+
+  .swatches {
+    display: flex;
+    gap: 2px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .swatch {
+    flex: 1;
+    min-height: 88px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .swatch:hover {
+    transform: scaleY(1.08);
+    z-index: 1;
+  }
+  .swatch-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+  .swatch-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+  .swatch.dark-text .swatch-label,
+  .swatch.dark-text .swatch-hex { color: #0a0a0c; }
+  .swatch.light-text .swatch-label,
+  .swatch.light-text .swatch-hex { color: #e8e8ec; }
+
+  /* Status colors */
+  .status-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .status-card {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .status-card h3 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 16px 8px;
+    color: #7e7e8c;
+  }
+  .status-swatches {
+    display: flex;
+    gap: 2px;
+  }
+  .status-swatch {
+    flex: 1;
+    height: 56px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .status-swatch .swatch-label {
+    font-size: 9px;
+  }
+  .status-swatch .swatch-hex {
+    font-size: 9px;
+  }
+
+  /* CSS Variables export */
+  .code-block {
+    background: #0a0a0c;
+    border: 1px solid #1e1e24;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 48px;
+    overflow-x: auto;
+  }
+  .code-block pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #a5a5b0;
+  }
+  .code-block .comment { color: #3d3d48; }
+  .code-block .prop { color: #798bb9; }
+  .code-block .val { color: #d7dded; }
+
+  /* Semantic tokens section */
+  .semantic-section {
+    margin-top: 48px;
+  }
+  .semantic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .semantic-card {
+    background: #0a0a0c;
+    border: 1px solid #1e1e24;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .semantic-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .semantic-info {
+    flex: 1;
+  }
+  .semantic-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #ccccd4;
+  }
+  .semantic-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #5a5a68;
+    margin-top: 2px;
+  }
+
+  /* Copy tooltip */
+  .copied-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #2a2a32;
+    color: #e8e8ec;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+  }
+  .copied-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>The Domain AI Company — Color Palette</h1>
+  <p>Dark-first design system — click any swatch to copy hex</p>
+</div>
+
+<!-- Primary -->
+<div class="palette-section">
+  <h2>Primary — Steel Blue</h2>
+  <div class="swatches" id="primary"></div>
+</div>
+
+<!-- Secondary -->
+<div class="palette-section">
+  <h2>Secondary — Silver</h2>
+  <div class="swatches" id="secondary"></div>
+</div>
+
+<!-- Accent Glow -->
+<div class="palette-section">
+  <h2>Accent — Violet Smoke</h2>
+  <div class="swatches" id="glow"></div>
+</div>
+
+<!-- Neutral -->
+<div class="palette-section">
+  <h2>Neutral — Black Scale</h2>
+  <div class="swatches" id="neutral"></div>
+</div>
+
+<!-- Status Colors -->
+<div class="palette-section">
+  <h2>Status Colors</h2>
+  <div class="status-group" id="status"></div>
+</div>
+
+<!-- Semantic Tokens -->
+<div class="palette-section semantic-section">
+  <h2>Semantic Tokens — Usage Guide</h2>
+  <div class="semantic-grid" id="semantic"></div>
+</div>
+
+<!-- CSS Variables -->
+<div class="code-block">
+  <pre id="codeOutput"></pre>
+</div>
+
+<div class="copied-toast" id="toast">Copied</div>
+
+<script>
+const palettes = {
+  primary: [
+    { label: '50',  hex: '#eef1f8', dark: true },
+    { label: '100', hex: '#dae1f1', dark: true },
+    { label: '200', hex: '#b8c5e3', dark: true },
+    { label: '300', hex: '#8fa5d4', dark: true },
+    { label: '400', hex: '#6b84c0', dark: false },
+    { label: '500', hex: '#5068a4', dark: false },
+    { label: '600', hex: '#445076', dark: false },
+    { label: '700', hex: '#363f60', dark: false },
+    { label: '800', hex: '#292f47', dark: false },
+    { label: '900', hex: '#1c2035', dark: false },
+    { label: '950', hex: '#0f1220', dark: false },
+  ],
+  secondary: [
+    { label: '50',  hex: '#f9fafc', dark: true },
+    { label: '100', hex: '#eef0f5', dark: true },
+    { label: '200', hex: '#d7dded', dark: true },
+    { label: '300', hex: '#b5bdd4', dark: true },
+    { label: '400', hex: '#8f99b8', dark: true },
+    { label: '500', hex: '#6e7899', dark: false },
+    { label: '600', hex: '#565f7a', dark: false },
+    { label: '700', hex: '#454c63', dark: false },
+    { label: '800', hex: '#373c50', dark: false },
+    { label: '900', hex: '#2b2f40', dark: false },
+    { label: '950', hex: '#1a1d2a', dark: false },
+  ],
+  glow: [
+    { label: '50',  hex: '#f2f0fa', dark: true },
+    { label: '100', hex: '#e4def2', dark: true },
+    { label: '200', hex: '#cbc0e6', dark: true },
+    { label: '300', hex: '#ad9cce', dark: true },
+    { label: '400', hex: '#8e7cb4', dark: false },
+    { label: '500', hex: '#705c98', dark: false },
+    { label: '600', hex: '#5a4a80', dark: false },
+    { label: '700', hex: '#483e68', dark: false },
+    { label: '800', hex: '#36304f', dark: false },
+    { label: '900', hex: '#241e3a', dark: false },
+    { label: '950', hex: '#140e24', dark: false },
+  ],
+  neutral: [
+    { label: '0',    hex: '#000000', dark: false },
+    { label: '50',   hex: '#050506', dark: false },
+    { label: '100',  hex: '#0a0a0c', dark: false },
+    { label: '200',  hex: '#141418', dark: false },
+    { label: '300',  hex: '#1e1e24', dark: false },
+    { label: '400',  hex: '#2a2a32', dark: false },
+    { label: '500',  hex: '#3d3d48', dark: false },
+    { label: '600',  hex: '#5a5a68', dark: false },
+    { label: '700',  hex: '#7e7e8c', dark: false },
+    { label: '800',  hex: '#a5a5b0', dark: true },
+    { label: '900',  hex: '#ccccd4', dark: true },
+    { label: '950',  hex: '#e8e8ec', dark: true },
+    { label: '1000', hex: '#ffffff', dark: true },
+  ],
+};
+
+const statusColors = {
+  Success: [
+    { label: '400', hex: '#4ade80', dark: true },
+    { label: '500', hex: '#22c55e', dark: true },
+    { label: '600', hex: '#16a34a', dark: false },
+    { label: '900', hex: '#0a2615', dark: false },
+  ],
+  Warning: [
+    { label: '400', hex: '#facc15', dark: true },
+    { label: '500', hex: '#eab308', dark: true },
+    { label: '600', hex: '#ca8a04', dark: false },
+    { label: '900', hex: '#2a2008', dark: false },
+  ],
+  Error: [
+    { label: '400', hex: '#f87171', dark: true },
+    { label: '500', hex: '#ef4444', dark: false },
+    { label: '600', hex: '#dc2626', dark: false },
+    { label: '900', hex: '#2a0a0a', dark: false },
+  ],
+  Info: [
+    { label: '400', hex: '#60a5fa', dark: true },
+    { label: '500', hex: '#3b82f6', dark: false },
+    { label: '600', hex: '#2563eb', dark: false },
+    { label: '900', hex: '#0a1a2e', dark: false },
+  ],
+};
+
+const semanticTokens = [
+  { name: 'Background', color: '#000000', detail: 'neutral-0' },
+  { name: 'Surface', color: '#0a0a0c', detail: 'neutral-100' },
+  { name: 'Surface Raised', color: '#141418', detail: 'neutral-200' },
+  { name: 'Border Default', color: '#1e1e24', detail: 'neutral-300' },
+  { name: 'Border Hover', color: '#2a2a32', detail: 'neutral-400' },
+  { name: 'Text Primary', color: '#e8e8ec', detail: 'neutral-950' },
+  { name: 'Text Secondary', color: '#7e7e8c', detail: 'neutral-700' },
+  { name: 'Text Muted', color: '#3d3d48', detail: 'neutral-500' },
+  { name: 'Interactive', color: '#5068a4', detail: 'primary-500' },
+  { name: 'Interactive Hover', color: '#6b84c0', detail: 'primary-400' },
+  { name: 'Glow Effect', color: '#8e7cb4', detail: 'glow-400' },
+  { name: 'Focus Ring', color: '#445076', detail: 'primary-600' },
+];
+
+// Render palettes
+Object.entries(palettes).forEach(([key, colors]) => {
+  const container = document.getElementById(key);
+  colors.forEach(c => {
+    const el = document.createElement('div');
+    el.className = `swatch ${c.dark ? 'dark-text' : 'light-text'}`;
+    el.style.background = c.hex;
+    el.innerHTML = `<span class="swatch-label">${c.label}</span><span class="swatch-hex">${c.hex}</span>`;
+    el.onclick = () => copyColor(c.hex);
+    container.appendChild(el);
+  });
+});
+
+// Render status
+const statusContainer = document.getElementById('status');
+Object.entries(statusColors).forEach(([name, colors]) => {
+  const card = document.createElement('div');
+  card.className = 'status-card';
+  card.innerHTML = `<h3>${name}</h3><div class="status-swatches">${
+    colors.map(c => `<div class="status-swatch ${c.dark ? 'dark-text' : 'light-text'}" style="background:${c.hex}" onclick="copyColor('${c.hex}')">
+      <span class="swatch-label">${c.label}</span><span class="swatch-hex">${c.hex}</span>
+    </div>`).join('')
+  }</div>`;
+  statusContainer.appendChild(card);
+});
+
+// Render semantic tokens
+const semanticContainer = document.getElementById('semantic');
+semanticTokens.forEach(t => {
+  const card = document.createElement('div');
+  card.className = 'semantic-card';
+  card.innerHTML = `
+    <div class="semantic-dot" style="background:${t.color}" onclick="copyColor('${t.color}')"></div>
+    <div class="semantic-info">
+      <div class="semantic-name">${t.name}</div>
+      <div class="semantic-detail">${t.detail} · ${t.color}</div>
+    </div>`;
+  semanticContainer.appendChild(card);
+});
+
+// Generate CSS output
+const cssLines = [
+  '<span class="comment">/* The Domain AI Company — Design Tokens */</span>',
+  '<span class="comment">/* Generated for The Domain AI Company */</span>',
+  '',
+  ':root {',
+];
+const sections = { primary: 'Primary — Steel Blue', secondary: 'Secondary — Silver', glow: 'Accent — Violet Smoke', neutral: 'Neutral — Black Scale' };
+Object.entries(sections).forEach(([key, label]) => {
+  cssLines.push(`  <span class="comment">/* ${label} */</span>`);
+  palettes[key].forEach(c => {
+    cssLines.push(`  <span class="prop">--${key}-${c.label}</span>: <span class="val">${c.hex}</span>;`);
+  });
+  cssLines.push('');
+});
+cssLines.push('  <span class="comment">/* Status */</span>');
+Object.entries(statusColors).forEach(([name, colors]) => {
+  colors.forEach(c => {
+    cssLines.push(`  <span class="prop">--${name.toLowerCase()}-${c.label}</span>: <span class="val">${c.hex}</span>;`);
+  });
+});
+cssLines.push('}');
+document.getElementById('codeOutput').innerHTML = cssLines.join('\n');
+
+// Copy
+function copyColor(hex) {
+  navigator.clipboard.writeText(hex);
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1200);
+}
+</script>
+</body>
+</html>
