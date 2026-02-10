@@ -259,14 +259,110 @@
   .btn-glow-line:hover{color:#e8e8ec;transform:scale(1.1) translateY(-3px);}
   .btn-glow-line:hover::before{opacity:1;}
 
+  /* ── Liquid Hover Button ── */
+  .btn-liquid{
+    position:relative;padding:12px 24px;min-width:120px;
+    border:1px solid rgba(255,255,255,0.1);border-radius:12px;
+    color:#e8e8ec;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:500;
+    background:rgba(10,10,12,0.5);
+    backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);
+    overflow:hidden;transition:all 0.4s cubic-bezier(0.25,0.1,0.25,1);
+  }
+  .btn-liquid::before{
+    content:"";position:absolute;top:-100%;left:0;right:0;height:100%;
+    background:linear-gradient(180deg,rgba(255,255,255,0.12) 0%,transparent 100%);
+    transition:top 0.6s cubic-bezier(0,0,0.2,1);pointer-events:none;
+  }
+  .btn-liquid:hover{
+    border-color:rgba(255,255,255,0.18);background:rgba(80,104,164,0.15);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 8px 24px rgba(0,0,0,0.3);
+  }
+  .btn-liquid:hover::before{top:0;}
+
+  /* ── Material Card Styles ── */
+  .card-liquid-demo{
+    position:relative;border-radius:16px;padding:24px;
+    background:linear-gradient(135deg,rgba(80,104,164,0.08) 0%,rgba(142,124,180,0.05) 50%,rgba(80,104,164,0.08) 100%);
+    backdrop-filter:blur(40px) saturate(1.8) brightness(1.1);
+    -webkit-backdrop-filter:blur(40px) saturate(1.8) brightness(1.1);
+    border:1px solid rgba(255,255,255,0.12);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(0,0,0,0.1),0 8px 32px rgba(0,0,0,0.3);
+    transition:box-shadow .3s ease;
+  }
+  .card-liquid-demo::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:linear-gradient(180deg,rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.03) 30%,transparent 50%);
+    pointer-events:none;
+  }
+  .card-liquid-demo:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),inset 0 -1px 0 rgba(0,0,0,0.1),0 12px 40px rgba(0,0,0,0.4);}
+
+  /* ── Material Philosophy Visual ── */
+  .material-overview{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px;}
+  .material-overview-card{border-radius:12px;padding:24px;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;}
+  @media(max-width:767px){.material-overview{grid-template-columns:1fr;}}
+
+  /* ── Card Glass Demo ── */
+  .card-glass-demo{
+    background:rgba(10,10,12,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    border:1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ── Component Demo ── */
+  .demo-panel{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:32px;margin-bottom:16px;}
+  .demo-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:16px;}
+  .demo-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:24px;}
+  .demo-row:last-child{margin-bottom:0;}
+  .btn-demo{border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-weight:600;cursor:pointer;}
+  .btn-demo--sm{height:32px;padding:0 12px;font-size:12px;}
+  .btn-demo--md{height:40px;padding:0 16px;font-size:14px;}
+  .btn-demo--lg{height:48px;padding:0 24px;font-size:16px;}
+  .btn-demo--ghost{padding:12px 17px;min-width:120px;border:0;border-radius:7px;background:transparent;color:var(--neutral-700);font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:color .15s ease;}
+  .btn-demo--ghost:hover{color:var(--neutral-950);}
+  .btn-demo--danger{padding:12px 17px;min-width:120px;border:0;border-radius:7px;background:#ef4444;color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s ease;}
+  .btn-demo--danger:hover{opacity:0.85;}
+  .btn-demo--focused{box-shadow:0 0 0 2px rgba(68,80,118,0.6),0 0 12px rgba(80,104,164,0.3);}
+  .btn-demo--disabled{opacity:0.4;cursor:not-allowed;}
+  .badge-demo{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:4px;font-size:11px;font-weight:500;}
+  .badge-demo--default{background:var(--neutral-300);color:var(--neutral-700);}
+  .badge-demo--success{background:#0a2615;color:#4ade80;}
+  .badge-demo--warning{background:#2a2008;color:#facc15;}
+  .badge-demo--error{background:#2a0a0a;color:#f87171;}
+  .badge-demo--info{background:#0a1a2e;color:#60a5fa;}
+  .input-demo{width:100%;height:40px;padding:0 12px;background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:8px;color:var(--neutral-950);font-family:var(--font-sans);font-size:14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease;}
+  .input-demo:focus{border-color:var(--primary-500);box-shadow:0 0 0 2px rgba(68,80,118,0.6),0 0 12px rgba(80,104,164,0.3);}
+  .input-demo--error{border-color:#ef4444;box-shadow:0 0 0 2px rgba(239,68,68,0.3),0 0 12px rgba(239,68,68,0.15);}
+  .input-demo--disabled{background:var(--neutral-200);opacity:0.5;cursor:not-allowed;}
+  .modal-demo-bg{position:relative;background:rgba(0,0,0,0.6);border-radius:12px;padding:48px;display:flex;justify-content:center;margin-bottom:16px;}
+  .modal-demo-panel{background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:16px;padding:24px;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
+  .modal-demo-title{font-size:18px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;}
+  .modal-demo-body{font-size:14px;color:var(--neutral-700);margin-bottom:20px;line-height:1.5;}
+  .modal-btn-cancel{height:36px;padding:0 14px;border:1px solid var(--neutral-400);border-radius:8px;background:transparent;color:var(--neutral-950);font-family:var(--font-sans);font-size:13px;font-weight:600;cursor:pointer;}
+  .modal-btn-confirm{height:36px;padding:0 14px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:13px;font-weight:600;cursor:pointer;}
+  .toast-demo{padding:8px 16px;border-radius:8px;font-family:var(--font-mono);font-size:13px;}
+  .toast-demo--default{background:var(--neutral-400);color:var(--neutral-950);}
+  .toast-demo--success{background:#0a2615;color:#4ade80;}
+  .toast-demo--error{background:#2a0a0a;color:#f87171;}
+  .table-demo{width:100%;border-collapse:collapse;max-width:600px;}
+  .table-demo th{text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);}
+  .table-demo td{padding:12px 16px;border-bottom:1px solid var(--neutral-200);}
+  .table-demo td:first-child{font-family:var(--font-mono);font-size:13px;color:var(--primary-400);}
+  .table-demo td:nth-child(2){font-family:var(--font-mono);font-size:13px;color:var(--neutral-600);}
+  .table-demo td:last-child{font-size:14px;color:var(--neutral-800);}
+  .table-demo tr{transition:background .1s ease;}
+  .table-demo tbody tr:hover{background:var(--neutral-100);}
+  .card-demo-standard{background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:24px;transition:border-color .15s ease;}
+  .card-demo-standard:hover{border-color:var(--neutral-400);}
+
   @media(prefers-reduced-motion:reduce){
-    .btn-gradient-shift,.btn-glow-line{transition:linear;}
+    .btn-gradient-shift,.btn-glow-line,.btn-liquid{transition:linear;}
   }
 
   /* ── Animations ── */
   @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(80,104,164,0.1)}50%{box-shadow:0 0 40px rgba(80,104,164,0.25)}}
   @keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
+  @keyframes liquidRipple{0%{transform:scale(0.95);opacity:0.6}50%{transform:scale(1.02);opacity:1}100%{transform:scale(1);opacity:1}}
+  @keyframes specularSlide{0%{background-position:-100% 0}100%{background-position:200% 0}}
 </style>
 </head>
 <body>
@@ -280,7 +376,7 @@
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <h1>The Domain AI</h1>
-    <p>Design System v1.0</p>
+    <p>Design System v2.0 — Two Materials</p>
   </div>
   <div class="nav-group">
     <a href="#principles"><span class="nav-num">01</span>Design Principles</a>
@@ -289,7 +385,7 @@
     <a href="#spacing"><span class="nav-num">04</span>Spacing</a>
     <a href="#grid"><span class="nav-num">05</span>Grid &amp; Layout</a>
     <a href="#radius"><span class="nav-num">06</span>Shape &amp; Radius</a>
-    <a href="#effects"><span class="nav-num">07</span>Effects</a>
+    <a href="#effects"><span class="nav-num">07</span>Material System</a>
     <a href="#elevation"><span class="nav-num">08</span>Elevation</a>
     <a href="#motion"><span class="nav-num">09</span>Motion</a>
     <a href="#iconography"><span class="nav-num">10</span>Iconography</a>
@@ -304,7 +400,7 @@
   <!-- Hero -->
   <div class="hero">
     <h1>The Domain AI Company<br>Design System</h1>
-    <p>Dark-first design system. Web Page, Web App, Mobile App, Visual Presentation で統一的に使用します。</p>
+    <p>Glassmorphism・Liquid Glass の 2 つのマテリアルを基盤に、漆黒の中に浮かぶ光と透明感で情報階層を表現するダークファーストデザインシステムです。</p>
   </div>
 
   <div class="content">
@@ -394,9 +490,24 @@
       <div class="stroke-grid" id="strokeGrid"></div>
     </section>
 
-    <!-- 07 Effects -->
+    <!-- 07 Material System -->
     <section class="section" id="effects">
-      <div class="section-header"><h2>07 &mdash; Effects &amp; Embellishments</h2></div>
+      <div class="section-header"><h2>07 &mdash; Material System</h2></div>
+      <div class="section-desc">2 つのマテリアルが「霜 → 水面」という光の進化で、情報の階層と重要度を伝えます。</div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Material Overview</h3>
+      <div class="material-overview">
+        <div class="material-overview-card card-glass-demo">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--primary-400);margin-bottom:6px;">Frost</div>
+          <div style="font-size:16px;font-weight:600;color:var(--neutral-1000);margin-bottom:4px;">Glassmorphism</div>
+          <div style="font-size:12px;color:var(--neutral-700);line-height:1.5;">磨りガラス — 均一なブラー、柔らかい透過、静的な佇まい。カード・パネル・サイドバーに使用。</div>
+        </div>
+        <div class="material-overview-card card-liquid-demo">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--primary-400);margin-bottom:6px;">Flow</div>
+          <div style="font-size:16px;font-weight:600;color:var(--neutral-1000);margin-bottom:4px;">Liquid Glass</div>
+          <div style="font-size:12px;color:var(--neutral-700);line-height:1.5;">水面 — コンテンツ追従ティンティング、スペキュラハイライト。ナビゲーション・ヒーローに使用。</div>
+        </div>
+      </div>
 
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glassmorphism — Dark</h3>
       <div class="effects-grid" id="glassGrid" style="margin-bottom:24px;"></div>
@@ -404,14 +515,23 @@
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glassmorphism — Light</h3>
       <div class="effects-grid" id="glassLightGrid" style="margin-bottom:32px;"></div>
 
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Liquid Glass — Dark</h3>
+      <div class="effects-grid" id="liquidGlassGrid" style="margin-bottom:24px;"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Liquid Glass — Light</h3>
+      <div class="effects-grid" id="liquidGlassLightGrid" style="margin-bottom:32px;"></div>
+
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Gradients — Dark</h3>
       <div class="effects-grid" id="gradientGrid" style="margin-bottom:24px;"></div>
 
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Gradients — Light</h3>
       <div class="effects-grid" id="gradientLightGrid" style="margin-bottom:32px;"></div>
 
-      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glow Effects</h3>
-      <div class="effects-grid" id="glowGrid" style="margin-bottom:32px;"></div>
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glow Effects — Basic</h3>
+      <div class="effects-grid" id="glowGrid" style="margin-bottom:24px;"></div>
+
+      <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Glow Effects — Gradients</h3>
+      <div class="effects-grid" id="glowGradientGrid" style="margin-bottom:32px;"></div>
 
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Shadows</h3>
       <div class="shadow-grid" id="shadowGrid"></div>
@@ -442,6 +562,11 @@
           <div class="hover-demo-name">Glow Line</div>
           <div class="hover-demo-desc">底辺のグロウラインがフェードインし、ボタン全体が浮上するパターン。セカンダリ・ゴーストボタン向け。</div>
           <button class="btn-glow-line">Glow Line</button>
+        </div>
+        <div class="hover-demo-card" style="background-image:radial-gradient(at 30% 30%,rgba(80,104,164,0.1) 0%,transparent 60%);">
+          <div class="hover-demo-name">Liquid Hover</div>
+          <div class="hover-demo-desc">スペキュラハイライトが上縁から流れ落ち、背景ティントが深まるパターン。Liquid Glass ボタン向け。</div>
+          <button class="btn-liquid">Liquid Hover</button>
         </div>
       </div>
 
@@ -507,38 +632,45 @@
 
       <!-- Buttons -->
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin-bottom:16px;">Button</h3>
-      <div style="background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:32px;margin-bottom:16px;">
-        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:16px;">Variants</div>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:24px;">
+      <div class="demo-panel">
+        <div class="demo-label">Variants</div>
+        <div class="demo-row">
           <button class="btn-gradient-shift">Primary</button>
           <button class="btn-glow-line">Secondary</button>
-          <button style="padding:12px 17px;min-width:120px;border:0;border-radius:7px;background:transparent;color:var(--neutral-700);font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:color .15s ease;" onmouseenter="this.style.color='#e8e8ec'" onmouseleave="this.style.color='#7e7e8c'">Ghost</button>
-          <button style="padding:12px 17px;min-width:120px;border:0;border-radius:7px;background:#ef4444;color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s ease;" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">Danger</button>
+          <button class="btn-demo--ghost">Ghost</button>
+          <button class="btn-demo--danger">Danger</button>
         </div>
-        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:16px;">Sizes</div>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:24px;">
-          <button style="height:32px;padding:0 12px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:12px;font-weight:600;cursor:pointer;">Small</button>
-          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;cursor:pointer;">Medium</button>
-          <button style="height:48px;padding:0 24px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:16px;font-weight:600;cursor:pointer;">Large</button>
+        <div class="demo-label">Sizes</div>
+        <div class="demo-row">
+          <button class="btn-demo btn-demo--sm">Small</button>
+          <button class="btn-demo btn-demo--md">Medium</button>
+          <button class="btn-demo btn-demo--lg">Large</button>
         </div>
-        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);margin-bottom:16px;">States</div>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
-          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;cursor:pointer;">Default</button>
-          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;box-shadow:0 0 0 2px rgba(68,80,118,0.6),0 0 12px rgba(80,104,164,0.3);cursor:pointer;">Focused</button>
-          <button style="height:40px;padding:0 16px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:600;opacity:0.4;cursor:not-allowed;">Disabled</button>
+        <div class="demo-label">States</div>
+        <div class="demo-row">
+          <button class="btn-demo btn-demo--md">Default</button>
+          <button class="btn-demo btn-demo--md btn-demo--focused">Focused</button>
+          <button class="btn-demo btn-demo--md btn-demo--disabled" disabled>Disabled</button>
         </div>
       </div>
 
       <!-- Card -->
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Card</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:16px;">
-        <div style="background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:24px;transition:border-color .15s ease;" onmouseenter="this.style.borderColor='#2a2a32'" onmouseleave="this.style.borderColor='#1e1e24'">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:16px;">
+        <div class="card-demo-standard">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-500);margin-bottom:6px;">Standard</div>
           <div style="font-size:14px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;">Standard Card</div>
-          <div style="font-size:13px;color:var(--neutral-700);line-height:1.5;">bg-surface / border-default / radius-lg (12px) / padding: space-6 (24px)</div>
+          <div style="font-size:13px;color:var(--neutral-700);line-height:1.5;">bg-surface / border-default / radius-lg (12px)</div>
         </div>
-        <div style="background:rgba(10,10,12,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px;background-image:radial-gradient(at 30% 30%,rgba(80,104,164,0.1) 0%,transparent 60%);">
+        <div class="card-glass-demo" style="border-radius:12px;padding:24px;background-image:radial-gradient(at 30% 30%,rgba(80,104,164,0.1) 0%,transparent 60%);">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-500);margin-bottom:6px;">Glassmorphism</div>
           <div style="font-size:14px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;">Glass Card</div>
-          <div style="font-size:13px;color:var(--neutral-700);line-height:1.5;">glass / backdrop-filter: blur(24px) / border: rgba(255,255,255,0.06)</div>
+          <div style="font-size:13px;color:var(--neutral-700);line-height:1.5;">glass / backdrop-filter: blur(24px)</div>
+        </div>
+        <div class="card-liquid-demo">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-500);margin-bottom:6px;">Liquid Glass</div>
+          <div style="font-size:14px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;">Liquid Card</div>
+          <div style="font-size:13px;color:var(--neutral-700);line-height:1.5;">liquid-glass / specular highlight / dynamic tint</div>
         </div>
       </div>
 
@@ -547,37 +679,37 @@
       <div style="display:flex;flex-direction:column;gap:12px;max-width:400px;margin-bottom:16px;">
         <div>
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-bottom:4px;">Default</div>
-          <input type="text" placeholder="Placeholder text..." style="width:100%;height:40px;padding:0 12px;background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:8px;color:var(--neutral-950);font-family:var(--font-sans);font-size:14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease;" onfocus="this.style.borderColor='#5068a4';this.style.boxShadow='0 0 0 2px rgba(68,80,118,0.6),0 0 12px rgba(80,104,164,0.3)'" onblur="this.style.borderColor='#1e1e24';this.style.boxShadow='none'">
+          <input type="text" placeholder="Placeholder text..." class="input-demo">
         </div>
         <div>
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-bottom:4px;">Error</div>
-          <input type="text" value="Invalid value" style="width:100%;height:40px;padding:0 12px;background:var(--neutral-100);border:1px solid #ef4444;border-radius:8px;color:var(--neutral-950);font-family:var(--font-sans);font-size:14px;outline:none;box-shadow:0 0 0 2px rgba(239,68,68,0.3),0 0 12px rgba(239,68,68,0.15);">
+          <input type="text" value="Invalid value" class="input-demo input-demo--error">
         </div>
         <div>
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--neutral-600);margin-bottom:4px;">Disabled</div>
-          <input type="text" placeholder="Disabled" disabled style="width:100%;height:40px;padding:0 12px;background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:8px;color:var(--neutral-950);font-family:var(--font-sans);font-size:14px;opacity:0.5;cursor:not-allowed;">
+          <input type="text" placeholder="Disabled" disabled class="input-demo input-demo--disabled">
         </div>
       </div>
 
       <!-- Badge -->
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Badge / Tag</h3>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
-        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:var(--neutral-300);border-radius:4px;font-size:11px;font-weight:500;color:var(--neutral-700);">Default</span>
-        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#0a2615;border-radius:4px;font-size:11px;font-weight:500;color:#4ade80;">Success</span>
-        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#2a2008;border-radius:4px;font-size:11px;font-weight:500;color:#facc15;">Warning</span>
-        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#2a0a0a;border-radius:4px;font-size:11px;font-weight:500;color:#f87171;">Error</span>
-        <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;background:#0a1a2e;border-radius:4px;font-size:11px;font-weight:500;color:#60a5fa;">Info</span>
+        <span class="badge-demo badge-demo--default">Default</span>
+        <span class="badge-demo badge-demo--success">Success</span>
+        <span class="badge-demo badge-demo--warning">Warning</span>
+        <span class="badge-demo badge-demo--error">Error</span>
+        <span class="badge-demo badge-demo--info">Info</span>
       </div>
 
       <!-- Modal -->
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Modal / Dialog</h3>
-      <div style="position:relative;background:rgba(0,0,0,0.6);border-radius:12px;padding:48px;display:flex;justify-content:center;margin-bottom:16px;">
-        <div style="background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:16px;padding:24px;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-          <div style="font-size:18px;font-weight:600;color:var(--neutral-1000);margin-bottom:8px;">Modal Title</div>
-          <div style="font-size:14px;color:var(--neutral-700);margin-bottom:20px;line-height:1.5;">bg-surface-raised / radius-xl (16px) / shadow-lg / padding: space-6</div>
+      <div class="modal-demo-bg">
+        <div class="modal-demo-panel">
+          <div class="modal-demo-title">Modal Title</div>
+          <div class="modal-demo-body">bg-surface-raised / radius-xl (16px) / shadow-lg / padding: space-6</div>
           <div style="display:flex;gap:10px;justify-content:flex-end;">
-            <button style="height:36px;padding:0 14px;border:1px solid var(--neutral-400);border-radius:8px;background:transparent;color:var(--neutral-950);font-family:var(--font-sans);font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
-            <button style="height:36px;padding:0 14px;border:0;border-radius:8px;background:var(--primary-500);color:#fff;font-family:var(--font-sans);font-size:13px;font-weight:600;cursor:pointer;">Confirm</button>
+            <button class="modal-btn-cancel">Cancel</button>
+            <button class="modal-btn-confirm">Confirm</button>
           </div>
         </div>
       </div>
@@ -585,37 +717,37 @@
       <!-- Toast -->
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Toast / Notification</h3>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
-        <div style="background:var(--neutral-400);padding:8px 16px;border-radius:8px;font-family:var(--font-mono);font-size:13px;color:var(--neutral-950);">Default toast message</div>
-        <div style="background:#0a2615;padding:8px 16px;border-radius:8px;font-family:var(--font-mono);font-size:13px;color:#4ade80;">Success notification</div>
-        <div style="background:#2a0a0a;padding:8px 16px;border-radius:8px;font-family:var(--font-mono);font-size:13px;color:#f87171;">Error notification</div>
+        <div class="toast-demo toast-demo--default">Default toast message</div>
+        <div class="toast-demo toast-demo--success">Success notification</div>
+        <div class="toast-demo toast-demo--error">Error notification</div>
       </div>
 
       <!-- Table -->
       <h3 style="font-size:14px;font-weight:500;color:var(--neutral-900);margin:32px 0 16px;">Table</h3>
       <div style="overflow-x:auto;">
-        <table style="width:100%;border-collapse:collapse;max-width:600px;">
+        <table class="table-demo">
           <thead>
             <tr>
-              <th style="text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);">Token</th>
-              <th style="text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);">Value</th>
-              <th style="text-align:left;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neutral-600);padding:0 16px 12px;border-bottom:1px solid var(--neutral-300);">Usage</th>
+              <th>Token</th>
+              <th>Value</th>
+              <th>Usage</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="transition:background .1s ease;" onmouseenter="this.style.background='#0a0a0c'" onmouseleave="this.style.background='transparent'">
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--primary-400);">radius-lg</td>
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--neutral-600);">12px</td>
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-size:14px;color:var(--neutral-800);">Card, Panel</td>
+            <tr>
+              <td>radius-lg</td>
+              <td>12px</td>
+              <td>Card, Panel</td>
             </tr>
-            <tr style="transition:background .1s ease;" onmouseenter="this.style.background='#0a0a0c'" onmouseleave="this.style.background='transparent'">
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--primary-400);">radius-md</td>
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--neutral-600);">8px</td>
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-size:14px;color:var(--neutral-800);">Button, Input</td>
+            <tr>
+              <td>radius-md</td>
+              <td>8px</td>
+              <td>Button, Input</td>
             </tr>
-            <tr style="transition:background .1s ease;" onmouseenter="this.style.background='#0a0a0c'" onmouseleave="this.style.background='transparent'">
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--primary-400);">radius-sm</td>
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-family:var(--font-mono);font-size:13px;color:var(--neutral-600);">4px</td>
-              <td style="padding:12px 16px;border-bottom:1px solid var(--neutral-200);font-size:14px;color:var(--neutral-800);">Tag, Badge</td>
+            <tr>
+              <td>radius-sm</td>
+              <td>4px</td>
+              <td>Tag, Badge</td>
             </tr>
           </tbody>
         </table>
@@ -630,9 +762,9 @@
 <script>
 /* ── Data ── */
 const principles = [
-  { num:'01', title:'Dark-First', desc:'黒を基調とし、光 (Glow) で情報階層を表現する' },
-  { num:'02', title:'Minimal & Precise', desc:'余白と抑制された要素数で、情報に集中させる' },
-  { num:'03', title:'Ethereal Depth', desc:'グラスモーフィズムと微細なグロウで奥行きを演出する' },
+  { num:'01', title:'Dark-First', desc:'漆黒を基調に、光の濃淡とマテリアルの透過度で情報の重みを伝える' },
+  { num:'02', title:'Minimal & Precise', desc:'余白と抑制された要素数で、コンテンツそのものに没入させる' },
+  { num:'03', title:'Two Materials', desc:'Glassmorphism（静）・Liquid Glass（動）の 2 層で奥行きと質感を構成する' },
   { num:'04', title:'Systematic Consistency', desc:'すべての値はトークンから導出し、マジックナンバーを排除する' },
   { num:'05', title:'Platform Adaptive', desc:'共通トークンを持ちつつ、各プラットフォームの慣習に従う' },
 ];
@@ -743,9 +875,12 @@ const glassEffects = [
   {name:'Frosted Glass',desc:'より強い曇りガラス',
    style:'background:rgba(20,20,24,0.8);backdrop-filter:blur(40px) saturate(1.2);-webkit-backdrop-filter:blur(40px) saturate(1.2);border:1px solid rgba(255,255,255,0.08);',
    code:'background: rgba(20, 20, 24, 0.8);\nbackdrop-filter: blur(40px) saturate(1.2);\nborder: 1px solid rgba(255, 255, 255, 0.08);'},
-  {name:'Glow Glass',desc:'アクセントカラー付きガラス',
+  {name:'Tinted Glass',desc:'ブランドカラーを帯びたガラス',
    style:'background:rgba(15,18,32,0.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(107,132,192,0.15);',
    code:'background: rgba(15, 18, 32, 0.7);\nbackdrop-filter: blur(24px);\nborder: 1px solid rgba(107, 132, 192, 0.15);'},
+  {name:'Violet Glass',desc:'アクセントカラーのガラス',
+   style:'background:rgba(36,30,58,0.6);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(142,124,180,0.12);',
+   code:'background: rgba(36, 30, 58, 0.6);\nbackdrop-filter: blur(24px) saturate(1.3);\nborder: 1px solid rgba(142, 124, 180, 0.12);'},
 ];
 
 const gradients = [
@@ -758,9 +893,12 @@ const gradients = [
   {name:'Glow Gradient',desc:'CTA・アクセント',
    style:'background:linear-gradient(135deg,#5068a4 0%,#8e7cb4 50%,#cbc0e6 100%);',
    code:'linear-gradient(135deg,\n  #5068a4 0%,\n  #8e7cb4 50%,\n  #cbc0e6 100%)'},
-  {name:'Mesh Gradient',desc:'プレゼン背景',
+  {name:'Mesh Gradient',desc:'ヒーロー・プレゼン背景',
    style:'background:radial-gradient(at 20% 30%,rgba(80,104,164,0.2) 0%,transparent 50%),radial-gradient(at 80% 70%,rgba(142,124,180,0.15) 0%,transparent 50%),radial-gradient(at 50% 50%,rgba(203,192,230,0.05) 0%,transparent 60%),#000;',
    code:'radial-gradient(at 20% 30%, rgba(80,104,164,0.2), transparent 50%),\nradial-gradient(at 80% 70%, rgba(142,124,180,0.15), transparent 50%),\nradial-gradient(at 50% 50%, rgba(203,192,230,0.05), transparent 60%)'},
+  {name:'Liquid Gradient',desc:'Liquid Glass の下地',
+   style:'background:linear-gradient(135deg,rgba(80,104,164,0.15) 0%,rgba(142,124,180,0.08) 50%,rgba(80,104,164,0.15) 100%),#0a0a0c;',
+   code:'linear-gradient(135deg,\n  rgba(80,104,164,0.1) 0%,\n  rgba(142,124,180,0.06) 50%,\n  rgba(80,104,164,0.1) 100%)'},
 ];
 
 const glassLightEffects = [
@@ -794,6 +932,23 @@ const glowEffects = [
   {name:'Subtle Glow',desc:'ホバー・フォーカス',shadow:'0 0 20px rgba(80,104,164,0.15)'},
   {name:'Medium Glow',desc:'CTA・アクティブ要素',shadow:'0 0 40px rgba(80,104,164,0.25),0 0 80px rgba(142,124,180,0.1)'},
   {name:'Strong Glow',desc:'ヒーロー・アクセント',shadow:'0 0 60px rgba(80,104,164,0.3),0 0 120px rgba(203,192,230,0.1),0 0 200px rgba(142,124,180,0.05)'},
+  {name:'Liquid Glow',desc:'Liquid Glass 拡散',shadow:'0 0 30px rgba(80,104,164,0.12),0 8px 40px rgba(0,0,0,0.2)'},
+  {name:'Ring Glow',desc:'フォーカスインジケーター',shadow:'0 0 0 2px rgba(68,80,118,0.6),0 0 12px rgba(80,104,164,0.3)'},
+];
+
+const glowGradientEffects = [
+  {name:'Radial Glow',desc:'要素中心からのオーラ状の輝き',
+   bg:'radial-gradient(ellipse 60% 60% at 50% 50%,rgba(80,104,164,0.15) 0%,transparent 70%)',
+   code:'radial-gradient(\n  ellipse 60% 60% at 50% 50%,\n  rgba(80,104,164,0.15) 0%,\n  transparent 70%)'},
+  {name:'Edge Glow',desc:'上縁からの方向性グロウ',
+   bg:'linear-gradient(180deg,rgba(80,104,164,0.2) 0%,rgba(142,124,180,0.05) 30%,transparent 60%)',
+   code:'linear-gradient(\n  180deg,\n  rgba(80,104,164,0.2) 0%,\n  rgba(142,124,180,0.05) 30%,\n  transparent 60%)'},
+  {name:'Ambient Glow',desc:'複数ラディアルを重ねた環境光',
+   bg:'radial-gradient(at 20% 30%,rgba(80,104,164,0.12) 0%,transparent 50%),radial-gradient(at 80% 70%,rgba(142,124,180,0.08) 0%,transparent 50%)',
+   code:'radial-gradient(at 20% 30%, rgba(80,104,164,0.12), transparent 50%),\nradial-gradient(at 80% 70%, rgba(142,124,180,0.08), transparent 50%)'},
+  {name:'Violet Glow',desc:'アクセントカラーの拡散グロウ',
+   bg:'radial-gradient(ellipse 50% 50% at 50% 50%,rgba(142,124,180,0.15) 0%,rgba(203,192,230,0.05) 40%,transparent 70%)',
+   code:'radial-gradient(\n  ellipse 50% 50% at 50% 50%,\n  rgba(142,124,180,0.15) 0%,\n  rgba(203,192,230,0.05) 40%,\n  transparent 70%)'},
 ];
 
 const shadows = [
@@ -826,6 +981,9 @@ const animPatterns = [
   {name:'Glow Pulse',desc:'ローディング・注目',anim:'glowPulse 2s ease-in-out infinite'},
   {name:'Shimmer',desc:'スケルトンローディング',anim:'shimmer 1.5s linear infinite',
    extraStyle:'background:linear-gradient(90deg,#141418 25%,#1e1e24 50%,#141418 75%);background-size:200% 100%;'},
+  {name:'Liquid Ripple',desc:'Liquid Glass の波紋',anim:'liquidRipple 0.6s ease-out forwards'},
+  {name:'Specular Slide',desc:'スペキュラ光の移動',anim:'specularSlide 2s linear infinite',
+   extraStyle:'background:linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.08) 50%,transparent 70%);background-size:200% 100%;'},
 ];
 
 const iconProps = [
@@ -838,19 +996,23 @@ const iconProps = [
 
 const platformData = {
   'Web Page':[
-    'Hero には gradient-hero + gradient-mesh を背景に適用',
+    'Hero には gradient-hero + gradient-mesh を背景に、liquid-glass パネルを配置',
     'セクション間は space-9 (64px) 以上の余白',
-    'CTA ボタンは gradient-glow + glow-medium を使用',
+    'CTA ボタンは btn-liquid パターンで視線を集中させる',
+    '料金表の推奨プランには liquid-glass-deep を適用し、他プランは glass で差別化',
     'タイポグラフィは display-xl ~ display-md をヒーローに使用',
+    'セクション区切りには --line-liquid を使用',
   ],
   'Web App':[
     'サーフェス階層を厳密に守る: bg-page → bg-surface → bg-surface-raised',
-    'Glass エフェクトはサイドバー・ヘッダーに限定 (パフォーマンス考慮)',
+    'サイドバーには glass-frosted、ヘッダーには liquid-glass-deep を適用',
+    'Liquid Glass はヘッダー・ナビゲーション・CTA に活用',
     'インタラクティブ要素には必ず focus-ring (glow-ring) を適用',
     '本文は body-md (14px)、密度の高い UI では body-sm (12px)',
   ],
   'iOS App':[
-    'iOS Human Interface Guidelines を優先し、トークンで色・タイポを上書き',
+    'iOS HIG / Liquid Glass ガイドラインを優先し、トークンで色・タイポを上書き',
+    'liquid-glass は iOS ネイティブの .glass modifier と対応させて実装',
     'タッチターゲット: 最小 44x44pt',
     'Spacing: space-4 (12px) を最小パディング',
     'SF Pro を基本フォントとし、カラートークンのみ本システムから適用',
@@ -861,8 +1023,9 @@ const platformData = {
     '背景: neutral-0 + gradient-mesh',
     'タイトル: display-xl (56px)、DM Sans Light 300',
     '本文: body-lg (16px) 以上 (視認性確保)',
-    'コードブロック: mono-md、bg-surface 背景 + radius-lg',
-    'グロウエフェクトを図表・キーワードに積極的に使用',
+    'コードブロック: mono-md、glass 背景 + radius-lg',
+    'キーワード・数値強調には glow-medium + テキストグラデーションを使用',
+    'セクション区切りに --line-liquid を使用',
   ],
 };
 
@@ -1001,6 +1164,39 @@ glassEffects.forEach(e => {
   gg.innerHTML += `<div class="effect-card" style="${e.style}border-radius:12px;${glassBg}"><div class="effect-name">${e.name}</div><div class="effect-desc">${e.desc}</div><div class="effect-code">${e.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${e.code.replace(/`/g,"\\`")}\`)">Copy</button></div></div>`;
 });
 
+// Liquid Glass — Dark
+const liquidGlassEffects = [
+  {name:'Liquid Glass',desc:'動的ティンティングの基本マテリアル',
+   style:'position:relative;background:linear-gradient(135deg,rgba(80,104,164,0.08) 0%,rgba(142,124,180,0.05) 50%,rgba(80,104,164,0.08) 100%);backdrop-filter:blur(40px) saturate(1.8) brightness(1.1);-webkit-backdrop-filter:blur(40px) saturate(1.8) brightness(1.1);border:1px solid rgba(255,255,255,0.12);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(0,0,0,0.1),0 8px 32px rgba(0,0,0,0.3);',
+   code:'backdrop-filter: blur(40px) saturate(1.8)\n  brightness(1.1);\nborder: 1px solid rgba(255,255,255,0.12);\nbox-shadow: inset 0 1px 0\n  rgba(255,255,255,0.15);'},
+  {name:'Liquid Glass Deep',desc:'ヘッダー・ナビゲーション用',
+   style:'position:relative;background:linear-gradient(135deg,rgba(15,18,32,0.4) 0%,rgba(54,48,79,0.2) 50%,rgba(15,18,32,0.4) 100%);backdrop-filter:blur(60px) saturate(2.0) brightness(0.95);-webkit-backdrop-filter:blur(60px) saturate(2.0) brightness(0.95);border:1px solid rgba(142,124,180,0.1);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 16px 48px rgba(0,0,0,0.4);',
+   code:'backdrop-filter: blur(60px) saturate(2.0)\n  brightness(0.95);\nborder: 1px solid\n  rgba(142,124,180,0.1);'},
+  {name:'Liquid Glass Subtle',desc:'ツールチップ・ポップオーバー用',
+   style:'position:relative;background:rgba(10,10,12,0.5);backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 0.5px 0 rgba(255,255,255,0.1),0 4px 16px rgba(0,0,0,0.3);',
+   code:'backdrop-filter: blur(30px)\n  saturate(1.6);\nborder: 1px solid\n  rgba(255,255,255,0.08);'},
+];
+const lgGrid = document.getElementById('liquidGlassGrid');
+const lgBg = 'background-image:radial-gradient(at 30% 30%,rgba(80,104,164,0.15) 0%,transparent 60%),radial-gradient(at 70% 70%,rgba(142,124,180,0.1) 0%,transparent 60%);';
+liquidGlassEffects.forEach(e => {
+  lgGrid.innerHTML += `<div class="effect-card" style="${e.style}border-radius:16px;${lgBg}"><div class="effect-name">${e.name}</div><div class="effect-desc">${e.desc}</div><div class="effect-code">${e.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${e.code.replace(/`/g,"\\`")}\`)">Copy</button></div></div>`;
+});
+
+// Liquid Glass — Light
+const liquidGlassLightEffects = [
+  {name:'Liquid Glass Light',desc:'ライトモード基本',
+   style:'position:relative;background:linear-gradient(135deg,rgba(218,225,241,0.3) 0%,rgba(228,222,242,0.2) 50%,rgba(218,225,241,0.3) 100%);backdrop-filter:blur(40px) saturate(1.6) brightness(1.15);-webkit-backdrop-filter:blur(40px) saturate(1.6) brightness(1.15);border:1px solid rgba(255,255,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 8px 32px rgba(80,104,164,0.1);',
+   code:'backdrop-filter: blur(40px) saturate(1.6)\n  brightness(1.15);\nborder: 1px solid\n  rgba(255,255,255,0.5);'},
+  {name:'Liquid Glass Light Deep',desc:'ライトモード・ヘッダー',
+   style:'position:relative;background:linear-gradient(180deg,rgba(255,255,255,0.7) 0%,rgba(238,240,245,0.5) 100%);backdrop-filter:blur(60px) saturate(1.8) brightness(1.1);-webkit-backdrop-filter:blur(60px) saturate(1.8) brightness(1.1);border:1px solid rgba(255,255,255,0.8);box-shadow:inset 0 1px 0 rgba(255,255,255,0.9),0 12px 40px rgba(80,104,164,0.08);',
+   code:'backdrop-filter: blur(60px) saturate(1.8)\n  brightness(1.1);\nborder: 1px solid\n  rgba(255,255,255,0.8);'},
+];
+const lgLightGrid = document.getElementById('liquidGlassLightGrid');
+const lgLightBg = 'background-image:radial-gradient(at 30% 30%,rgba(218,225,241,0.3) 0%,transparent 60%),radial-gradient(at 70% 70%,rgba(228,222,242,0.2) 0%,transparent 60%);';
+liquidGlassLightEffects.forEach(e => {
+  lgLightGrid.innerHTML += `<div class="effect-card" style="${e.style}border-radius:16px;${lgLightBg}"><div class="effect-name" style="color:#1a1a2e;">${e.name}</div><div class="effect-desc" style="color:#4a4a5a;">${e.desc}</div><div class="effect-code" style="background:rgba(0,0,0,0.06);color:#3a3a4a;">${e.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${e.code.replace(/`/g,"\\`")}\`)" style="background:#dae1f1;color:#1a1a2e;">Copy</button></div></div>`;
+});
+
 // Glass — Light
 const glg2 = document.getElementById('glassLightGrid');
 const glassLightBg = 'background-image:radial-gradient(at 30% 30%,rgba(218,225,241,0.3) 0%,transparent 60%),radial-gradient(at 70% 70%,rgba(228,222,242,0.2) 0%,transparent 60%);';
@@ -1020,10 +1216,16 @@ lightGradients.forEach(g => {
   grgl.innerHTML += `<div class="effect-card" style="${g.style}border-radius:12px;"><div class="effect-name" style="color:#1a1a2e;">${g.name}</div><div class="effect-desc" style="color:#4a4a5a;">${g.desc}</div><div class="effect-code" style="background:rgba(0,0,0,0.06);color:#3a3a4a;">${g.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${g.code.replace(/`/g,"\\`")}\`)" style="background:#dae1f1;color:#1a1a2e;">Copy</button></div></div>`;
 });
 
-// Glow
+// Glow — Basic
 const glg = document.getElementById('glowGrid');
 glowEffects.forEach(g => {
   glg.innerHTML += `<div class="effect-card" style="background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:12px;box-shadow:${g.shadow};"><div class="effect-name">${g.name}</div><div class="effect-desc">${g.desc}</div></div>`;
+});
+
+// Glow — Gradients
+const glgg = document.getElementById('glowGradientGrid');
+glowGradientEffects.forEach(g => {
+  glgg.innerHTML += `<div class="effect-card" style="background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:12px;padding:0;overflow:hidden;justify-content:stretch;"><div style="min-height:140px;background-image:${g.bg},${g.bg},${g.bg};background-color:var(--neutral-0);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="width:64px;height:64px;border-radius:50%;background:var(--neutral-200);border:1px solid var(--neutral-300);box-shadow:0 0 40px rgba(80,104,164,0.1);"></div></div><div style="padding:16px 24px 24px;flex:1;display:flex;flex-direction:column;justify-content:flex-end;"><div class="effect-name">${g.name}</div><div class="effect-desc">${g.desc}</div><div class="effect-code">${g.code}<button class="copy-btn" onclick="event.stopPropagation();copyText(\`${g.code.replace(/`/g,"\\`")}\`)">Copy</button></div></div></div>`;
 });
 
 // Shadows
