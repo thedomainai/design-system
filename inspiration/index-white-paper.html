@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LINGs人事制度 ver1.0 | The Domain AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f6f4f0;
+      --bg-alt: #edeae4;
+      --ink: #1a1a18;
+      --ink-soft: #5c5a55;
+      --ink-muted: #9e9b94;
+      
+      /* Color definitions - Unified Base with Brightness variations */
+      --color-base: #1a1a18;
+      --accent-think: #1a1a18;
+      --accent-act: #4a4a48;
+      --accent-rel: #7a7a78;
+      
+      --accent-think-bg: #e8e8e6;
+      --accent-act-bg: #f0f0ee;
+      --accent-rel-bg: #f6f6f4;
+      
+      --border: #d8d4cc;
+      --border-light: #e8e4dd;
+      --card: #ffffff;
+      --radius: 6px;
+      --font-body: 'DM Sans', 'Zen Kaku Gothic New', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; font-size: 15px; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(246,244,240,0.85);
+      backdrop-filter: blur(16px) saturate(1.4);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0 2rem;
+    }
+    .topnav-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .topnav-logo {
+      font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-soft);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .topnav-logo span {
+      display: inline-block; width: 24px; height: 24px; background: var(--ink);
+      color: var(--bg); border-radius: 4px; text-align: center; line-height: 24px;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    .topnav-links { display: flex; gap: 0; }
+    .topnav-links a {
+      text-decoration: none; color: var(--ink-muted); font-size: 0.75rem;
+      font-weight: 500; letter-spacing: 0.06em; padding: 1rem 1.1rem;
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+    }
+    .topnav-links a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 1280px; margin: 0 auto; padding: 6rem 2rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end;
+    }
+    .hero h1 {
+      font-size: 3.2rem; font-weight: 900; line-height: 1.15; letter-spacing: -0.03em;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent-think); }
+    .hero-sub {
+      font-size: 0.95rem; color: var(--ink-soft); line-height: 1.9;
+      border-left: 3px solid var(--border); padding-left: 1.5rem;
+    }
+    .hero-sub strong { color: var(--ink); font-weight: 600; }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 1280px; margin: 0 auto; padding: 5rem 2rem;
+    }
+    .section-head {
+      display: flex; align-items: baseline; gap: 1.2rem;
+      margin-bottom: 2.5rem; border-bottom: 2px solid var(--ink);
+      padding-bottom: 0.8rem;
+    }
+    .section-num {
+      font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500;
+      color: var(--ink-muted); letter-spacing: 0.1em;
+    }
+    .section-title { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.01em; }
+    .section-desc {
+      font-size: 0.9rem; color: var(--ink-soft); max-width: 720px;
+      margin-bottom: 3rem; line-height: 1.8;
+      text-wrap: balance; /* 行の長さをバランス良く調整 */
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card); border: 1px solid var(--border-light);
+      border-radius: var(--radius); padding: 2rem;
+    }
+    .card-label {
+      font-size: 0.65rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--ink-muted); margin-bottom: 0.8rem;
+    }
+    .card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .card p { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* ── COMPETENCY TRIAD ── */
+    .triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 4rem; }
+    .triad-card { padding: 2.2rem; position: relative; overflow: hidden; }
+    .triad-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+    }
+    .triad-card.think { border-color: rgba(0,102,204,0.15); }
+    .triad-card.think::before { background: var(--accent-think); }
+    .triad-card.think .card-label { color: var(--accent-think); }
+    .triad-card.act { border-color: rgba(204,68,0,0.15); }
+    .triad-card.act::before { background: var(--accent-act); }
+    .triad-card.act .card-label { color: var(--accent-act); }
+    .triad-card.rel { border-color: rgba(122,61,184,0.15); }
+    .triad-card.rel::before { background: var(--accent-rel); }
+    .triad-card.rel .card-label { color: var(--accent-rel); }
+    .triad-tags { display: flex; gap: 0.4rem; margin: 0.8rem 0; }
+    .triad-tag {
+      font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+    }
+    .think .triad-tag { background: var(--accent-think-bg); color: var(--accent-think); }
+    .act .triad-tag { background: var(--accent-act-bg); color: var(--accent-act); }
+    .rel .triad-tag { background: var(--accent-rel-bg); color: var(--accent-rel); }
+
+    /* ── GRADE TABLE ── */
+    .grade-table { width: 100%; border-collapse: collapse; margin-bottom: 3rem; }
+    .grade-table th {
+      text-align: left; font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--ink-muted); font-weight: 600;
+      padding: 0.8rem 1rem; border-bottom: 2px solid var(--ink);
+    }
+    .grade-table td {
+      padding: 0.9rem 1rem; border-bottom: 1px solid var(--border-light);
+      font-size: 0.85rem; vertical-align: top;
+    }
+    .grade-table tr:hover { background: rgba(0,0,0,0.015); }
+    .grade-label {
+      font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem;
+      display: inline-block; min-width: 2.2rem;
+    }
+    .scope-badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 500;
+      padding: 0.15rem 0.5rem; border-radius: 3px;
+      background: var(--bg-alt); border: 1px solid var(--border-light);
+    }
+
+    /* ── COMPETENCY DETAIL ACCORDION ── */
+    .comp-tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+    .comp-tab {
+      padding: 0.8rem 1.5rem; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent; border-bottom: none;
+      background: transparent; color: var(--ink-muted); transition: all 0.2s;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .comp-tab:hover { color: var(--ink); }
+    .comp-tab.active {
+      background: var(--card); border-color: var(--border);
+      color: var(--ink); position: relative;
+    }
+    .comp-tab.active::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+      height: 1px; background: var(--card);
+    }
+    .comp-tab.think.active { color: var(--accent-think); }
+    .comp-tab.act.active { color: var(--accent-act); }
+    .comp-tab.rel.active { color: var(--accent-rel); }
+
+    .comp-panel {
+      display: none; background: var(--card); border: 1px solid var(--border);
+      border-top: none; border-radius: 0 0 var(--radius) var(--radius);
+      overflow: hidden;
+    }
+    .comp-panel.active { display: block; }
+
+    /* Split view for competency */
+    .comp-split {
+      display: grid; grid-template-columns: 1fr 380px; min-height: 500px;
+    }
+    .comp-table-area {
+      overflow-y: auto; max-height: 600px;
+    }
+    .comp-supplement-area {
+      border-left: 1px solid var(--border-light); background: var(--bg);
+      padding: 1.5rem; overflow-y: auto; max-height: 600px;
+    }
+    .comp-supplement-placeholder {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--ink-muted); font-size: 0.85rem;
+      text-align: center; padding: 2rem;
+    }
+    .comp-supplement-content { display: none; }
+    .comp-supplement-content.active { display: block; }
+    .comp-supplement-content h4 {
+      font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem;
+      color: var(--ink);
+    }
+    .comp-supplement-content .supp-grade {
+      font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;
+      color: var(--ink-muted); letter-spacing: 0.1em; margin-bottom: 1rem;
+    }
+    .comp-supplement-content .supp-section {
+      margin-bottom: 1.5rem; padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .comp-supplement-content .supp-section:last-child {
+      border-bottom: none; margin-bottom: 0; padding-bottom: 0;
+    }
+    .comp-supplement-content .supp-label {
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 0.5rem;
+    }
+    .comp-supplement-content .supp-label.think { color: var(--accent-think); }
+    .comp-supplement-content .supp-label.act { color: var(--accent-act); }
+    .comp-supplement-content .supp-label.rel { color: var(--accent-rel); }
+    .comp-supplement-content .supp-title {
+      font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;
+    }
+    .comp-supplement-content .supp-def {
+      font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 0.6rem;
+      padding: 0.6rem 0.8rem; background: var(--card); border-radius: var(--radius);
+      border-left: 3px solid var(--border);
+    }
+    .comp-supplement-content .supp-text {
+      font-size: 0.8rem; color: var(--ink); line-height: 1.8;
+    }
+
+    .comp-detail-table { width: 100%; border-collapse: collapse; }
+    .comp-detail-table th {
+      text-align: left; font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ink-muted); font-weight: 600;
+      padding: 1rem 1.2rem; border-bottom: 1px solid var(--border-light);
+      background: var(--bg);
+    }
+    .comp-detail-table td {
+      padding: 1rem 1.2rem; border-bottom: 1px solid var(--border-light);
+      font-size: 0.82rem; vertical-align: top; line-height: 1.7;
+    }
+    .comp-detail-table tr:last-child td { border-bottom: none; }
+    .comp-detail-table tbody tr { cursor: pointer; transition: background 0.15s; }
+    .comp-detail-table tbody tr:hover { background: rgba(0,0,0,0.02); }
+    .comp-detail-table tbody tr.selected { background: var(--accent-think-bg); }
+    .comp-detail-table tbody tr.selected td:first-child { box-shadow: inset 3px 0 0 var(--accent-think); }
+    .comp-subtitle {
+      font-weight: 700; font-size: 0.75rem; display: block; margin-bottom: 0.3rem;
+    }
+
+    @media (max-width: 1100px) {
+      .comp-split { grid-template-columns: 1fr; }
+      .comp-supplement-area { border-left: none; border-top: 1px solid var(--border-light); max-height: none; }
+    }
+
+    /* ── EVALUATION ── */
+    .eval-gates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+    .gate-card { padding: 2rem; position: relative; }
+    .gate-card .gate-num {
+      font-family: var(--font-mono); font-size: 2.5rem; font-weight: 700;
+      color: var(--border); line-height: 1; margin-bottom: 1rem;
+    }
+    .gate-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .gate-card .gate-en {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em;
+      font-weight: 600; margin-bottom: 0.8rem;
+    }
+    .gate-card.gate-ticket .gate-en { color: var(--accent-think); }
+    .gate-card.gate-keeper .gate-en { color: var(--accent-act); }
+    .gate-card.gate-grad .gate-en { color: var(--accent-rel); }
+    .gate-card .gate-req {
+      font-size: 0.8rem; font-weight: 600; padding: 0.4rem 0.8rem;
+      border-radius: 3px; display: inline-block; margin-top: 0.8rem;
+    }
+    .gate-ticket .gate-req { background: var(--accent-think-bg); color: var(--accent-think); }
+    .gate-keeper .gate-req { background: var(--accent-act-bg); color: var(--accent-act); }
+    .gate-grad .gate-req { background: var(--accent-rel-bg); color: var(--accent-rel); }
+
+    .score-table { width: 100%; border-collapse: collapse; }
+    .score-table th {
+      text-align: left; font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ink-muted); font-weight: 600;
+      padding: 0.8rem 1.2rem; border-bottom: 2px solid var(--ink);
+    }
+    .score-table td {
+      padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border-light);
+      font-size: 0.85rem;
+    }
+    .score-num {
+      font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;
+    }
+    .score-label { font-weight: 600; }
+
+    /* ── COMPENSATION ── */
+    .salary-table { width: 100%; border-collapse: collapse; margin-bottom: 3rem; }
+    .salary-table th {
+      text-align: right; font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ink-muted); font-weight: 600;
+      padding: 0.8rem 1rem; border-bottom: 2px solid var(--ink);
+    }
+    .salary-table th:first-child, .salary-table th:nth-child(2) { text-align: left; }
+    .salary-table td {
+      padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-light);
+      font-size: 0.85rem; text-align: right; font-family: var(--font-mono);
+      font-weight: 400;
+    }
+    .salary-table td:first-child { text-align: left; font-weight: 700; }
+    .salary-table td:nth-child(2) { text-align: left; font-family: var(--font-body); font-weight: 400; color: var(--ink-soft); }
+    .salary-table tr:hover { background: rgba(0,0,0,0.015); }
+    .salary-bar-wrap {
+      height: 6px; background: var(--bg-alt); border-radius: 3px;
+      margin-top: 0.3rem; overflow: hidden;
+    }
+    .salary-bar {
+      height: 100%; border-radius: 3px; background: var(--ink);
+      opacity: 0.15;
+    }
+
+    .allowance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 3rem; }
+    .allowance-card { padding: 1.5rem; text-align: center; }
+    .allowance-card .role-name {
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ink-muted); margin-bottom: 0.5rem;
+    }
+    .allowance-card .role-amount {
+      font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700;
+    }
+    .allowance-card .role-unit { font-size: 0.75rem; color: var(--ink-soft); }
+    .allowance-card .role-annual {
+      font-size: 0.75rem; color: var(--ink-muted); margin-top: 0.3rem;
+    }
+
+    .step-rules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .step-rule {
+      padding: 1.2rem; text-align: center; border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+    }
+    .step-rule .eval-label { font-size: 0.7rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .step-rule .eval-change {
+      font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700;
+    }
+    .step-rule .eval-desc { font-size: 0.7rem; color: var(--ink-muted); margin-top: 0.2rem; }
+    .step-up { background: #f0faf0; border-color: #c4e6c4; }
+    .step-up .eval-change { color: #2d8a2d; }
+    .step-stay { background: var(--bg); }
+    .step-stay .eval-change { color: var(--ink-muted); }
+    .step-down { background: #faf0f0; border-color: #e6c4c4; }
+    .step-down .eval-change { color: #aa3333; }
+
+    /* ── OPERATION ── */
+    .op-layout {
+      display: grid; grid-template-columns: 320px 1fr; gap: 0;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--card); min-height: 600px; overflow: hidden;
+    }
+    .op-sidebar {
+      border-right: 1px solid var(--border); background: var(--bg);
+      overflow-y: auto;
+    }
+    .op-sidebar-item {
+      display: block; width: 100%; text-align: left; padding: 1.2rem 1.5rem;
+      border: none; background: transparent; cursor: pointer;
+      border-bottom: 1px solid var(--border-light); font-family: var(--font-body);
+      transition: background 0.15s;
+    }
+    .op-sidebar-item:last-child { border-bottom: none; }
+    .op-sidebar-item:hover { background: rgba(0,0,0,0.02); }
+    .op-sidebar-item.active {
+      background: var(--card); border-right: 3px solid var(--ink);
+    }
+    .op-sidebar-item .op-item-phase {
+      font-family: var(--font-mono); font-size: 0.6rem; font-weight: 500;
+      color: var(--ink-muted); letter-spacing: 0.1em; display: block;
+      margin-bottom: 0.2rem;
+    }
+    .op-sidebar-item .op-item-title {
+      font-size: 0.85rem; font-weight: 700; color: var(--ink); display: block;
+      margin-bottom: 0.2rem;
+    }
+    .op-sidebar-item .op-item-sub {
+      font-size: 0.72rem; color: var(--ink-muted); display: block;
+    }
+    .op-doc-area {
+      padding: 2.5rem 3rem; overflow-y: auto; max-height: 700px;
+    }
+    .op-doc { display: none; }
+    .op-doc.active { display: block; }
+    .op-doc h3 {
+      font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem;
+    }
+    .op-doc .op-doc-purpose {
+      font-size: 0.85rem; color: var(--accent-think); font-weight: 600;
+      margin-bottom: 1.5rem; padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .op-doc h4 {
+      font-size: 0.95rem; font-weight: 700; margin: 1.8rem 0 0.6rem;
+      padding-top: 1rem; border-top: 1px solid var(--border-light);
+    }
+    .op-doc h4:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .op-doc p { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8; margin-bottom: 0.8rem; }
+    .op-doc ul {
+      list-style: none; padding: 0; margin: 0 0 1rem;
+    }
+    .op-doc ul li {
+      position: relative; padding: 0.5rem 0 0.5rem 1.2rem;
+      font-size: 0.85rem; color: var(--ink-soft); line-height: 1.7;
+    }
+    .op-doc ul li::before {
+      content: ''; position: absolute; left: 0; top: 1rem;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--border);
+    }
+    .op-doc ul li strong { color: var(--ink); font-weight: 600; }
+    .op-doc ol {
+      padding-left: 1.5rem; margin: 0 0 1rem;
+    }
+    .op-doc ol li {
+      font-size: 0.85rem; color: var(--ink-soft); line-height: 1.7;
+      padding: 0.3rem 0;
+    }
+    .op-doc ol li strong { color: var(--ink); font-weight: 600; }
+    .op-doc .doc-callout {
+      background: var(--bg-alt); border-left: 3px solid var(--border);
+      padding: 0.8rem 1rem; border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.8rem; color: var(--ink-soft); margin: 1rem 0;
+    }
+    @media (max-width: 900px) {
+      .op-layout { grid-template-columns: 1fr; min-height: auto; }
+      .op-sidebar { display: flex; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      .op-sidebar-item { white-space: nowrap; border-bottom: none; border-right: 1px solid var(--border-light); min-width: max-content; padding: 0.8rem 1rem; }
+      .op-sidebar-item.active { border-right-color: var(--border-light); border-bottom: 3px solid var(--ink); }
+      .op-doc-area { padding: 1.5rem; max-height: none; }
+    }
+
+    /* ── CYCLE DIAGRAM ── */
+    .cycle-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .cycle-step {
+      padding: 1.5rem; text-align: center; position: relative;
+    }
+    .cycle-step::after {
+      content: '\2192'; position: absolute; right: -0.7rem; top: 50%;
+      transform: translateY(-50%); color: var(--border); font-size: 1.2rem;
+    }
+    .cycle-step:last-child::after { display: none; }
+    .cycle-step .cy-icon {
+      font-size: 1.5rem; margin-bottom: 0.5rem;
+    }
+    .cycle-step h4 { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .cycle-step p { font-size: 0.72rem; color: var(--ink-soft); }
+
+    /* ── OVERVIEW SECTION ── */
+    .overview-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .overview-card {
+      padding: 2rem; position: relative; overflow: hidden;
+      border-left: 4px solid var(--border);
+    }
+    .overview-card.ov-grade { border-left-color: var(--accent-think); }
+    .overview-card.ov-eval { border-left-color: var(--accent-act); }
+    .overview-card.ov-comp { border-left-color: var(--accent-rel); }
+    .overview-card .ov-num {
+      font-family: var(--font-mono); font-size: 0.65rem; font-weight: 600;
+      color: var(--ink-muted); letter-spacing: 0.12em; margin-bottom: 0.6rem;
+    }
+    .overview-card.ov-grade .ov-num { color: var(--accent-think); }
+    .overview-card.ov-eval .ov-num { color: var(--accent-act); }
+    .overview-card.ov-comp .ov-num { color: var(--accent-rel); }
+    .overview-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .overview-card .ov-subtitle {
+      font-size: 0.7rem; color: var(--ink-muted); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 1rem;
+    }
+    .overview-card ul {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .overview-card ul li {
+      font-size: 0.8rem; color: var(--ink-soft); padding: 0.3rem 0;
+      padding-left: 1rem; position: relative;
+    }
+    .overview-card ul li::before {
+      content: ''; position: absolute; left: 0; top: 0.65rem;
+      width: 4px; height: 4px; border-radius: 50%; background: var(--border);
+    }
+    .overview-card.ov-grade ul li::before { background: var(--accent-think); }
+    .overview-card.ov-eval ul li::before { background: var(--accent-act); }
+    .overview-card.ov-comp ul li::before { background: var(--accent-rel); }
+    .overview-relation {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1rem; margin: 2rem 0; padding: 1.5rem;
+      background: var(--card); border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+    }
+    .overview-relation .rel-box {
+      padding: 0.8rem 1.5rem; border-radius: var(--radius);
+      font-size: 0.85rem; font-weight: 600;
+    }
+    .overview-relation .rel-box.grade { background: var(--accent-think-bg); color: var(--accent-think); }
+    .overview-relation .rel-box.eval { background: var(--accent-act-bg); color: var(--accent-act); }
+    .overview-relation .rel-box.comp { background: var(--accent-rel-bg); color: var(--accent-rel); }
+    .overview-relation .rel-arrow {
+      font-size: 1.2rem; color: var(--ink-muted);
+    }
+
+    /* ── ANNUAL CYCLE TIMELINE ── */
+    .annual-cycle {
+      background: var(--card); border: 1px solid var(--border-light);
+      border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem;
+    }
+    .annual-cycle h4 {
+      font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .annual-cycle h4 .badge {
+      font-size: 0.65rem; font-weight: 600; padding: 0.2rem 0.6rem;
+      border-radius: 3px; background: var(--accent-act-bg); color: var(--accent-act);
+    }
+    .timeline-row {
+      display: flex; align-items: stretch; margin-bottom: 1.5rem;
+    }
+    .timeline-row:last-child { margin-bottom: 0; }
+    .timeline-label {
+      width: 100px; flex-shrink: 0; font-size: 0.75rem; font-weight: 600;
+      color: var(--ink-muted); padding-top: 0.8rem;
+    }
+    .timeline-track {
+      flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem;
+    }
+    .timeline-month {
+      text-align: center; padding: 0.6rem 0.3rem;
+      border-radius: var(--radius); font-size: 0.7rem;
+      border: 1px solid var(--border-light); background: var(--bg);
+    }
+    .timeline-month.active {
+      background: var(--accent-act-bg); border-color: var(--accent-act);
+      color: var(--accent-act); font-weight: 600;
+    }
+    .timeline-month.highlight {
+      background: var(--accent-think-bg); border-color: var(--accent-think);
+      color: var(--accent-think); font-weight: 600;
+    }
+    .timeline-month.special {
+      background: var(--accent-rel-bg); border-color: var(--accent-rel);
+      color: var(--accent-rel); font-weight: 600;
+    }
+    .timeline-month .tm-label {
+      display: block; font-size: 0.6rem; color: var(--ink-muted); margin-top: 0.2rem;
+    }
+    .timeline-month.active .tm-label,
+    .timeline-month.highlight .tm-label,
+    .timeline-month.special .tm-label { color: inherit; opacity: 0.8; }
+
+    .eval-flow {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.8rem;
+      margin-top: 2rem;
+    }
+    .eval-flow-step {
+      text-align: center; padding: 1.2rem 0.8rem; position: relative;
+      background: var(--card); border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+    }
+    .eval-flow-step::after {
+      content: '\2192'; position: absolute; right: -0.6rem; top: 50%;
+      transform: translateY(-50%); color: var(--border); font-size: 1rem;
+      z-index: 1;
+    }
+    .eval-flow-step:last-child::after { display: none; }
+    .eval-flow-step .ef-icon {
+      font-size: 1.3rem; margin-bottom: 0.4rem;
+    }
+    .eval-flow-step h5 {
+      font-size: 0.75rem; font-weight: 700; margin-bottom: 0.2rem;
+    }
+    .eval-flow-step p {
+      font-size: 0.65rem; color: var(--ink-muted); line-height: 1.5;
+    }
+    .eval-flow-step.ef-monthly { border-top: 3px solid var(--accent-think); }
+    .eval-flow-step.ef-quarterly { border-top: 3px solid var(--accent-act); }
+    .eval-flow-step.ef-semi { border-top: 3px solid var(--accent-rel); }
+
+    @media (max-width: 900px) {
+      .overview-grid { grid-template-columns: 1fr; }
+      .overview-relation { flex-direction: column; }
+      .overview-relation .rel-arrow { transform: rotate(90deg); }
+      .timeline-track { grid-template-columns: repeat(3, 1fr); }
+      .eval-flow { grid-template-columns: repeat(2, 1fr); }
+      .eval-flow-step::after { display: none; }
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem; text-align: center;
+    }
+    .footer p { font-size: 0.7rem; color: var(--ink-muted); letter-spacing: 0.08em; }
+
+    /* ── UTILS ── */
+    .divider { border: none; border-top: 1px solid var(--border-light); margin: 3rem 0; }
+    .note {
+      font-size: 0.8rem; color: var(--ink-soft); background: var(--bg-alt);
+      border-left: 3px solid var(--border); padding: 1rem 1.2rem;
+      border-radius: 0 var(--radius) var(--radius) 0; margin: 1.5rem 0;
+    }
+    .highlight { background: #fffbe6; padding: 0.1rem 0.3rem; border-radius: 2px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 2rem; padding-top: 4rem; }
+      .hero h1 { font-size: 2.2rem; }
+      .triad { grid-template-columns: 1fr; }
+      .eval-gates { grid-template-columns: 1fr; }
+      .allowance-grid { grid-template-columns: 1fr; }
+      .step-rules { grid-template-columns: repeat(2, 1fr); }
+      .cycle-grid { grid-template-columns: repeat(2, 1fr); }
+      .cycle-step::after { display: none; }
+      .two-col { grid-template-columns: 1fr; }
+      .topnav-links { display: none; }
+      .salary-table { font-size: 0.75rem; }
+      .comp-tabs { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo">
+      <span>L</span> LINGs Personnel OS v1.0
+    </div>
+    <div class="topnav-links">
+      <a href="#philosophy">設計思想</a>
+      <a href="#overview">全体像</a>
+      <a href="#grading">等級制度</a>
+      <a href="#competency">コンピテンシー</a>
+      <a href="#evaluation">評価制度</a>
+      <a href="#compensation">報酬制度</a>
+      <a href="#operation">運用マニュアル</a>
+      <a href="#faq">Q&A</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div>
+    <h1>LINGs人事制度 ver1.0</h1>
+  </div>
+  <div class="hero-sub">
+    等級制度・評価制度・報酬制度・運用マニュアルの全体像
+  </div>
+</section>
+
+<!-- ═══════════ 00: PHILOSOPHY ═══════════ -->
+<section class="section" id="philosophy">
+  <div class="section-head">
+    <span class="section-num">00</span>
+    <h2 class="section-title">設計思想</h2>
+  </div>
+  <p class="section-desc">
+    LINGsの人事制度は、単なる管理ツールではなく、私たちが何を大切にし、どのような組織を目指すかという意志を具現化したものである。
+  </p>
+
+  <div class="philosophy-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+    <div class="card" style="padding: 2rem;">
+      <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--accent-think);">① 仲間の貢献や頑張りへ報いる</h3>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+        <li style="display: flex; align-items: flex-start; gap: 0.8rem;">
+          <span style="color: var(--accent-think);">●</span>
+          <div>適切な等級制度（等級制度）</div>
+        </li>
+        <li style="display: flex; align-items: flex-start; gap: 0.8rem;">
+          <span style="color: var(--accent-think);">●</span>
+          <div>適切な評価項目と評価ロジック（評価制度）</div>
+        </li>
+        <li style="display: flex; align-items: flex-start; gap: 0.8rem;">
+          <span style="color: var(--accent-think);">●</span>
+          <div>適切な報酬（報酬制度と機会報酬・成長報酬・金銭報酬）</div>
+        </li>
+      </ul>
+    </div>
+    <div class="card" style="padding: 2rem;">
+      <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--accent-act);">② 仲間の可能性を拡げる</h3>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+        <li style="display: flex; align-items: flex-start; gap: 0.8rem;">
+          <span style="color: var(--accent-act);">●</span>
+          <div>目標→評価→フィードバックのサイクルの型化</div>
+        </li>
+        <li style="display: flex; align-items: flex-start; gap: 0.8rem;">
+          <span style="color: var(--accent-act);">●</span>
+          <div>誰もがこのフレームを品質高く実践できる状態の実現</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 01: OVERVIEW ═══════════ -->
+<section class="section" id="overview" style="background: var(--bg-alt); margin: 0 auto; max-width: 100%; padding-left: calc((100% - 1280px)/2 + 2rem); padding-right: calc((100% - 1280px)/2 + 2rem);">
+  <div style="max-width: 1280px;">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="section-title">人事制度の全体像</h2>
+    </div>
+    <p class="section-desc">
+      本制度は<strong>等級制度・評価制度・報酬制度</strong>の3つの柱で構成される。それぞれが独立しつつも連動し、「どう成長し、どう評価され、どう報われるか」を明確にする。
+    </p>
+
+    <!-- 3 Pillars -->
+    <div class="overview-grid">
+      <div class="card overview-card ov-grade">
+        <div class="ov-num">PILLAR 01</div>
+        <h3>等級制度</h3>
+        <div class="ov-subtitle">Grading System</div>
+        <ul>
+          <li>G1〜G8の8段階グレード</li>
+          <li>「スコープ（責任範囲）」で定義</li>
+          <li>役職とは独立した能力等級</li>
+          <li>コンピテンシー3領域×2要素で評価</li>
+        </ul>
+      </div>
+      <div class="card overview-card ov-eval">
+        <div class="ov-num">PILLAR 02</div>
+        <h3>評価制度</h3>
+        <div class="ov-subtitle">Evaluation System</div>
+        <ul>
+          <li>年2回の正式評価（半期ごと）</li>
+          <li>「卒業要件方式」による絶対評価</li>
+          <li>3段階ゲート（成果・行動・能力）</li>
+          <li>月次1on1 + 四半期中間レビュー</li>
+        </ul>
+      </div>
+      <div class="card overview-card ov-comp">
+        <div class="ov-num">PILLAR 03</div>
+        <h3>報酬制度</h3>
+        <div class="ov-subtitle">Compensation System</div>
+        <ul>
+          <li>完全等級連動型の年俸制</li>
+          <li>グレード別5段階ステップ</li>
+          <li>洗い替え方式（過去に囚われない）</li>
+          <li>役職手当は責任に対する対価</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Relation Diagram -->
+    <div class="overview-relation">
+      <div class="rel-box grade">等級制度<br><span style="font-size:0.7rem;font-weight:400;">能力の定義</span></div>
+      <div class="rel-arrow">→</div>
+      <div class="rel-box eval">評価制度<br><span style="font-size:0.7rem;font-weight:400;">能力の判定</span></div>
+      <div class="rel-arrow">→</div>
+      <div class="rel-box comp">報酬制度<br><span style="font-size:0.7rem;font-weight:400;">能力の対価</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 02: GRADING ═══════════ -->
+<section class="section" id="grading">
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2 class="section-title">等級制度 &mdash; Grade &amp; Scope</h2>
+  </div>
+  <p class="section-desc">
+    等級（グレード）は役職任命とは独立している。等級は<strong>責任範囲（スコープ）</strong>においてコンピテンシーが発揮されているかで判定される。「何ができるか」ではなく「どの範囲に対してコンピテンシーが発揮されているか」が評価基準となる。
+  </p>
+
+  <!-- Competency Triad -->
+  <div class="triad">
+    <div class="card triad-card think">
+      <div class="card-label">Domain 1</div>
+      <h3>知力（戦略）</h3>
+      <div class="triad-tags">
+        <span class="triad-tag">A. 課題設定</span>
+        <span class="triad-tag">B. 構造化・計画</span>
+      </div>
+      <p>状況を観察し「何を解決すべきか」を定義し、複雑な事象を構造化して解決への道筋を描く力。</p>
+    </div>
+    <div class="card triad-card act">
+      <div class="card-label">Domain 2</div>
+      <h3>動力（エグゼキューション）</h3>
+      <div class="triad-tags">
+        <span class="triad-tag">C. スピード</span>
+        <span class="triad-tag">D. 品質</span>
+      </div>
+      <p>意思決定から実行完了までのサイクルを最大化させ、高い専門性で圧倒的な速度と品質を両立させる力。</p>
+    </div>
+    <div class="card triad-card rel">
+      <div class="card-label">Domain 3</div>
+      <h3>対人折衝力（コミュニケーション）</h3>
+      <div class="triad-tags">
+        <span class="triad-tag">E. 受信・傾聴</span>
+        <span class="triad-tag">F. 発信・伝達</span>
+      </div>
+      <p>相手の意図や組織の文脈を深く汲み取り、自身のビジョンを言語化して他者の納得と行動を引き出す力。</p>
+    </div>
+  </div>
+
+  <!-- Grade Table -->
+  <table class="grade-table">
+    <thead>
+      <tr>
+        <th style="width:6%">Grade</th>
+        <th style="width:12%">役割名称</th>
+        <th style="width:18%">影響の規模</th>
+        <th>責任・影響の範囲</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="grade-label">G8</span></td>
+        <td>取締役級</td>
+        <td><span class="scope-badge">業界・社会</span></td>
+        <td>国内市場や産業構造全体に変革をもたらし、企業の社会的プレゼンスを確立する。</td>
+      </tr>
+      <tr>
+        <td><span class="grade-label">G7</span></td>
+        <td>執行役員級</td>
+        <td><span class="scope-badge">全社</span></td>
+        <td>全社の経営資源、組織構造、企業文化、中長期の事業ポートフォリオに責任を負う。</td>
+      </tr>
+      <tr>
+        <td><span class="grade-label">G6</span></td>
+        <td>本部長級</td>
+        <td><span class="scope-badge">本部・事業部</span></td>
+        <td>複数の「部」を束ねる事業単位、または特定の事業ドメイン全体の戦略と成果、組織力に責任を負う。</td>
+      </tr>
+      <tr>
+        <td><span class="grade-label">G5</span></td>
+        <td>シニアマネージャー</td>
+        <td><span class="scope-badge">部門</span></td>
+        <td>特定の部門や専門機能全体の最適化、半年〜1年スパンのKPI達成に責任を負う。</td>
+      </tr>
+      <tr>
+        <td><span class="grade-label">G4</span></td>
+        <td>マネージャー</td>
+        <td><span class="scope-badge">プロジェクト群</span></td>
+        <td>複数のチームやプロジェクトを横断的に支援し、部長の右腕として現場の品質と進行を統括する。</td>
+      </tr>
+      <tr>
+        <td><span class="grade-label">G3</span></td>
+        <td>シニアリーダー</td>
+        <td><span class="scope-badge">チーム</span></td>
+        <td>特定のチームを牽引し、メンバーの成果、品質、デリバリー速度に責任を負う。</td>
+      </tr>
+      <tr>
+        <td><span class="grade-label">G2</span></td>
+        <td>リーダー</td>
+        <td><span class="scope-badge">自律</span></td>
+        <td>自身の高い専門性でチームの難題を解決し、実務面でリーダーを支え、周囲の手本となる。</td>
+      </tr>
+      <tr>
+        <td><span class="grade-label">G1</span></td>
+        <td>メンバー</td>
+        <td><span class="scope-badge">タスク・定型業務</span></td>
+        <td>指示された業務を完遂し、プロとしての基本動作を身につけ、チームに貢献する。</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ 02: COMPETENCY DETAIL ═══════════ -->
+<section class="section" id="competency" style="background: var(--bg-alt); margin: 0 auto; max-width: 100%; padding-left: calc((100% - 1280px)/2 + 2rem); padding-right: calc((100% - 1280px)/2 + 2rem);">
+  <div style="max-width: 1280px;">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">コンピテンシー定義詳細</h2>
+    </div>
+    <p class="section-desc">
+      各グレードにおいて、6つのコンピテンシーがどのレベルで求められるかを定義する。タブを切り替えて各領域の詳細を確認できる。
+    </p>
+
+    <!-- Tabs -->
+    <div class="comp-tabs">
+      <button class="comp-tab think active" onclick="switchTab('think')">知力（戦略）</button>
+      <button class="comp-tab act" onclick="switchTab('act')">動力（エグゼキューション）</button>
+      <button class="comp-tab rel" onclick="switchTab('rel')">対人折衝力（コミュニケーション）</button>
+    </div>
+
+    <!-- Panel: Thinking -->
+    <div class="comp-panel active" id="panel-think">
+      <div class="comp-split">
+        <div class="comp-table-area">
+          <table class="comp-detail-table">
+            <thead>
+              <tr>
+                <th style="width:6%">Grade</th>
+                <th style="width:47%">A. 課題設定 (Issue Finding)</th>
+                <th style="width:47%">B. 構造化・計画 (Structuring)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="showSupplement('think', 'G8')">
+                <td><span class="grade-label">G8</span></td>
+                <td><span class="comp-subtitle">産業構造の再定義</span>業界全体の商習慣やサプライチェーンの構造的な歪みを課題として捉え、既存の産業定義を書き換える「問い」を立てる。</td>
+                <td><span class="comp-subtitle">エコシステム構想</span>一企業では完結しないビジョンを描き、競合他社・行政・異業種を巻き込んだエコシステム全体を設計する。</td>
+              </tr>
+              <tr onclick="showSupplement('think', 'G7')">
+                <td><span class="grade-label">G7</span></td>
+                <td><span class="comp-subtitle">事業創造と破壊</span>全社視点で既存事業の限界やリスクを見抜き、自らの手で事業をピボットさせる決断をする。サンクコストに囚われず撤退・統合の判断も行う。</td>
+                <td><span class="comp-subtitle">全社資源の最適配分</span>ヒト・モノ・カネ・情報を部門の壁を超えてダイナミックに再配分する戦略を描く。中長期的な競争優位性を確立するロードマップを策定。</td>
+              </tr>
+              <tr onclick="showSupplement('think', 'G6')">
+                <td><span class="grade-label">G6</span></td>
+                <td><span class="comp-subtitle">構造的課題の特定</span>本部内の構造的な矛盾（サイロ化、技術的負債等）の根本原因を特定。仕組みや構造そのものを変えることで解決すべきイシューを定義する。</td>
+                <td><span class="comp-subtitle">事業ロードマップ策定</span>単年度のPL責任を超え、3〜5年スパンでの事業や組織能力の進化プロセスを設計。複数オプションを持たせた柔軟かつ強靭な計画を立案。</td>
+              </tr>
+              <tr onclick="showSupplement('think', 'G5')">
+                <td><span class="grade-label">G5</span></td>
+                <td><span class="comp-subtitle">部門方針の策定</span>全社戦略と連動させつつ、自部門が半年〜1年で達成すべきゴールとKPIを設定。抽象的な戦略を具体的な部門目標へ落とし込む。</td>
+                <td><span class="comp-subtitle">リソース戦略</span>採用計画、予算配分、体制作りを設計。突発的なリスクや環境変化を見越してバッファや代替案を持たせた計画を組む。</td>
+              </tr>
+              <tr onclick="showSupplement('think', 'G4')">
+                <td><span class="grade-label">G4</span></td>
+                <td><span class="comp-subtitle">プロジェクト群の最適化</span>複数チーム・プロジェクトにまたがる共通課題を発見し、横断的な解決策を提案。部長の視点を補完し、現場のリアリティを踏まえた課題設定を行う。</td>
+                <td><span class="comp-subtitle">複雑な工程の交通整理</span>依存関係が複雑な複数プロジェクトのスケジュールを統合的に管理。クリティカルパスを特定し、チーム間の干渉や手戻りを防ぐ全体工程表を描く。</td>
+              </tr>
+              <tr onclick="showSupplement('think', 'G3')">
+                <td><span class="grade-label">G3</span></td>
+                <td><span class="comp-subtitle">チーム課題の発見</span>チームの目標達成を阻害する要因（スキル不足、ツール不備、士気低下等）を特定。上司から言われる前に現場レベルでの改善テーマを自ら設定する。</td>
+                <td><span class="comp-subtitle">実行プランの具体化</span>チーム目標を個人タスクに分解し、誰が・いつまでに・何をやるかを明確にする。メンバーの能力を考慮した現実的なスケジュールと役割分担を組む。</td>
+              </tr>
+              <tr onclick="showSupplement('think', 'G2')">
+                <td><span class="grade-label">G2</span></td>
+                <td><span class="comp-subtitle">自律的な解決策提示</span>困難な壁にぶつかっても自分で調べ、考え、複数の解決案（松竹梅）を持って上司に相談できる。「こうしたい」を提案する。</td>
+                <td><span class="comp-subtitle">ロジカルな段取り</span>複雑なタスクでもロジックに基づいて手順を組み立て、効率的に進める段取りができる。自分の作業の依存関係を理解し、他者を待たせない工夫をする。</td>
+              </tr>
+              <tr onclick="showSupplement('think', 'G1')">
+                <td><span class="grade-label">G1</span></td>
+                <td><span class="comp-subtitle">違和感のアラート</span>業務遂行中に発生した小さな違和感や異常を放置せず、速やかに報告・相談できる。</td>
+                <td><span class="comp-subtitle">手順の理解と遵守</span>指示された業務の背景・目的・手順を正しく理解し、マニュアルやルールに沿って忠実に計画をなぞることができる。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="comp-supplement-area" id="supp-think">
+          <div class="comp-supplement-placeholder">
+            左のテーブルの行をクリックすると<br>具体的な補足説明が表示されます
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Action -->
+    <div class="comp-panel" id="panel-act">
+      <div class="comp-split">
+        <div class="comp-table-area">
+          <table class="comp-detail-table">
+            <thead>
+              <tr>
+                <th style="width:6%">Grade</th>
+                <th style="width:47%">C. スピード (Speed)</th>
+                <th style="width:47%">D. 品質 (Quality)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="showSupplement('act', 'G8')">
+                <td><span class="grade-label">G8</span></td>
+                <td><span class="comp-subtitle">市場モメンタムの創出</span>自社のリリースが業界全体のトレンドやタイムラインを決定づける。「当社が動けば業界が動く」レベルで市場投入タイミングを戦略的に操る。</td>
+                <td><span class="comp-subtitle">デファクトスタンダード</span>当社のプロダクトや技術が事実上の業界標準となる品質を作り上げる。社会的に認知される最高峰のブランドを確立する。</td>
+              </tr>
+              <tr onclick="showSupplement('act', 'G7')">
+                <td><span class="grade-label">G7</span></td>
+                <td><span class="comp-subtitle">組織OSの再設計</span>全社の意思決定プロセスそのものを再設計し、大企業病を防ぐ。即断即決するカルチャーを浸透させ、市場変化を凌駕する組織リズムを作る。</td>
+                <td><span class="comp-subtitle">変革の完遂とガバナンス</span>痛みを伴う改革や難易度の高いプロジェクトを完遂させる。ガバナンスを効かせ、スピードとコンプライアンスを両立させる。</td>
+              </tr>
+              <tr onclick="showSupplement('act', 'G6')">
+                <td><span class="grade-label">G6</span></td>
+                <td><span class="comp-subtitle">デリバリー速度の最大化</span>本部全体の生産性を阻害するプロセスや慣習を撤廃し、リードタイムを劇的に短縮。自動化、権限委譲を推進し組織としての機動力を高める。</td>
+                <td><span class="comp-subtitle">品質基準の確立</span>「当社における品質とは何か」という高い基準を定義し、妥協を許さない文化を作る。業界トップレベルの技術的・実務的品質を保証する。</td>
+              </tr>
+              <tr onclick="showSupplement('act', 'G5')">
+                <td><span class="grade-label">G5</span></td>
+                <td><span class="comp-subtitle">意思決定の迅速化</span>部内の決裁や承認を停滞させず、メンバーを待たせない。不完全な情報下でも経験と勘所に基づいて「Go/No-Go」の判断を遅滞なく下す。</td>
+                <td><span class="comp-subtitle">成果責任の担保</span>部門としてのアウトプット品質に最終責任を持つ。トラブル時には自ら前線に立ち、火消しと事態収拾を完遂する。</td>
+              </tr>
+              <tr onclick="showSupplement('act', 'G4')">
+                <td><span class="grade-label">G4</span></td>
+                <td><span class="comp-subtitle">連携スピードの向上</span>チーム間のボールの受け渡しをスムーズにし、待ち時間をゼロにする。横断的な調整役として立ち回り、プロジェクト全体の進行を加速させる。</td>
+                <td><span class="comp-subtitle">クロスチェックと標準化</span>チームを跨いで品質のバラつきを是正する。ベストプラクティスを横展開し、全プロジェクトの品質底上げに貢献する。</td>
+              </tr>
+              <tr onclick="showSupplement('act', 'G3')">
+                <td><span class="grade-label">G3</span></td>
+                <td><span class="comp-subtitle">チーム作業の効率化</span>メンバーの手戻りや迷いを減らし、チーム全体のアウトプット速度を引き上げる。会議の効率化やツール導入など、足元の生産性向上を主導する。</td>
+                <td><span class="comp-subtitle">レビュアー責任</span>メンバーの成果物に責任を持ち、リリース基準をクリアさせる。レビューを通じて品質意識を高め、ミスを未然に防ぐゲートキーパーとなる。</td>
+              </tr>
+              <tr onclick="showSupplement('act', 'G2')">
+                <td><span class="grade-label">G2</span></td>
+                <td><span class="comp-subtitle">安定した自走</span>リーダーの細かい指示がなくとも一定のスピードで自走できる。突発的なトラブルでもパニックにならず冷静に対処し、納期を守る。</td>
+                <td><span class="comp-subtitle">高い専門性と自己完結</span>得意領域ではリーダーをも凌ぐ専門性を発揮し、高品質なアウトプットを独力で出す。「技術的なことは○○さんに聞けば安心」という信頼を得る。</td>
+              </tr>
+              <tr onclick="showSupplement('act', 'G1')">
+                <td><span class="grade-label">G1</span></td>
+                <td><span class="comp-subtitle">迅速な着手</span>指示を受けたら「まず着手する」習慣がある。完璧主義に陥らず、プロトタイプやドラフトを早く出して方向性を確認する姿勢を持つ。</td>
+                <td><span class="comp-subtitle">基本動作の徹底</span>確認、検証、自己レビューといった基本動作を怠らない。不確かなまま進めず、必ず確認をとってから実行する慎重さを持つ。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="comp-supplement-area" id="supp-act">
+          <div class="comp-supplement-placeholder">
+            左のテーブルの行をクリックすると<br>具体的な補足説明が表示されます
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Relation -->
+    <div class="comp-panel" id="panel-rel">
+      <div class="comp-split">
+        <div class="comp-table-area">
+          <table class="comp-detail-table">
+            <thead>
+              <tr>
+                <th style="width:6%">Grade</th>
+                <th style="width:47%">E. 受信・傾聴 (Listening)</th>
+                <th style="width:47%">F. 発信・伝達 (Delivery)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="showSupplement('rel', 'G8')">
+                <td><span class="grade-label">G8</span></td>
+                <td><span class="comp-subtitle">時代精神の感応</span>市場の声だけでなく、社会倫理、次世代の価値観、地政学的な変化など、より大きな文脈を深く読み解く。「公器」としての役割を直感的に捉える。</td>
+                <td><span class="comp-subtitle">ソートリーダーシップ</span>業界の第一人者として発信し、技術トレンドや思想をリードする。その発言が市場や行政を動かし、新たな規制や標準を作る力を持つ。</td>
+              </tr>
+              <tr onclick="showSupplement('rel', 'G7')">
+                <td><span class="grade-label">G7</span></td>
+                <td><span class="comp-subtitle">組織力学の洞察</span>組織内に渦巻く政治的力学、隠れた対立構造、社員の集合的無意識を読み解く。表面的な報告に惑わされず、組織の「真実」を掴む。</td>
+                <td><span class="comp-subtitle">ナラティブによる牽引</span>数字や論理だけでなく、企業の歴史や使命に基づいた「物語」を語り、組織全体を熱狂させ大きな方向性へと動かす求心力を発揮する。</td>
+              </tr>
+              <tr onclick="showSupplement('rel', 'G6')">
+                <td><span class="grade-label">G6</span></td>
+                <td><span class="comp-subtitle">メタ認知と他者視点</span>自分や自本部が全社からどう見られているかを客観的に認識できる。独善的な判断を避け、全体最適の視点から自組織の立ち位置を修正できる。</td>
+                <td><span class="comp-subtitle">概念の言語化</span>暗黙知となっている成功法則や曖昧な組織文化を、明確な言葉（スローガン、行動指針）に落とし込む。組織の共通言語として定着させる。</td>
+              </tr>
+              <tr onclick="showSupplement('rel', 'G5')">
+                <td><span class="grade-label">G5</span></td>
+                <td><span class="comp-subtitle">心理的安全性と本音</span>部下の不安や不満、キャリアへの悩みを引き出し、安心して挑戦できる環境を作る。1on1等で信頼関係を築き、離職の兆候を早期に察知する。</td>
+                <td><span class="comp-subtitle">合意形成と交渉</span>他部署との利害対立やリソースの奪い合いにおいて粘り強く交渉し、全社的にも納得感のあるWin-Winの落とし所をまとめる。</td>
+              </tr>
+              <tr onclick="showSupplement('rel', 'G4')">
+                <td><span class="grade-label">G4</span></td>
+                <td><span class="comp-subtitle">ハブとしての傾聴</span>リーダー層からの突き上げと部長層からのトップダウンの両方を聞き、翻訳して繋ぐ。現場のリアリティを経営層に正しく伝えるパイプ役となる。</td>
+                <td><span class="comp-subtitle">フォロワーシップと伝播</span>部長の方針を咀嚼し、現場のリーダーたちが理解しやすい言葉に変換して伝える。批判的なメンバーに対しても粘り強く説明する影響力を持つ。</td>
+              </tr>
+              <tr onclick="showSupplement('rel', 'G3')">
+                <td><span class="grade-label">G3</span></td>
+                <td><span class="comp-subtitle">メンバーのコンディション把握</span>日々の会話からメンバーの体調やモチベーションの変化に気づく。業務上の悩みだけでなく、人間関係や環境面での障壁を取り除くために耳を傾ける。</td>
+                <td><span class="comp-subtitle">動機付けとフィードバック</span>メンバー一人ひとりの性格や志向に合わせてやる気を引き出す声がけをする。耳の痛い改善点も、相手の成長のために率直に伝える。</td>
+              </tr>
+              <tr onclick="showSupplement('rel', 'G2')">
+                <td><span class="grade-label">G2</span></td>
+                <td><span class="comp-subtitle">背景理解</span>指示や依頼を受けた際、作業内容だけでなくその背景にある「目的」「重要度」を正しく理解する。リーダーの意図を汲み取り、先回りして動く。</td>
+                <td><span class="comp-subtitle">論理的な報告</span>事実（Fact）と解釈（Opinion）を明確に分けて報告できる。トラブル時にも感情的にならず、状況を冷静かつ正確に伝える。</td>
+              </tr>
+              <tr onclick="showSupplement('rel', 'G1')">
+                <td><span class="grade-label">G1</span></td>
+                <td><span class="comp-subtitle">傾聴の姿勢</span>相手の話を遮らず、最後まで目を見て聞くことができる。メモを取る、相槌を打つなど、相手に対するリスペクトを行動で示せる。</td>
+                <td><span class="comp-subtitle">明確な意思表示</span>挨拶、返事、感謝、謝罪などの基本的なコミュニケーションをハッキリと行える。「わかりました」「できません」の意思表示を曖昧にしない。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="comp-supplement-area" id="supp-rel">
+          <div class="comp-supplement-placeholder">
+            左のテーブルの行をクリックすると<br>具体的な補足説明が表示されます
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 04: EVALUATION ═══════════ -->
+<section class="section" id="evaluation">
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <h2 class="section-title">評価制度 &mdash; 卒業要件方式</h2>
+  </div>
+  <p class="section-desc">
+    昇格は他者との比較（相対評価）ではなく、現グレードに定められた要件を完全に満たし、次のステージへ進む準備ができているか（<strong>絶対評価</strong>）を判定する。3つのゲートをすべてクリアした者のみが昇格候補となる。
+  </p>
+
+  <!-- 3 Gates - Priority Order: Competency (Main) → Results → Behavior (Gating) -->
+  <div class="eval-gates">
+    <div class="card gate-card gate-grad" style="border: 2px solid var(--ink);">
+      <div class="gate-num">01</div>
+      <div class="gate-badge" style="display:inline-block; font-size:0.65rem; font-weight:700; padding:0.2rem 0.6rem; background:var(--ink); color:var(--bg); border-radius:3px; margin-bottom:0.5rem;">評価本体</div>
+      <h3>コンピテンシー評価</h3>
+      <div class="gate-en">Graduation Requirement</div>
+      <p style="font-size:0.85rem; color:var(--ink-soft);">
+        3つのコンピテンシー領域（思考・行動・対人）の発揮度。<br>
+        採点: 1〜5点の5段階評価
+      </p>
+      <div class="gate-req">要件: 3領域すべてで 4点以上</div>
+    </div>
+    <div class="card gate-card gate-ticket">
+      <div class="gate-num">02</div>
+      <div class="gate-badge" style="display:inline-block; font-size:0.65rem; font-weight:500; padding:0.2rem 0.6rem; background:var(--bg-alt); color:var(--ink-soft); border-radius:3px; margin-bottom:0.5rem;">足切り条件</div>
+      <h3>成果評価</h3>
+      <div class="gate-en">The Ticket</div>
+      <p style="font-size:0.85rem; color:var(--ink-soft);">
+        期間内に合意した目標（MBO/OKR等）に対する達成度。<br>
+        判定: ⚪︎（達成）・△（概ね達成）・×（未達）
+      </p>
+      <div class="gate-req">要件: ⚪︎ 以上 &mdash; ×は即足切り</div>
+      <div class="gate-note" style="font-size:0.75rem; color:var(--ink-muted); margin-top:0.8rem; padding-top:0.8rem; border-top:1px dashed var(--border-light);">
+        ※外部要因等で成果が出なかった場合は救済あり。能力開発を重視。
+      </div>
+    </div>
+    <div class="card gate-card gate-keeper">
+      <div class="gate-num">03</div>
+      <div class="gate-badge" style="display:inline-block; font-size:0.65rem; font-weight:500; padding:0.2rem 0.6rem; background:var(--bg-alt); color:var(--ink-soft); border-radius:3px; margin-bottom:0.5rem;">足切り条件</div>
+      <h3>振る舞い（バリュー）評価</h3>
+      <div class="gate-en">The Gatekeeper</div>
+      <p style="font-size:0.85rem; color:var(--ink-soft);">
+        組織の行動規範（バリュー）の体現度。<br>
+        判定: ⚪︎（体現）・△（一部課題）・×（乖離）
+      </p>
+      <div class="gate-req">要件: ⚪︎ 以上 &mdash; ×は即足切り</div>
+    </div>
+  </div>
+
+  <div class="note">
+    一つでも3点（Meet）がある場合は「現グレードにおいてまだ伸び代がある」と判断され、卒業とはみなされない。全領域での卓越した再現性が求められる。
+  </div>
+
+  <hr class="divider">
+
+  <!-- Scoring Criteria -->
+  <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">採点基準（コンピテンシー評価）</h3>
+  <table class="score-table">
+    <thead>
+      <tr>
+        <th style="width:6%">点数</th>
+        <th style="width:14%">判定</th>
+        <th>定義</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="score-num">5</span></td>
+        <td><span class="score-label">Outstanding</span></td>
+        <td><strong>卓越</strong> &mdash; 上位グレードの要件すらも一部満たしており、組織に極めて高い付加価値を与えている。</td>
+      </tr>
+      <tr>
+        <td><span class="score-num">4</span></td>
+        <td><span class="score-label" style="color:var(--accent-rel);">Exceed</span></td>
+        <td><strong>超過（卒業レベル）</strong> &mdash; 現グレードの期待値を常に上回り、安定して高いレベルの行動を再現できている。</td>
+      </tr>
+      <tr>
+        <td><span class="score-num">3</span></td>
+        <td><span class="score-label">Meet</span></td>
+        <td><strong>充足</strong> &mdash; 現グレードの期待値を概ね満たしている。プロとして標準的な動きができている。</td>
+      </tr>
+      <tr>
+        <td><span class="score-num">2</span></td>
+        <td><span class="score-label">Below</span></td>
+        <td><strong>不足</strong> &mdash; 期待値を下回ることがあり、周囲のサポートや指導を頻繁に必要とする。</td>
+      </tr>
+      <tr>
+        <td><span class="score-num">1</span></td>
+        <td><span class="score-label">Unsatisfactory</span></td>
+        <td><strong>未達</strong> &mdash; 期待値を大きく下回り、改善の兆しが見られない。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <!-- Annual Cycle -->
+  <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem;">年間運用サイクル</h3>
+
+  <div class="annual-cycle">
+    <h4>半期サイクル（年2回評価） <span class="badge">6ヶ月 × 2</span></h4>
+
+    <!-- H1: First Half (Dec-May) -->
+    <div class="timeline-row">
+      <div class="timeline-label">上期<br>(12月〜5月)</div>
+      <div class="timeline-track">
+        <div class="timeline-month highlight">12月<span class="tm-label">目標設定</span></div>
+        <div class="timeline-month active">1月<span class="tm-label">1on1</span></div>
+        <div class="timeline-month active">2月<span class="tm-label">1on1</span></div>
+        <div class="timeline-month special">3月<span class="tm-label">中間Review</span></div>
+        <div class="timeline-month active">4月<span class="tm-label">1on1</span></div>
+        <div class="timeline-month special">5月<span class="tm-label">評価・FB</span></div>
+      </div>
+    </div>
+
+    <!-- H2: Second Half (Jun-Nov) -->
+    <div class="timeline-row">
+      <div class="timeline-label">下期<br>(6月〜11月)</div>
+      <div class="timeline-track">
+        <div class="timeline-month highlight">6月<span class="tm-label">目標設定</span></div>
+        <div class="timeline-month active">7月<span class="tm-label">1on1</span></div>
+        <div class="timeline-month active">8月<span class="tm-label">1on1</span></div>
+        <div class="timeline-month special">9月<span class="tm-label">中間Review</span></div>
+        <div class="timeline-month active">10月<span class="tm-label">1on1</span></div>
+        <div class="timeline-month special">11月<span class="tm-label">評価・FB</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flow Steps -->
+  <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem;">評価運用フロー</h3>
+  <div class="eval-flow">
+    <div class="eval-flow-step ef-semi">
+      <div class="ef-icon"></div>
+      <h5>期初：目標設定</h5>
+      <p>ミッションレター作成<br>定量・定性目標の合意</p>
+    </div>
+    <div class="eval-flow-step ef-monthly">
+      <div class="ef-icon"></div>
+      <h5>毎月：1on1</h5>
+      <p>進捗確認<br>リアルタイムFB</p>
+    </div>
+    <div class="eval-flow-step ef-quarterly">
+      <div class="ef-icon"></div>
+      <h5>3ヶ月：中間Review</h5>
+      <p>仮評価の共有<br>軌道修正の機会</p>
+    </div>
+    <div class="eval-flow-step ef-semi">
+      <div class="ef-icon"></div>
+      <h5>期末：評価会議</h5>
+      <p>キャリブレーション<br>昇格判定</p>
+    </div>
+    <div class="eval-flow-step ef-semi">
+      <div class="ef-icon"></div>
+      <h5>評価後：FB面談</h5>
+      <p>結果通達<br>来期への対話</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>評価がサプライズになることの防止</strong> &mdash; 中間Reviewで着地見込みを必ず共有し、評価結果に対する「聞いていなかった」を防ぐ。フィードバック面談では結果通達は淡々と行い、時間の8割は「来期どうするか」の未来志向の対話に使う。
+  </div>
+</section>
+
+<!-- ═══════════ 05: COMPENSATION ═══════════ -->
+<section class="section" id="compensation" style="background: var(--bg-alt); margin: 0 auto; max-width: 100%; padding-left: calc((100% - 1280px)/2 + 2rem); padding-right: calc((100% - 1280px)/2 + 2rem);">
+  <div style="max-width: 1280px;">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="section-title">報酬制度 &mdash; Total Rewards</h2>
+    </div>
+    <p class="section-desc">
+      透明性と納得感を最大化するため、年収は「グレード（能力）」と「役職（責任）」によって機械的に決定される。属人的な調整を排除した<strong>完全等級連動・年俸制・毎期見直し</strong>の報酬体系。
+    </p>
+
+    <!-- Policy pills -->
+    <div style="display:flex; gap:0.8rem; margin-bottom:2.5rem; flex-wrap:wrap;">
+      <span style="font-size:0.75rem; font-weight:600; padding:0.4rem 1rem; border-radius:20px; background:var(--card); border:1px solid var(--border-light);">完全等級連動型</span>
+      <span style="font-size:0.75rem; font-weight:600; padding:0.4rem 1rem; border-radius:20px; background:var(--card); border:1px solid var(--border-light);">年俸制（12分割支給）</span>
+      <span style="font-size:0.75rem; font-weight:600; padding:0.4rem 1rem; border-radius:20px; background:var(--card); border:1px solid var(--border-light);">毎期の評価で再設定</span>
+    </div>
+
+    <!-- Salary Table -->
+    <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem;">基本年俸テーブル <span style="font-size:0.75rem; font-weight:400; color:var(--ink-muted);">(万円/年)</span></h3>
+    <table class="salary-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">Grade</th>
+          <th style="text-align:left">役割</th>
+          <th>S1 (Min)</th>
+          <th>S2</th>
+          <th>S3 (Mid)</th>
+          <th>S4</th>
+          <th>S5 (Max)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>G8</td><td>取締役級</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>G7</td><td>執行役員級</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>G6</td><td>本部長級</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>G5</td><td>シニアマネージャー</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>G4</td><td>マネージャー</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>G3</td><td>シニアリーダー</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>G2</td><td>リーダー</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>G1</td><td>メンバー</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Role Allowance -->
+    <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem;">役職手当</h3>
+    <div class="allowance-grid">
+      <div class="card allowance-card">
+        <div class="role-name">本部長</div>
+        <div class="role-amount">+__<span class="role-unit">万円/月</span></div>
+        <div class="role-annual">年額 +__万円</div>
+      </div>
+      <div class="card allowance-card">
+        <div class="role-name">部長</div>
+        <div class="role-amount">+__<span class="role-unit">万円/月</span></div>
+        <div class="role-annual">年額 +__万円</div>
+      </div>
+      <div class="card allowance-card">
+        <div class="role-name">リーダー</div>
+        <div class="role-amount">+__<span class="role-unit">万円/月</span></div>
+        <div class="role-annual">年額 +__万円</div>
+      </div>
+    </div>
+
+    <div class="note">
+      役職手当は「役割」に付随し、等級（能力）とは独立して管理される。組織長としての責任を負う期間のみ支給。通勤交通費（実費）以外の住宅手当・家族手当等は設けない。
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step Rules -->
+    <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem;">評価によるステップ移行ルール</h3>
+    <div class="step-rules">
+      <div class="step-rule step-up">
+        <div class="eval-label">Outstanding (5)</div>
+        <div class="eval-change">+2</div>
+        <div class="eval-desc">2ステップアップ</div>
+      </div>
+      <div class="step-rule step-up">
+        <div class="eval-label">Exceed (4)</div>
+        <div class="eval-change">+1</div>
+        <div class="eval-desc">1ステップアップ</div>
+      </div>
+      <div class="step-rule step-stay">
+        <div class="eval-label">Meet (3)</div>
+        <div class="eval-change">&plusmn;0</div>
+        <div class="eval-desc">ステイ（維持）</div>
+      </div>
+      <div class="step-rule step-down">
+        <div class="eval-label">Below (2) 以下</div>
+        <div class="eval-change">&minus;1</div>
+        <div class="eval-desc">ダウンまたは降格検討</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>昇格時</strong>: 上位グレードのS1、または現年収を上回る直近のステップへ移行。過去の実績ではなく「今の貢献度」で年収が決まる。
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 06: OPERATION ═══════════ -->
+<section class="section" id="operation">
+  <div class="section-head">
+    <span class="section-num">06</span>
+    <h2 class="section-title">運用マニュアル</h2>
+  </div>
+  <p class="section-desc">
+    制度を作ること自体ではなく、「運用によって組織の行動が変わること」をゴールとする。評価を「イベント」ではなく「日常のマネジメント」にするための実務指針。左のフェーズをクリックすると詳細ドキュメントが開く。
+  </p>
+
+  <div class="op-layout">
+    <!-- Sidebar -->
+    <div class="op-sidebar">
+      <button class="op-sidebar-item active" onclick="openPhase(0)">
+        <span class="op-item-phase">PHASE 0</span>
+        <span class="op-item-title">準備・合意</span>
+        <span class="op-item-sub">Pre-Rollout</span>
+      </button>
+      <button class="op-sidebar-item" onclick="openPhase(1)">
+        <span class="op-item-phase">PHASE 1</span>
+        <span class="op-item-title">展開</span>
+        <span class="op-item-sub">Communication</span>
+      </button>
+      <button class="op-sidebar-item" onclick="openPhase(2)">
+        <span class="op-item-phase">PHASE 2</span>
+        <span class="op-item-title">導入・移行</span>
+        <span class="op-item-sub">Migration</span>
+      </button>
+      <button class="op-sidebar-item" onclick="openPhase(3)">
+        <span class="op-item-phase">PHASE 3</span>
+        <span class="op-item-title">運用サイクル</span>
+        <span class="op-item-sub">Operation Cycle</span>
+      </button>
+      <button class="op-sidebar-item" onclick="openPhase(4)">
+        <span class="op-item-phase">PHASE 4</span>
+        <span class="op-item-title">メンテナンス</span>
+        <span class="op-item-sub">Review</span>
+      </button>
+    </div>
+
+    <!-- Document Area -->
+    <div class="op-doc-area">
+
+      <!-- Phase 0 -->
+      <div class="op-doc active" id="op-phase-0">
+        <h3>Phase 0: 準備・合意（Pre-Rollout）</h3>
+        <div class="op-doc-purpose">目的: 制度運用のキーマン（マネージャー層）を「制度の理解者・推進者」に変える。</div>
+
+        <h4>0.1 マネージャー先行説明会</h4>
+        <p>一般社員への公開前に、評価者となるマネージャー層に詳細を共有する。</p>
+        <ul>
+          <li><strong>Whyの共有</strong>: なぜ制度を変えるのか、経営の意図を腹落ちさせる。</li>
+          <li><strong>不安の解消</strong>: 「部下にどう説明すればいいか」「給与が下がる部下へのケアは」等の懸念を洗い出し、回答を用意する。</li>
+          <li><strong>アンバサダー化</strong>: 彼らを「会社側の人間」として、部下への説明責任を持たせる。</li>
+        </ul>
+
+        <h4>0.2 運用ツールの整備</h4>
+        <p>評価実務に必要なツール類を準備する。</p>
+        <ul>
+          <li><strong>ミッションレター（期待役割書）</strong>: 定量目標だけでなく、グレードに応じた定性的な期待行動を記述するフォーマット。</li>
+          <li><strong>評価シート</strong>: コンピテンシー評価（5段階）とFact記入欄があるもの。</li>
+          <li><strong>1on1ログ</strong>: 日々の称賛・改善フィードバックを記録する場所。</li>
+        </ul>
+      </div>
+
+      <!-- Phase 1 -->
+      <div class="op-doc" id="op-phase-1">
+        <h3>Phase 1: 展開（Communication）</h3>
+        <div class="op-doc-purpose">目的: 全社員に対して「透明性」を担保し、不信感を払拭する。</div>
+
+        <h4>1.1 全社 Town Hall Meeting</h4>
+        <p>CEO/CHROから全社員へ直接メッセージを発信する。</p>
+        <ul>
+          <li><strong>メッセージ</strong>: 「脱・年功序列」「実力主義」等のキーワードだけでなく、「挑戦する人が報われる会社にする」というポジティブな意思を伝える。</li>
+          <li><strong>資料公開</strong>: 説明会終了と同時に、等級定義・報酬テーブルを含む全ドキュメントを社内Wiki等で公開する（情報の非対称性をなくす）。</li>
+        </ul>
+
+        <h4>1.2 質疑応答とOpen Door</h4>
+        <ul>
+          <li><strong>FAQ公開</strong>: 「育休中の評価は？」「降格したらどうなる？」等の想定Q&Aを公開。</li>
+          <li><strong>相談窓口</strong>: 上司には聞きにくい質問を受け付ける、人事直通の匿名/記名フォームを設置する。</li>
+        </ul>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="op-doc" id="op-phase-2">
+        <h3>Phase 2: 導入・移行（Migration）</h3>
+        <div class="op-doc-purpose">目的: 納得感のある格付けを行い、新制度への切り替えを完了する。</div>
+
+        <h4>2.1 初期格付け（Mapping）</h4>
+        <p>現社員を新グレード（G1〜G8）に当てはめる。</p>
+        <ol>
+          <li><strong>ドラフト作成</strong>: 「現在の役職・年収」はいったん忘れ、純粋に「コンピテンシー定義」に照らして、本部長・人事がドラフトを作成する。</li>
+          <li><strong>移行キャリブレーション</strong>: 全部門のマネージャーが集まり、ドラフトの妥当性を議論。「AさんとBさんが同じG3で良いか？」を横比較し、目線（基準）を統一する。</li>
+        </ol>
+
+        <h4>2.2 報酬シミュレーションと激変緩和</h4>
+        <p>新グレードに基づく理論年収と、現在年収を比較する。</p>
+        <ul>
+          <li><strong>昇給者</strong>: 新グレードの下限（S1）または直近上位ステップへ移行。</li>
+          <li><strong>降給者</strong>: 原則、新グレードの上限（S5）に合わせるが、急激なダウンは避ける。</li>
+        </ul>
+        <div class="doc-callout">
+          <strong>調整給（激変緩和措置）</strong>: 差額を「調整給」として支給し、1年〜2年かけて段階的に減額、またはその期間内に昇格を目指してもらう猶予期間を設ける。
+        </div>
+
+        <h4>2.3 移行通知と異議申し立て</h4>
+        <ul>
+          <li><strong>通知面談</strong>: 上長から「決定グレード」と「その理由（期待すること）」を1on1で伝える。</li>
+          <li><strong>異議申し立て（Appeal）</strong>: 納得がいかない場合、人事へ直接再審査を要求できる期間（2週間程度）を設ける。人事は再調査を行い、結果をフィードバックする（必ずしも希望が通るわけではないが、プロセスとしての公平性を担保する）。</li>
+        </ul>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="op-doc" id="op-phase-3">
+        <h3>Phase 3: 運用サイクル（Operation Cycle）</h3>
+        <div class="op-doc-purpose">目的: 評価を「イベント」ではなく「日常のマネジメント」にする。</div>
+
+        <h4>3.1 期初：目標・期待の握り</h4>
+        <p>単なる数値目標の設定で終わらせない。</p>
+        <ul>
+          <li><strong>ミッションレターの作成</strong>:
+            <ul>
+              <li><strong>定量（What）</strong>: MBO/OKR等の数値目標。</li>
+              <li><strong>定性（How）</strong>: 「次のグレードに上がるために、今期はどのコンピテンシー（例：構造化能力）を伸ばすか」という具体的な行動目標を合意する。</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4>3.2 期中：モニタリングとFact収集</h4>
+        <ul>
+          <li><strong>月次 1on1</strong>: 進捗確認に加え、「あの時の会議での発言はG4レベルだった（称賛）」「あの資料はG3としては浅かった（改善）」といった<strong>リアルタイム・フィードバック</strong>を行う。</li>
+          <li><strong>中間レビュー（3ヶ月）</strong>: 現時点での評価を仮伝えする。「このままだとステイになる」等のアラートはここで出す。</li>
+        </ul>
+        <div class="doc-callout">評価がサプライズになることの防止。中間レビューで着地見込みを必ず提示すること。</div>
+
+        <h4>3.3 期末：評価とキャリブレーション</h4>
+        <ol>
+          <li><strong>評価者トレーニング</strong>: 評価入力前に、管理職向けに「評価エラー（ハロー効果など）」を防ぐ研修を実施する。</li>
+          <li><strong>Factに基づく評価</strong>: 「頑張った」等の印象ではなく、記録されたFactに基づいて採点する。</li>
+          <li><strong>昇格キャリブレーション</strong>: 全社または本部長クラスで会議を実施。<strong>「卒業要件（All 4点）」</strong>を満たしているかを厳正に審査する。情実人事（温情評価）を徹底して排除する。</li>
+        </ol>
+
+        <h4>3.4 フィードバック面談</h4>
+        <ul>
+          <li><strong>未来志向</strong>: 評価結果の通達は淡々と行い、時間の8割は「来期どうするか」「キャリアをどう描くか」の対話に使う。</li>
+          <li><strong>動機付け</strong>: 昇格した場合は盛大に祝い、ステイ・降格の場合は「何が不足していたか」を明確に伝え、再チャレンジを促す。</li>
+        </ul>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="op-doc" id="op-phase-4">
+        <h3>Phase 4: メンテナンス（Review）</h3>
+        <div class="op-doc-purpose">目的: 制度の形骸化を防ぎ、組織の変化に合わせてアップデートする。</div>
+
+        <h4>4.1 制度サーベイ</h4>
+        <p>半期ごとの評価終了後に、全社員アンケートを実施。</p>
+        <ul>
+          <li>「評価の納得感」「フィードバックの質」「プロセスの透明性」を定点観測する。</li>
+        </ul>
+
+        <h4>4.2 マイナーアップデート</h4>
+        <p>サーベイ結果や運用上のトラブルを元に、定義の曖昧な箇所や運用ルールを微修正し、Ver 1.1, 1.2へと進化させ続ける。</p>
+        <div class="doc-callout">人事制度は「永遠のベータ版」である。</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 07: FAQ ═══════════ -->
+<section class="section" id="faq">
+  <div class="section-head">
+    <span class="section-num">07</span>
+    <h2 class="section-title">よくある質問（Q&A）</h2>
+  </div>
+  <p class="section-desc">
+    本制度に関してよく寄せられる質問とその回答をまとめました。
+  </p>
+
+  <div class="faq-list" style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+    <!-- Q1 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. 4点で昇格できるのに、なぜ5点を目指す必要があるのですか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> 同じグレード内でも、評価点に応じてステップ（S1〜S5）が変わり、報酬が異なります。高い評価を取れば、同じグレードでも上位のステップに位置し、昇給幅が大きくなります。また、5点を取れる実力があれば、昇格後の次のグレードでも活躍できる可能性が高く、キャリアの選択肢が広がります。「4点で十分」ではなく、自身の得意領域で5点を目指すことを推奨します。
+      </p>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. 成果が出なかった場合、評価は下がりますか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> 本制度では「コンピテンシー（能力）」を評価の本体としています。成果評価は「足切り条件」であり、能力が高くても著しく成果が出ていない場合に昇格を見送るためのフィルターです。外部要因（市場環境の急変、クライアント都合など）で成果が出なかった場合は、その背景を考慮して判断します。「正しいプロセスを踏み、能力開発に取り組んでいたか」を重視するため、運が悪くて結果が出なかっただけで評価が下がることはありません。
+      </p>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. 降格することはありますか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> 原則として、一度認定されたグレードが下がることはありません。ただし、著しいパフォーマンス低下や行動規範への重大な違反があった場合は、改善計画を経た上で降格の可能性があります。これは懲罰ではなく、本人が無理なく力を発揮できる環境を整えるための措置です。
+      </p>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. 評価に納得できない場合、どうすればよいですか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> まずはフィードバック面談で、評価の根拠となった具体的な事実（Fact）を上長に確認してください。その上でなお疑問がある場合は、人事部門への相談窓口を利用できます。ただし、日常的に1on1や中間レビューで認識をすり合わせていれば、期末に「聞いていなかった」という事態は起こりにくくなります。評価への納得感は、半年間のコミュニケーションの積み重ねで生まれます。
+      </p>
+    </div>
+
+    <!-- Q5 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. 産休・育休中の評価はどうなりますか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> 休職期間中は評価対象外となり、グレードは休職前の状態が維持されます。復職後、一定の観察期間を経て通常の評価サイクルに戻ります。休職によって不利益を被ることはありません。
+      </p>
+    </div>
+
+    <!-- Q6 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. キャリブレーションとは何ですか？なぜ必要なのですか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> キャリブレーションは、評価者（上長）間で評価基準を揃えるための調整会議です。上長によって「甘い評価」「厳しい評価」の傾向が出ることがあり、これを放置すると不公平が生じます。複数の評価者が同席し、昇格候補者の評価を横並びで確認することで、「この人はG3として本当に卒業レベルか」を客観的に判断します。これにより、どの部署に所属していても同じ基準で評価される公平性が担保されます。
+      </p>
+    </div>
+
+    <!-- Q7 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. マネージャーとして、メンバーの評価を上げるために何ができますか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> 評価を「上げてあげる」のではなく、メンバーが実力で高い評価を取れるよう支援することがマネージャーの役割です。具体的には、①期初に「何ができれば4点・5点になるか」を明確に伝える、②日常の1on1で具体的なFact（事実）に基づいたフィードバックを行う、③中間レビューで現状と目標のギャップを可視化し、後半の行動計画を一緒に考える、といった関わりが効果的です。評価は結果であり、プロセスでの関わりがメンバーの成長と高評価につながります。
+      </p>
+    </div>
+
+    <!-- Q8 -->
+    <div class="card" style="padding: 1.5rem 2rem;">
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--ink);">
+        Q. 過去の評価は次の期に引き継がれますか？
+      </h4>
+      <p style="font-size: 0.85rem; color: var(--ink-soft); line-height: 1.8;">
+        <strong>A.</strong> 本制度は「毎期の評価で再設定」される仕組みです。過去に高い評価を取っていたとしても、次の期は改めてその期のパフォーマンスで評価されます。逆に言えば、過去の評価が低くても、次の期で挽回すれば正当に評価されます。これは「過去に囚われず、今の実力を正しく評価する」という考え方に基づいています。常にフレッシュな状態で評価されるため、継続的な成長が報われる仕組みです。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <p>The Domain AI &mdash; Personnel OS v3.0</p>
+  <p style="margin-top:0.3rem; font-size:0.65rem; color:var(--ink-muted);">&copy; 2026 The Domain AI. All rights reserved.</p>
+</footer>
+
+<script>
+  function openPhase(idx) {
+    document.querySelectorAll('.op-sidebar-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.op-doc').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.op-sidebar-item')[idx].classList.add('active');
+    document.getElementById('op-phase-' + idx).classList.add('active');
+    document.querySelector('.op-doc-area').scrollTop = 0;
+  }
+
+  function switchTab(domain) {
+    document.querySelectorAll('.comp-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.comp-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('.comp-tab.' + domain).classList.add('active');
+    document.getElementById('panel-' + domain).classList.add('active');
+  }
+
+  // Supplement data
+  const supplementData = {
+    think: {
+      G1: {
+        role: 'メンバー',
+        comp1: { label: 'A. 課題設定', title: '違和感のアラート', def: '業務遂行中に発生した小さな違和感や異常を放置せず、速やかに報告・相談できる。', text: '自分で課題を解決する段階ではない。まず「おかしいな」と思ったことを見逃さず、すぐ上長に共有できることが求められる。例えば、クライアントとのやり取りで普段と異なる反応があった、数値に普段見ない変動がある、といった小さなシグナルを「気のせいかも」と流さず、報告・相談する姿勢。報告する際に「何がおかしいか」を自分の言葉で伝えられればなおよい。' },
+        comp2: { label: 'B. 構造化・計画', title: '手順の理解と遵守', def: '指示された業務の背景・目的・手順を正しく理解し、マニュアルやルールに沿って忠実に計画をなぞることができる。', text: 'G1に求められるのは「言われたことを言われた通りにやる」ことの徹底。履行率100%の状態を目指す。マニュアルがあればマニュアル通りに、手順が示されていれば手順通りに。自分の判断でアレンジや省略をしない。業務の背景や目的を理解しようとする姿勢を持ちつつ、まずは忠実な実行を積み重ねることで、次のグレードで必要な「自分で考える力」の土台を作る。' }
+      },
+      G2: {
+        role: 'リーダー',
+        comp1: { label: 'A. 課題設定', title: '自律的な解決策提示', def: '困難な壁にぶつかっても、自分で調べ、考え、複数の解決案（松竹梅）を持って上司に相談できる。「こうしたい」を提案する。', text: 'G1との決定的な違いは「どうすればいいですか？」ではなく「こうしたいのですが」と言えること。自分の担当業務で壁にぶつかったとき、まず自分で調べ、考え、選択肢を用意してから相談に来る。また、自分の業務だけでなく、横並びのメンバーに対しても「こうした方がいいよ」とアドバイスできる。直接メンバーを持っているわけではないが、チーム内で頼られる存在として、他のメンバーの問題解決を一緒に手伝えるレベル。' },
+        comp2: { label: 'B. 構造化・計画', title: 'ロジカルな段取り', def: '複雑なタスクでもロジックに基づいて手順を組み立て、効率的に進める段取りができる。', text: '自分の作業の前後関係や依存関係を理解し、他の人を待たせない工夫ができる。例えば、自分のタスクの完了が他のメンバーの着手条件になっている場合に、その部分を優先して片付ける。また、複数のタスクを並行して進めるとき、何をどの順番でやれば最も効率的かを自分で判断して動ける。指示待ちではなく、自分で段取りを組んで自走できる状態。' }
+      },
+      G3: {
+        role: 'シニアリーダー',
+        comp1: { label: 'A. 課題設定', title: 'チーム課題の発見', def: 'チームの目標達成を阻害している要因を特定し、上司から言われる前に現場レベルでの改善テーマを自ら設定する。', text: 'G2までは「個人の業務」のスコープだったが、G3からは「チーム全体」を見る。自分のチーム内で何がボトルネックになっているかを自ら発見し、改善に動ける。例えば、チームの業務進行が遅い原因がスキル不足なのか、ツールの問題なのか、士気の低下なのかを見極め、上司に言われる前に「ここを改善すべき」と提案・実行する。自走してチーム全体の自走感を作れている状態。' },
+        comp2: { label: 'B. 構造化・計画', title: '実行プランの具体化', def: 'チーム目標を個人タスクに分解し、誰が・いつまでに・何をやるかを明確にする。', text: 'チーム内の「タスク単体」の効率化が中心。例えば、あるプロジェクトを進めるとき、いきなり全部を作り込むのではなく、まず方向性の合意を取ってから詳細に進む、という手戻りを防ぐ段取りができる。評価制度で言えば「グレードの枠組みを先に合意してから、8段階分の詳細を作る」というように、確認ポイントを挟んで手戻りを最小化するプランを組める。' }
+      },
+      G4: {
+        role: 'マネージャー',
+        comp1: { label: 'A. 課題設定', title: 'プロジェクト群の最適化', def: '複数チーム・プロジェクトにまたがる共通課題を発見し、横断的な解決策を提案する。', text: 'G3が「自チーム内の課題」を扱うのに対し、G4は「複数チーム・複数部署をまたぐ課題」を扱う。例えば、統括面談後の入職率を上げたいとき、面談スキルだけの問題ではなく「そもそもHR側の応募者の質に問題があるのでは」と気づき、HRチームと連携して応募段階から一緒に改善していくような動き。自分に与えられたプロジェクト単体ではなく、関連する複数のプロジェクト・変数を見渡して横断的に解決策を起案できる。部長の視点を補完し、現場のリアリティを踏まえた課題設定を行う。' },
+        comp2: { label: 'B. 構造化・計画', title: '複雑な工程の交通整理', def: '依存関係が複雑な複数プロジェクトのスケジュールを統合的に管理する。', text: 'G3が「自チームのABCというタスクを効率的に並べる」のに対し、G4は「自チームのABCと、隣の部署のXYZが並行して走るとき、全体としてどう最速にするか」を管理する。例えば、入職率改善プロジェクトでは、面談の質向上・応募者スクリーニングの改善・リーダー育成という複数プロジェクトが同時に走る。これらの依存関係を整理し、全体のクリティカルパスを特定して、チーム間の干渉や手戻りを防ぐ全体工程表を描ける。' }
+      },
+      G5: {
+        role: 'シニアマネージャー',
+        comp1: { label: 'A. 課題設定', title: '部門方針の策定', def: '全社戦略と連動させつつ、自部門が半年〜1年で達成すべきゴールとKPIを設定する。', text: 'G4までは「与えられたプロジェクトに対してどう遂行するか」が中心だったが、G5からは「自分でゴールやKPIを策定する」段階に入る。例えば、軽貨物事業において「営業部門の売上目標」「入職率目標」など、利益を構成する各KPIに対して責任を持つ。事業部全体のPL責任は本部長（G6）が負うが、G5はそのPLを分解した各指標に対して自部門のゴールを定め、メンバーが迷わず走れるよう具体的な部門目標へ落とし込む。' },
+        comp2: { label: 'B. 構造化・計画', title: 'リソース戦略', def: '採用計画、予算配分、体制作りを設計する。', text: 'G4までは「与えられたメンバーや座組」の中で戦うが、G5は「リソースそのものを自分で考える」。例えば、「入職率を上げるために、現在の組織体制を見直して部署を統合すべき」「このKPI達成には追加人員が必要」といったリソース配分の判断と提案ができる。ただし、事業全体の構造を変えるレベルの判断（G6以上）ではなく、自部門の範囲内でのリソース最適化が中心。' }
+      },
+      G6: {
+        role: '本部長級',
+        comp1: { label: 'A. 課題設定', title: '構造的課題の特定', def: '本部内の構造的な矛盾の根本原因を特定し、仕組みや構造そのものを変えることで解決すべきイシューを定義する。', text: 'G5がKPI責任（売上や入職率など利益の分解指標）を負うのに対し、G6はPL責任（事業全体の利益）を負う。そのため、個別のKPIではなく「そもそもこの事業構造・組織構造に問題がないか」というレベルで課題を捉える。例えば、各部署の業務効率が低い原因が個別のスキル不足ではなく「数値入力プロセスそのものに本部全体の時間が取られている」という構造的なボトルネックを特定し、抜本的な改善を仕掛ける。個別最適ではなく、事業部全体の構造を変えるイシューを定義する。' },
+        comp2: { label: 'B. 構造化・計画', title: '事業ロードマップ策定', def: '3〜5年スパンでの事業や組織能力の進化プロセスを設計する。', text: 'G5が半年〜1年のKPI達成に責任を持つのに対し、G6は3〜5年の時間軸で事業の進化プロセスを描く。事業内の複数部署（営業、HR、現場管理など）がそれぞれ成功しないと事業全体が成功しないため、部署間の目標が二律背反にならないよう全体を設計する。例えば、軽貨物事業部長として「営業が売上を伸ばしても、HR・現場管理が追いつかなければ事業は破綻する」という全体最適の視点で計画を組む。' }
+      },
+      G7: {
+        role: '執行役員級',
+        comp1: { label: 'A. 課題設定', title: '事業創造と破壊', def: '全社視点で既存事業の限界やリスクを見抜き、自らの手で事業をピボットさせる決断をする。', text: 'G6が「与えられた事業ドメインの中でPL責任を持つ」のに対し、G7は「事業ドメインそのものを変える・作る・壊す」判断をする。例えば、軽貨物事業だけではなく「ガソリンカード事業を新たに追加すべき」「この事業領域から撤退すべき」といった、事業ポートフォリオ自体を変える意思決定ができる。G5やG6からの提案は歓迎されるが、最終的にその意思決定の責任を負い、実行に移す権限と覚悟を持つのがG7。' },
+        comp2: { label: 'B. 構造化・計画', title: '全社資源の最適配分', def: 'ヒト・モノ・カネ・情報の経営資源を部門の壁を超えてダイナミックに再配分する戦略を描く。', text: '全社の経営資源を、既存の部門構造に縛られずに最適配分する。短期的には各事業部が痛みを伴う可能性があっても、中長期的な競争優位性を確立するための資源移動を判断する。例えば、成長事業に重点投資するために成熟事業のリソースを再配分する、新規事業立ち上げのために既存組織を横断した特別チームを編成する、といった全社レベルの資源配分の意思決定と実行。' }
+      },
+      G8: {
+        role: '取締役級',
+        comp1: { label: 'A. 課題設定', title: '産業構造の再定義', def: '業界全体の商習慣やサプライチェーンの構造的な歪みを課題として捉え、既存の産業定義を書き換える「問い」を立てる。', text: '自社の事業を超え、業界全体の構造を変えにいく。例えば、「再配達の問題を解消する」のではなく「そもそも今日届く必要があるのか？」という問いを立てて業界の商習慣そのものを書き換えるような発想。物流業界における2024年問題への対応として「この法改正までに、業界としてこういう仕組みを作らなければならない」と業界全体を巻き込んだ課題設定ができる。ラストワンマイル革命を体現し、業界のゲームルール自体を変えるレベルの「問い」を立てられる人材。' },
+        comp2: { label: 'B. 構造化・計画', title: 'エコシステム構想', def: '一企業では完結しないビジョンを描き、競合他社・行政・異業種をも巻き込んだエコシステム全体を設計する。', text: '自社単独では実現できないスケールの構想を描き、業界団体の設立、行政への働きかけ、異業種とのアライアンス構築などを通じて実現に向けて動く。例えば、物流業界の標準プラットフォームの構築、業界協会の立ち上げと運営など、自社の利益を超えた業界全体の進化を設計し、それが結果的に自社の競争優位にもつながるエコシステムを構想・実行できる。' }
+      }
+    },
+    act: {
+      G1: {
+        role: 'メンバー',
+        comp1: { label: 'C. スピード', title: '迅速な着手', def: '指示を受けたら「まず着手する」習慣がある。完璧主義に陥らず、プロトタイプやドラフトを早く出して方向性を確認する姿勢を持つ。', text: '指示を受けた内容に対してすぐ着手する。「完璧に仕上げてから見せよう」ではなく「まず取りかかって途中でも方向性を確認する」姿勢が大事。例えば、資料作成を依頼されたら、いきなり完成形を目指すのではなく、まずドラフトを作って上長に確認を取る。「考えている時間」が長くなりがちな人は、まず手を動かすことを意識する。' },
+        comp2: { label: 'D. 品質', title: '基本動作の徹底', def: '確認、検証、自己レビューといった基本動作を怠らない。不確かなまま進めず、必ず確認をとってから実行する慎重さを持つ。', text: 'スピードと両立して求められるのが品質の基本動作。誤字脱字のチェック、数値の確認、送信前の見直しなど「当たり前のことを当たり前にやる」こと。不確かなまま進めず、わからないことは確認してから実行する。G1においてはとにかくこの「確認・検証・自己レビュー」の習慣を徹底的に身につけることが求められる。' }
+      },
+      G2: {
+        role: 'リーダー',
+        comp1: { label: 'C. スピード', title: '安定した自走', def: 'リーダーの細かい指示がなくとも一定のスピードで自走できる。突発的なトラブルでもパニックにならず冷静に対処し、納期を守る。', text: 'G1が「指示されたらすぐ動く」なのに対し、G2は「指示がなくてもどんどん実行できる」レベル。日常業務においてリーダーからの細かい指示を待たず、自分で判断して前に進められる。また、突発的なトラブルや想定外の負荷がかかった場合でも、冷静に対処して納期を守れる。パニックにならず「今何をすべきか」を自分で判断して動ける安定感が求められる。' },
+        comp2: { label: 'D. 品質', title: '高い専門性と自己完結', def: '得意領域ではリーダーをも凌ぐ専門性を発揮し、高品質なアウトプットを独力で出す。', text: '全方位ではなくていいので、特定の得意領域においてはリーダーよりも詳しい・品質が高い状態を求める。例えば、営業チーム全体のパイプライン管理はリーダーが得意でも、営業リストの作成については「どの情報源からどんな情報を集めてどうリストにすべきか」を最も詳しく知っているのはこの人、という信頼を得ている状態。「技術的なことは○○さんに聞けば安心」と言われる領域を持つことが重要。' }
+      },
+      G3: {
+        role: 'シニアリーダー',
+        comp1: { label: 'C. スピード', title: 'チーム作業の効率化', def: 'メンバーの手戻りや迷いを減らし、チーム全体のアウトプット速度を引き上げる。', text: '個人の速さではなく「チーム全体のスループット」を最大化することが求められる。具体的には、メンバーの手戻りを防ぐことが最重要。例えば、大きなプロジェクトに取り組むとき、いきなり全部作り込ませるのではなく「まず方向性で合意→詳細に着手」というステップを踏ませることで、全部作り直しのリスクを防ぐ。会議の効率化、ツール導入、業務フローの改善など、足元の生産性向上を主導する。スコープは「自チーム内のタスク単体」の効率化。' },
+        comp2: { label: 'D. 品質', title: 'レビュアー責任', def: 'メンバーの成果物に責任を持ち、リリース基準をクリアさせる。', text: 'チームから出るアウトプットの品質に対して最終責任を持つ。メンバーが作成した資料、提出物、提案書などを自分がレビューし、基準に達しているかを判断する。レビューを通じてメンバーの品質意識を育て、「なぜこの品質が必要なのか」を理解させることで、チーム全体の品質レベルを底上げする。' }
+      },
+      G4: {
+        role: 'マネージャー',
+        comp1: { label: 'C. スピード', title: '連携スピードの向上', def: 'チーム間のボールの受け渡しをスムーズにし、待ち時間をゼロにする。', text: 'G3が「自チーム内のABCというタスクを速く回す」のに対し、G4は「自チームのABCと、隣のチーム・部署のXYZが並行して走るとき、全体として最速にする」ことを担う。例えば、入職率を上げるプロジェクトで、営業チームの面談改善とHRチームの応募者スクリーニング改善が同時に走る場合、両方の進捗を把握し、一方の遅れが他方に影響しないよう先回りして調整する。横断的な調整役としてプロジェクト全体の進行を加速させる。' },
+        comp2: { label: 'D. 品質', title: 'クロスチェックと標準化', def: 'チームを跨いで品質のバラつきを是正し、ベストプラクティスを横展開する。', text: '自チームだけでなく、関わる複数チーム・プロジェクトの品質水準を揃える。あるチームで成功したやり方があれば他チームにも横展開し、特定のチームだけ品質が低いという状況を作らない。全体の品質底上げに貢献することで、部長（G5）が見ている部門全体のアウトプット品質を支える。' }
+      },
+      G5: {
+        role: 'シニアマネージャー',
+        comp1: { label: 'C. スピード', title: '意思決定の迅速化', def: '部内の決裁や承認を停滞させず、メンバーを待たせない。不完全な情報下でもGo/No-Goの判断を遅滞なく下す。', text: 'G4までは「行動の速さ」が中心だったが、G5からは「意思決定の速さ」が中心になる。メンバーやリーダーが判断を仰いできたとき、必要以上に情報収集や検討に時間をかけず、経験と勘所に基づいてGoかNo-Goかを速やかに判断する。意思決定が遅れることで部門全体の動きが停滞する状態を作らない。完璧な情報が揃うのを待たず、7割の情報で意思決定し、走りながら修正する姿勢が求められる。' },
+        comp2: { label: 'D. 品質', title: '成果責任の担保', def: '部門としてのアウトプット品質に最終責任を持つ。トラブル時には自ら前線に立つ。', text: '部門から出るすべてのアウトプットに対して最終品質責任を負う。トラブルが発生した場合は、リーダーやメンバーに任せきりにせず、自ら前線に立って火消しと事態収拾を行い、クライアントや関連部署からの信頼を守り抜く。結果責任を「自分のもの」として引き受ける覚悟が求められる。' }
+      },
+      G6: {
+        role: '本部長級',
+        comp1: { label: 'C. スピード', title: 'デリバリー速度の最大化', def: '本部全体の生産性を阻害するプロセスや慣習を撤廃し、リードタイムを劇的に短縮する。', text: 'G5が「自部門内の意思決定を速くする」のに対し、G6は「本部全体のボトルネックを発見し、抜本的に解消する」。例えば、各部署の業務そのものは効率的に回っていても、「実は全部署共通で数値入力に膨大な時間がかかっている」という本部全体の構造的なボトルネックを発見し、入力プロセスそのものを自動化・再設計するといった動き。個別タスクの改善ではなく、仕組みレベルでの改善を推進して本部全体の機動力を高める。' },
+        comp2: { label: 'D. 品質', title: '品質基準の確立', def: '「当社における品質とは何か」という高い基準を定義し、妥協を許さない文化を作る。', text: '個別のアウトプットの品質ではなく「品質の基準そのもの」を定義し、組織に浸透させる責任。本部管掌範囲の専門性を統括し、業界トップレベルの品質水準を維持する。各部門の品質がバラバラにならないよう、「うちの事業部はこのレベルを当たり前にする」という基準を明確に定め、その文化を組織に根付かせる。' }
+      },
+      G7: {
+        role: '執行役員級',
+        comp1: { label: 'C. スピード', title: '組織OSの再設計', def: '全社の意思決定プロセスそのものを再設計し、大企業病を防ぐ。', text: 'G6が「本部のボトルネック解消」なのに対し、G7は「全社の意思決定プロセスそのものを再設計する」レベル。年に1回あるかないかの大きな構造変革を推進する。例えば、承認フローの抜本的な見直し、組織構造のフラット化、意思決定権限の大幅な委譲など、全社の動き方のルール自体を変える。即断即決のカルチャーを浸透させ、市場変化のスピードを凌駕する組織リズムを作る。' },
+        comp2: { label: 'D. 品質', title: '変革の完遂とガバナンス', def: '痛みを伴う改革を完遂させつつ、ガバナンスを効かせてスピードとコンプライアンスを両立させる。', text: '全社的な変革プロジェクトを「完遂」させる力が求められる。途中で頓挫させず、組織の抵抗があっても最後までやり切る。同時に、スピードを追求するあまりガバナンスが崩壊しないよう、コンプライアンスとの両立を図る。外部ステークホルダー（株主、規制当局等）に対する企業の社会的信用を守りながら、大胆な変革を推進する。' }
+      },
+      G8: {
+        role: '取締役級',
+        comp1: { label: 'C. スピード', title: '市場モメンタムの創出', def: '自社のリリースが業界全体のトレンドやタイムラインを決定づける。', text: '自社の動きが業界のスケジュールや方向性を決めるレベル。例えば、物流業界における2024年問題に対して「この期限までに業界としてこの問題を解決しなければならない。自社がこのサービスを提供することで解決の道筋をつける」という市場投入タイミングの戦略的な判断ができる。法改正のスケジュール、業界団体の動き、競合の状況を読みながら、「当社が動けば業界が動く」という影響力を持ってタイミングを操る。' },
+        comp2: { label: 'D. 品質', title: 'デファクトスタンダード', def: '当社のプロダクトや技術が事実上の業界標準となる品質を作り上げる。', text: '自社のサービス・手法・品質基準が業界のスタンダードとして認知される状態を作る。「軽貨物配送といえばこの会社」「ラストワンマイルの品質基準はここが作った」と社会的に認知される最高峰のブランドを確立する。品質が単に「高い」のではなく、業界全体の基準を定義するレベルに到達している状態。' }
+      }
+    },
+    rel: {
+      G1: {
+        role: 'メンバー',
+        comp1: { label: 'E. 受信・傾聴', title: '傾聴の姿勢', def: '相手の話を遮らず、最後まで目を見て聞くことができる。メモを取る、相槌を打つなど、相手に対するリスペクトを行動で示せる。', text: 'まず「ちゃんと相手の話を聞くことができる」こと、そして「理解しようとする努力が見えている」ことが求められる。話を聞いているフリではなく、実際に内容を理解しようとしている姿勢が態度に表れている状態。例えば、上長からの指示を聞くとき、わからないことをわからないまま流さず、その場で質問して確認する。' },
+        comp2: { label: 'F. 発信・伝達', title: '明確な意思表示', def: '挨拶、返事、感謝、謝罪などの基本的なコミュニケーションをハッキリと行える。', text: '社会人としての基本的なコミュニケーションが確実にできること。挨拶をする、返事をする、感謝を伝える、間違えたら謝る。「わかりました」「できません」の意思表示を曖昧にしない。「多分大丈夫です」のような曖昧な返事ではなく、明確にYes/Noを伝えられる。これは全グレードの土台であり、ここが欠けていると上のグレードの要件を満たすことは不可能。' }
+      },
+      G2: {
+        role: 'リーダー',
+        comp1: { label: 'E. 受信・傾聴', title: '背景理解', def: '指示や依頼を受けた際、作業内容だけでなく背景にある「目的」「重要度」を正しく理解する。', text: 'G1が「言われた通りにやる」のに対し、G2は「なぜそれをやるのか」まで理解する。例えば、上長から「このシートに数値を入力して」と言われたとき、G1は「はい、入力します」でOK。G2は「この入力は、自分たちが改善策を最速で打つために必要なデータで、上長からフィードバックをもらうための材料なんだ」と目的を理解した上で取り組む。目的を理解しているからこそ、何を優先すべきか、どの精度で仕上げるべきかを自分で判断できるようになる。' },
+        comp2: { label: 'F. 発信・伝達', title: '論理的な報告', def: '事実（Fact）と解釈（Opinion）を明確に分けて報告できる。', text: 'G1の「明確な意思表示」から一歩進み、報告の質が求められる。特に重要なのは「事実」と「自分の解釈」を明確に分けて伝えること。例えば、「今月の数値が下がっています（Fact）。原因は先月のリスト品質が落ちたためだと考えます（Opinion）」のように構造化して報告する。トラブル時にも感情的にならず、何が起きたか（事実）→なぜ起きたか（推定原因）→どうすべきか（提案）の順で冷静に伝えられる。' }
+      },
+      G3: {
+        role: 'シニアリーダー',
+        comp1: { label: 'E. 受信・傾聴', title: 'メンバーのコンディション把握', def: '日々の会話からメンバーの体調やモチベーションの変化に気づく。', text: 'G2までは「自分が情報を受け取る」側だったが、G3からは「チームメンバーから情報を引き出す」側になる。自分から能動的にメンバーの状態を把握しに行く。例えば、普段よく発言するメンバーが最近静かだと気づいたとき、「何かあったのか」を察して声をかける。業務上の悩みだけでなく、モチベーションや人間関係の問題を早期にキャッチし、環境面の障壁を取り除く。また、自分からヒアリング内容を定義できる。「最近連絡が減っているのは信頼されているからか、それとも相手が忙しくて自分からヒアリングすべき状況か」を判断し、能動的に動ける。' },
+        comp2: { label: 'F. 発信・伝達', title: '動機付けとフィードバック', def: 'メンバー一人ひとりの性格や志向に合わせてやる気を引き出す声がけをする。', text: 'G2の「論理的な報告」が「正確に伝える」だったのに対し、G3は「相手の状況を考慮して伝え方を変える」レベル。論理だけでなく、相手がどういう状況か（忙しい？不安？自信がない？）を認識しながら、理論と相手の状況を組み合わせて話せる。ポジティブな評価だけでなく、耳の痛い改善点も率直に伝えるが、それが「相手の成長のため」という文脈で届くように工夫する。' }
+      },
+      G4: {
+        role: 'マネージャー',
+        comp1: { label: 'E. 受信・傾聴', title: 'ハブとしての傾聴', def: 'リーダー層と部長層の両方の意見を聞き、翻訳して繋ぐ。', text: 'G3が「自チームのメンバーの声を聞く」のに対し、G4は「上（部長層）と下（リーダー層）の両方から聞いて翻訳する」ことが求められる。例えば、上長から方針が降りてきたとき、現場のリーダーたちに「なぜこれをやるのか」を彼らの言葉で説明する。逆に、現場から「これは現実的に難しい」という声が上がったとき、その背景を正確に整理して上長に伝える。複数の関係者から聞いた内容を自分の中で整理し、翻訳（ボイスチェンジ）できる力が重要。' },
+        comp2: { label: 'F. 発信・伝達', title: 'フォロワーシップと伝播', def: '部長の方針を咀嚼し、現場のリーダーたちが理解しやすい言葉に変換して伝える。', text: 'G3が「論理 + 相手の状況」で伝えるのに対し、G4は「論理 + 相手 + 全体戦略」を踏まえて伝える。上（部長層）からの方針と下（現場）の実情の両方を理解した上で、現場に伝わる言葉に変換する。批判的なメンバーに対しても感情的にならず、粘り強く説明する。「なぜこの方針なのか」を自分の言葉で、相手の立場に立って説明できる影響力が求められる。' }
+      },
+      G5: {
+        role: 'シニアマネージャー',
+        comp1: { label: 'E. 受信・傾聴', title: '心理的安全性と本音', def: '部下の不安や不満、キャリアへの悩みを引き出し、安心して挑戦できる環境を作る。', text: 'G4が「上下の翻訳」だったのに対し、G5は「上下+横」まで見えている。他部署との利害関係も含めて全体の情報を把握し、自部門の組織全体のコンディションを管理する。1on1等を通じて部下が本音で話せる環境を作り、離職の兆候や組織の歪みを早期に察知する。情報収集ができることによって、組織全体のガス抜きがしっかりでき、組織が健全に動く状態を維持する。' },
+        comp2: { label: 'F. 発信・伝達', title: '合意形成と交渉', def: '他部署との利害対立やリソースの奪い合いにおいて、全社的にも納得感のあるWin-Winの落とし所をまとめる。', text: 'G4が「上下」の翻訳だったのに対し、G5は「上下+横（他部署）」との交渉・合意形成が加わる。利害関係が対立する場面でも、自部門だけでなく全社的な視点で納得感のある結論を導く。粘り強い交渉力と、相手の立場を理解した上での提案力が求められる。' }
+      },
+      G6: {
+        role: '本部長級',
+        comp1: { label: 'E. 受信・傾聴', title: 'メタ認知と他者視点', def: '自分や自本部が全社からどう見られているかを客観的に認識できる。', text: '自分の事業部が他の事業部や経営陣からどう評価されているか、自分のリーダーシップがどう受け止められているかを客観的に把握する能力。例えば、自部門の成果が出ているときでも「他本部から見たら自分たちのやり方は独善的に映っていないか」と振り返れる。さまざまな関係者からバイアスのかかった情報が上がってくる中で、その裏にある本当の意図や状況を読み解く力が必要。' },
+        comp2: { label: 'F. 発信・伝達', title: '概念の言語化', def: '暗黙知となっている成功法則や曖昧な組織文化を、明確な言葉に落とし込む。', text: '組織が「なんとなくそうしている」ことを、明確な言葉（スローガン、行動指針、フレームワーク）に変換して共有する力。例えば、「AIとは何か」「自社のDXとはどういうことか」を自分の事業本部のメンバー全員にわかるように言語化し、説明できる。暗黙のうちに共有されていた成功パターンを形式知にすることで、組織の知見を属人化させず、再現可能にする。繰り返し発信し、組織の共通言語として定着させる。' }
+      },
+      G7: {
+        role: '執行役員級',
+        comp1: { label: 'E. 受信・傾聴', title: '組織力学の洞察', def: '組織内に渦巻く政治的力学、隠れた対立構造、社員の集合的無意識を読み解く。', text: 'G6が「自本部がどう見られているか」を認識するのに対し、G7は「全社の力学そのもの」を読み解く。さまざまな事業部長や部門長からそれぞれの思惑を含んだ情報が上がってくる中で、表面的な報告に惑わされず「組織の中で本当に何が起きているか」を把握する。誰と誰の間に暗黙の対立があるか、組織全体のムードがどう変化しているかを感じ取り、先手を打つ。' },
+        comp2: { label: 'F. 発信・伝達', title: 'ナラティブによる牽引', def: '企業の歴史や使命に基づいた「物語」を語り、組織全体を熱狂させる求心力を発揮する。', text: 'G6の「概念の言語化」が「共通言語を作る」だったのに対し、G7は「全社を一つの方向に動かすストーリーを語る」レベル。例えば、「ラストワンマイル革命」というビジョンについて、数字や論理だけでなく「なぜ我々がこれをやるのか」「これが実現したら世の中がどう変わるのか」を物語として語り、組織全体を熱狂させ「自分もやりたい」と思わせる求心力を発揮する。' }
+      },
+      G8: {
+        role: '取締役級',
+        comp1: { label: 'E. 受信・傾聴', title: '時代精神の感応', def: '社会倫理、次世代の価値観、地政学的な変化など、より大きな文脈を深く読み解く。', text: 'G7までが「社内」の力学を読む能力だったのに対し、G8は「社外・業界・社会全体」の大きな流れを読む。物流業界の動向だけでなく、テクノロジーの進化、規制環境の変化、社会的価値観のシフトなど、企業活動に影響を与えるマクロな文脈を深く読み解く。「軽貨物のことなら社長に聞きに来る」という状態が、G8の傾聴力が社外にも認知されている証拠。業界全体の大局観を捉えている。' },
+        comp2: { label: 'F. 発信・伝達', title: 'ソートリーダーシップ', def: '業界の第一人者として発信し、技術トレンドや思想をリードする。その発言が市場や行政を動かす力を持つ。', text: 'G7が「社内を熱狂させる」のに対し、G8は「業界全体をリードする」発信力。業界カンファレンスでの基調講演、メディアでの発言、業界団体での提言などを通じて、業界全体の方向性に影響を与える。「この領域の第一人者」として社外から認知され、その発言が他社の戦略や行政の規制にまで影響を及ぼすレベル。' }
+      }
+    }
+  };
+
+  function showSupplement(domain, grade) {
+    const data = supplementData[domain][grade];
+    if (!data) return;
+
+    // Clear all selections in current panel
+    const panel = document.getElementById('panel-' + domain);
+    panel.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('selected'));
+
+    // Find and select the clicked row
+    const rows = panel.querySelectorAll('tbody tr');
+    rows.forEach(tr => {
+      if (tr.querySelector('.grade-label')?.textContent === grade) {
+        tr.classList.add('selected');
+      }
+    });
+
+    // Build supplement content
+    const suppArea = document.getElementById('supp-' + domain);
+    const labelClass = domain;
+    suppArea.innerHTML = `
+      <div class="comp-supplement-content active">
+        <div class="supp-grade">${grade} — ${data.role}</div>
+        <div class="supp-section">
+          <div class="supp-label ${labelClass}">${data.comp1.label}</div>
+          <div class="supp-title">${data.comp1.title}</div>
+          <div class="supp-def">${data.comp1.def}</div>
+          <div class="supp-text">${data.comp1.text}</div>
+        </div>
+        <div class="supp-section">
+          <div class="supp-label ${labelClass}">${data.comp2.label}</div>
+          <div class="supp-title">${data.comp2.title}</div>
+          <div class="supp-def">${data.comp2.def}</div>
+          <div class="supp-text">${data.comp2.text}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Smooth active nav highlight
+  const navLinks = document.querySelectorAll('.topnav-links a');
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--ink)' : '';
+      a.style.borderBottomColor = a.getAttribute('href') === '#' + current ? 'var(--ink)' : 'transparent';
+    });
+  });
+</script>
+</body>
+</html>
