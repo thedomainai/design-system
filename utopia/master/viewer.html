@@ -252,6 +252,22 @@
   @keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
   @keyframes candlelight{0%{opacity:.85}25%{opacity:.92}50%{opacity:.88}75%{opacity:.95}100%{opacity:.85}}
   @keyframes brushstroke{from{clip-path:inset(0 100% 0 0);opacity:.5}to{clip-path:inset(0 0 0 0);opacity:1}}
+  /* Paint Section */
+  .paint-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;}
+  .paint-card{border-radius:10px;overflow:hidden;border:1px solid rgba(223,188,110,0.12);transition:all .5s cubic-bezier(.22,1,.36,1);}
+  .paint-card:hover{border-color:rgba(223,188,110,0.25);transform:translateY(-3px);box-shadow:0 0 20px rgba(223,188,110,0.06),0 12px 40px rgba(0,0,0,0.35);}
+  .paint-canvas{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;}
+  .paint-canvas svg{position:absolute;inset:0;width:100%;height:100%;}
+  .paint-info{padding:16px 20px;background:var(--neutral-100);}
+  .paint-title{font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--neutral-1000);margin-bottom:4px;}
+  .paint-subtitle{font-size:12px;color:var(--neutral-700);margin-bottom:10px;}
+  .paint-prompt-box{background:var(--neutral-200);border:1px solid var(--neutral-300);border-radius:6px;padding:10px 12px;position:relative;}
+  .paint-prompt-box code{font-family:var(--font-mono);font-size:10px;color:var(--neutral-800);line-height:1.55;display:block;white-space:pre-wrap;word-break:break-all;}
+  .paint-prompt-box .copy-btn{position:absolute;top:6px;right:6px;}
+  .paint-base-prompt{margin-bottom:24px;background:var(--neutral-200);border:1px solid rgba(223,188,110,0.1);border-radius:10px;padding:20px 24px;position:relative;}
+  .paint-base-prompt code{font-family:var(--font-mono);font-size:11px;color:var(--neutral-800);line-height:1.7;display:block;white-space:pre-wrap;}
+  .paint-base-prompt .copy-btn{position:absolute;top:12px;right:12px;}
+  .paint-usage{display:inline-block;font-family:var(--font-mono);font-size:10px;color:var(--gold-400);background:rgba(204,160,68,0.08);padding:2px 8px;border-radius:3px;margin-top:6px;}
 </style>
 </head>
 <body>
