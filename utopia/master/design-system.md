@@ -1260,3 +1260,107 @@ UI コンポーネントの仕様をここで定義します。すべてのコ�
 | Row Border Bottom | `stroke-hairline` solid neutral-200 |
 | Row Hover | background → neutral-100 |
 | Mono Values | `mono-md` を使用（数値・コード） |
+
+## 14. Paint
+
+### 14.1 概要
+
+Utopia デザインシステムでは、ルネサンス期の油絵の質感がすべてのビジュアル表現の基盤です。AI 画像生成（DALL-E, Midjourney, Stable Diffusion 等）でイラスト・背景・装飾画像を作成する際は、以下のプロンプトテンプレートを使用し、デザインシステム全体との視覚的一貫性を確保します。
+
+### 14.2 Base Prompt Template
+
+```
+A classical Renaissance oil painting in the style of the reference image.
+Muted, earthy color palette with deep greens, warm ivories, and cloudy blues.
+Aged, rich texture with smooth, meticulous brushwork (sfumato) on fabric folds and foliage.
+A detailed landscape background with tall pine trees, rolling hills, and a serene, cloudy sky.
+[Insert description of subject here, e.g., A portrait of a young noblewoman in classical robes].
+No modern elements or text.
+```
+
+### 14.3 プロンプト構成要素
+
+| 要素 | 説明 | デザインシステムとの対応 |
+|------|------|--------------------------|
+| **Style** | `classical Renaissance oil painting` | Design Principle #1: Old Masters' Canvas |
+| **Color palette** | `Muted, earthy color palette with deep greens, warm ivories, and cloudy blues` | Color System: Secondary (Burnt Sienna), Neutral (Raw Umber Canvas), Primary (Ultramarine) |
+| **Texture** | `Aged, rich texture with smooth, meticulous brushwork (sfumato)` | Material: Impasto テクスチャ + Glaze の透明感 |
+| **Background** | `detailed landscape background with tall pine trees, rolling hills, and a serene, cloudy sky` | Gradient: gradient-mesh の多層構造 |
+| **Subject** | `[Insert description of subject here]` | 用途に応じて差し替え |
+| **Constraint** | `No modern elements or text` | Design Principle #3: Chromatic Depth（彩度を抑えた重厚な色彩） |
+
+### 14.4 Subject Variants
+
+用途に応じた Subject の記述例です。
+
+| 用途 | Subject 記述例 |
+|------|---------------|
+| ヒーロー背景 | `A sweeping Tuscan landscape at golden hour, rolling hills fading into mist` |
+| ポートレート | `A portrait of a young noblewoman in classical robes, gazing serenely to the left` |
+| 静物画 | `A still life with golden vessels, draped velvet fabric, and scattered autumn leaves on a marble table` |
+| プロダクト紹介 | `An open leather-bound book resting on an ornate wooden desk, candlelight illuminating the pages` |
+| チーム紹介 | `A gathering of scholars in a Renaissance studiolo, surrounded by globes and manuscripts` |
+
+### 14.5 カラー調整ガイド
+
+生成画像がデザインシステムのカラーパレットと調和するよう、以下を追加指示として使用します。
+
+| 調整目的 | 追加プロンプト |
+|----------|---------------|
+| ダークモード適合 | `Dark, moody atmosphere with warm candlelight. Dominant tones: raw umber (#2a1e14), deep ivory (#ece5d8), gold ochre (#dfbc6e).` |
+| ライトモード適合 | `Bright, airy atmosphere with soft natural light. Dominant tones: warm ivory (#faf5ed), soft sienna (#c4a78c), muted blue (#a9b5e1).` |
+| アクセント強調 | `A focal point of deep vermillion red (#b83a24) in the subject's garment or accessory.` |
+| ゴールド装飾 | `Gold leaf accents and gilded frame elements, warm gold tones (#dfbc6e, #cca044).` |
+
+### 14.6 生成パラメータ推奨値
+
+| パラメータ | 推奨値 | 備考 |
+|-----------|--------|------|
+| Aspect Ratio | 16:9（背景）, 3:4（ポートレート）, 1:1（アイコン） | 用途に合わせる |
+| Style Strength | 高（70-90%） | 古典絵画らしさを維持 |
+| Detail Level | 高 | sfumato の繊細な筆致を再現 |
+| Color Temperature | Warm | デザインシステムの暖色基調に合わせる |
+
+### 14.7 Samples
+
+#### Sample 1 — Tuscan Landscape（ヒーロー背景）
+
+```
+Prompt:
+A classical Renaissance oil painting in the style of the reference image.
+Muted, earthy color palette with deep greens, warm ivories, and cloudy blues.
+Aged, rich texture with smooth, meticulous brushwork (sfumato) on fabric folds and foliage.
+A detailed landscape background with tall pine trees, rolling hills, and a serene, cloudy sky.
+A sweeping Tuscan landscape at golden hour, rolling hills fading into mist.
+No modern elements or text.
+```
+
+用途: ヒーローセクション背景、LP のキービジュアル
+
+#### Sample 2 — Noblewoman Portrait（ポートレート）
+
+```
+Prompt:
+A classical Renaissance oil painting in the style of the reference image.
+Muted, earthy color palette with deep greens, warm ivories, and cloudy blues.
+Aged, rich texture with smooth, meticulous brushwork (sfumato) on fabric folds and foliage.
+A detailed landscape background with tall pine trees, rolling hills, and a serene, cloudy sky.
+A portrait of a young noblewoman in classical robes, gazing serenely to the left.
+No modern elements or text.
+```
+
+用途: About ページ、チーム紹介のビジュアル要素
+
+#### Sample 3 — Scholar's Study（静物画）
+
+```
+Prompt:
+A classical Renaissance oil painting in the style of the reference image.
+Muted, earthy color palette with deep greens, warm ivories, and cloudy blues.
+Aged, rich texture with smooth, meticulous brushwork (sfumato) on fabric folds and foliage.
+A detailed landscape background with tall pine trees, rolling hills, and a serene, cloudy sky.
+An open leather-bound book resting on an ornate wooden desk, candlelight illuminating the pages.
+No modern elements or text.
+```
+
+用途: プロダクト紹介、ブログのアイキャッチ
