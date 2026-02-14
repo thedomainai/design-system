@@ -432,6 +432,176 @@ const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navs
 secs.forEach(s=>obs.observe(s));
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open')}
 navs.forEach(l=>l.addEventListener('click',()=>{if(window.innerWidth<1024)toggleSidebar()}));
+
+/* ── Paint Section ── */
+const paintSamples=[
+{
+  title:'Tuscan Landscape',
+  title_en:'Tuscan Landscape',
+  desc:'ヒーロー背景・LP キービジュアル',
+  desc_en:'Hero background / LP key visual',
+  subject:'A sweeping Tuscan landscape at golden hour, rolling hills fading into mist.',
+  svg:`<svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <filter id="pn1"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="6" seed="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0.3"/></filter>
+  <filter id="pt1"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="4" seed="5"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0"/></filter>
+  <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7e8fd2" stop-opacity="0.5"/><stop offset="35%" stop-color="#a9b5e1" stop-opacity="0.35"/><stop offset="60%" stop-color="#f0e8e0" stop-opacity="0.4"/><stop offset="100%" stop-color="#dfbc6e" stop-opacity="0.25"/></linearGradient>
+  <linearGradient id="hill1a" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#553d29"/><stop offset="100%" stop-color="#2a1e14"/></linearGradient>
+  <linearGradient id="hill1b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a9e4e" stop-opacity="0.3"/><stop offset="100%" stop-color="#2a1e14"/></linearGradient>
+  <radialGradient id="sun1" cx="75%" cy="30%" r="35%"><stop offset="0%" stop-color="#dfbc6e" stop-opacity="0.4"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+</defs>
+<rect width="640" height="400" fill="#1a130c"/>
+<rect width="640" height="400" fill="url(#sky1)"/>
+<rect width="640" height="400" fill="url(#sun1)"/>
+<!-- distant mountains -->
+<path d="M0 240 Q80 190 160 210 Q240 185 320 200 Q400 175 480 195 Q560 180 640 210 L640 280 L0 280Z" fill="#553d29" opacity="0.5"/>
+<path d="M0 255 Q100 220 200 235 Q300 210 400 230 Q500 215 600 240 L640 240 L640 300 L0 300Z" fill="url(#hill1a)" opacity="0.7"/>
+<!-- rolling hills -->
+<path d="M0 280 Q60 250 140 265 Q220 245 310 260 Q400 240 480 258 Q560 248 640 270 L640 340 L0 340Z" fill="#2a7d3a" opacity="0.35"/>
+<path d="M0 300 Q80 275 180 285 Q280 268 380 282 Q480 270 580 290 L640 285 L640 360 L0 360Z" fill="url(#hill1b)"/>
+<!-- pine trees silhouettes -->
+<g fill="#1a130c" opacity="0.6">
+  <polygon points="85,220 90,280 80,280"/>
+  <polygon points="83,230 97,230 90,210"/>
+  <polygon points="81,250 99,250 90,225"/>
+  <polygon points="79,270 101,270 90,240"/>
+  <polygon points="520,210 525,275 515,275"/>
+  <polygon points="518,225 532,225 525,205"/>
+  <polygon points="516,245 534,245 525,220"/>
+  <polygon points="514,265 536,265 525,235"/>
+  <polygon points="550,225 554,270 546,270"/>
+  <polygon points="548,235 560,235 554,220"/>
+  <polygon points="546,250 562,250 554,230"/>
+</g>
+<!-- foreground -->
+<path d="M0 340 Q120 320 240 330 Q360 315 480 328 Q560 320 640 335 L640 400 L0 400Z" fill="#2a1e14"/>
+<path d="M0 360 Q160 345 320 355 Q480 342 640 358 L640 400 L0 400Z" fill="#1a130c"/>
+<!-- canvas texture overlay -->
+<rect width="640" height="400" filter="url(#pt1)" opacity="0.6"/>
+<!-- warm vignette -->
+<rect width="640" height="400" fill="url(#sun1)" opacity="0.3"/>
+</svg>`
+},
+{
+  title:'Noblewoman Portrait',
+  title_en:'Noblewoman Portrait',
+  desc:'About ページ・チーム紹介',
+  desc_en:'About page / team introduction',
+  subject:'A portrait of a young noblewoman in classical robes, gazing serenely to the left.',
+  svg:`<svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <filter id="pn2"><feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="4" seed="8"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0"/></filter>
+  <radialGradient id="spot2" cx="50%" cy="40%" r="40%"><stop offset="0%" stop-color="#dfbc6e" stop-opacity="0.2"/><stop offset="50%" stop-color="#8b6543" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+  <linearGradient id="drape2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3d4f9e" stop-opacity="0.7"/><stop offset="50%" stop-color="#232d5c" stop-opacity="0.8"/><stop offset="100%" stop-color="#111630" stop-opacity="0.9"/></linearGradient>
+  <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2a1e14"/><stop offset="50%" stop-color="#1a130c"/><stop offset="100%" stop-color="#0c0a08"/></linearGradient>
+  <radialGradient id="face2" cx="50%" cy="35%" r="18%"><stop offset="0%" stop-color="#dcc8b5"/><stop offset="60%" stop-color="#c4a78c"/><stop offset="100%" stop-color="#a88464"/></radialGradient>
+  <linearGradient id="robe2" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0%" stop-color="#b83a24" stop-opacity="0.7"/><stop offset="50%" stop-color="#93301e" stop-opacity="0.8"/><stop offset="100%" stop-color="#521c12"/></linearGradient>
+</defs>
+<rect width="640" height="400" fill="url(#bg2)"/>
+<!-- distant landscape through window -->
+<rect x="420" y="40" width="180" height="200" rx="6" fill="#232d5c" opacity="0.3"/>
+<path d="M420 180 Q470 155 510 165 Q550 150 600 170 L600 240 L420 240Z" fill="#2a7d3a" opacity="0.15"/>
+<rect x="420" y="40" width="180" height="200" rx="6" fill="none" stroke="#3a342b" stroke-width="2"/>
+<!-- figure silhouette -->
+<ellipse cx="300" cy="145" rx="52" ry="62" fill="url(#face2)" opacity="0.85"/>
+<!-- hair -->
+<ellipse cx="295" cy="115" rx="55" ry="45" fill="#3e2d1e"/>
+<ellipse cx="280" cy="135" rx="20" ry="50" fill="#2a1e14" opacity="0.6"/>
+<!-- robe / garment -->
+<path d="M230 200 Q260 185 300 190 Q340 185 370 200 Q390 260 400 400 L200 400 Q210 260 230 200Z" fill="url(#robe2)"/>
+<path d="M240 210 Q280 195 320 200 Q350 230 360 300 L240 300Z" fill="url(#drape2)" opacity="0.5"/>
+<!-- sfumato glow on face -->
+<ellipse cx="305" cy="148" rx="38" ry="45" fill="url(#face2)" opacity="0.4"/>
+<!-- gold necklace accent -->
+<path d="M268 195 Q300 205 332 195" fill="none" stroke="#dfbc6e" stroke-width="1.5" opacity="0.6"/>
+<circle cx="300" cy="207" r="4" fill="#cca044" opacity="0.5"/>
+<!-- hands suggestion -->
+<ellipse cx="280" cy="310" rx="22" ry="15" fill="#c4a78c" opacity="0.4" transform="rotate(-15,280,310)"/>
+<ellipse cx="325" cy="305" rx="20" ry="14" fill="#c4a78c" opacity="0.35" transform="rotate(10,325,305)"/>
+<!-- candlelight glow -->
+<rect width="640" height="400" fill="url(#spot2)"/>
+<!-- frame ornament -->
+<rect x="6" y="6" width="628" height="388" rx="4" fill="none" stroke="#dfbc6e" stroke-width="1" opacity="0.1"/>
+<!-- canvas texture -->
+<rect width="640" height="400" filter="url(#pn2)" opacity="0.7"/>
+</svg>`
+},
+{
+  title:"Scholar's Study",
+  title_en:"Scholar's Study",
+  desc:'プロダクト紹介・ブログアイキャッチ',
+  desc_en:'Product introduction / blog thumbnail',
+  subject:'An open leather-bound book resting on an ornate wooden desk, candlelight illuminating the pages.',
+  svg:`<svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <filter id="pn3"><feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="4" seed="12"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0"/></filter>
+  <radialGradient id="candle3" cx="55%" cy="30%" r="35%"><stop offset="0%" stop-color="#dfbc6e" stop-opacity="0.35"/><stop offset="40%" stop-color="#b38628" stop-opacity="0.12"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+  <linearGradient id="desk3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#553d29"/><stop offset="100%" stop-color="#3e2d1e"/></linearGradient>
+  <linearGradient id="book3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ece5d8"/><stop offset="100%" stop-color="#d2c8b8"/></linearGradient>
+  <linearGradient id="cover3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#521c12"/><stop offset="100%" stop-color="#712618"/></linearGradient>
+  <linearGradient id="wall3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a130c"/><stop offset="100%" stop-color="#2a1e14"/></linearGradient>
+</defs>
+<rect width="640" height="400" fill="url(#wall3)"/>
+<!-- bookshelf hint in background -->
+<g opacity="0.15">
+  <rect x="50" y="30" width="540" height="12" rx="2" fill="#553d29"/>
+  <rect x="50" y="42" width="30" height="90" rx="1" fill="#93301e"/>
+  <rect x="84" y="42" width="24" height="90" rx="1" fill="#232d5c"/>
+  <rect x="112" y="52" width="28" height="80" rx="1" fill="#553d29"/>
+  <rect x="144" y="42" width="22" height="90" rx="1" fill="#3e2d1e"/>
+  <rect x="450" y="42" width="26" height="90" rx="1" fill="#712618"/>
+  <rect x="480" y="48" width="30" height="84" rx="1" fill="#1a2145"/>
+  <rect x="514" y="42" width="24" height="90" rx="1" fill="#6e4f35"/>
+  <rect x="50" y="132" width="540" height="8" rx="2" fill="#553d29"/>
+</g>
+<!-- desk surface -->
+<path d="M0 240 L640 240 L640 400 L0 400Z" fill="url(#desk3)"/>
+<line x1="0" y1="240" x2="640" y2="240" stroke="#6e4f35" stroke-width="2" opacity="0.5"/>
+<!-- desk edge detail -->
+<line x1="0" y1="243" x2="640" y2="243" stroke="#dfbc6e" stroke-width="0.5" opacity="0.15"/>
+<!-- open book -->
+<path d="M220 230 Q320 220 320 260 L320 360 Q320 340 220 345Z" fill="url(#book3)" opacity="0.9"/>
+<path d="M420 230 Q320 220 320 260 L320 360 Q320 340 420 345Z" fill="url(#book3)" opacity="0.85"/>
+<!-- book spine -->
+<line x1="320" y1="225" x2="320" y2="358" stroke="#8e8272" stroke-width="1.5" opacity="0.5"/>
+<!-- text lines on pages -->
+<g stroke="#8e8272" stroke-width="0.5" opacity="0.3">
+  <line x1="240" y1="260" x2="305" y2="258"/><line x1="240" y1="270" x2="300" y2="268"/>
+  <line x1="240" y1="280" x2="308" y2="278"/><line x1="240" y1="290" x2="295" y2="288"/>
+  <line x1="240" y1="300" x2="302" y2="298"/><line x1="240" y1="310" x2="290" y2="308"/>
+  <line x1="335" y1="258" x2="400" y2="260"/><line x1="335" y1="268" x2="405" y2="270"/>
+  <line x1="335" y1="278" x2="398" y2="280"/><line x1="335" y1="288" x2="410" y2="290"/>
+  <line x1="335" y1="298" x2="395" y2="300"/><line x1="335" y1="308" x2="402" y2="310"/>
+</g>
+<!-- book cover edges -->
+<path d="M218 228 Q320 218 320 258" fill="none" stroke="url(#cover3)" stroke-width="3"/>
+<path d="M422 228 Q320 218 320 258" fill="none" stroke="url(#cover3)" stroke-width="3"/>
+<!-- candle -->
+<rect x="490" y="168" width="14" height="72" rx="3" fill="#f0e8e0" opacity="0.8"/>
+<ellipse cx="497" cy="165" rx="8" ry="18" fill="#dfbc6e" opacity="0.7"/>
+<ellipse cx="497" cy="158" rx="4" ry="10" fill="#faf5ed" opacity="0.5"/>
+<!-- candle holder -->
+<ellipse cx="497" cy="240" rx="24" ry="6" fill="#b38628" opacity="0.5"/>
+<rect x="488" y="235" width="18" height="8" rx="2" fill="#8f6b20" opacity="0.6"/>
+<!-- golden vessel -->
+<path d="M120 240 L130 240 Q140 240 138 260 L142 310 Q140 320 130 320 L110 320 Q100 320 98 310 L102 260 Q100 240 110 240Z" fill="#8f6b20" opacity="0.5"/>
+<ellipse cx="120" cy="240" rx="16" ry="5" fill="#b38628" opacity="0.4"/>
+<!-- draped fabric -->
+<path d="M0 260 Q40 250 60 270 Q80 250 120 260 Q100 300 80 340 Q40 360 0 340Z" fill="#232d5c" opacity="0.3"/>
+<!-- candlelight illumination -->
+<rect width="640" height="400" fill="url(#candle3)"/>
+<!-- canvas texture -->
+<rect width="640" height="400" filter="url(#pn3)" opacity="0.6"/>
+<!-- warm vignette -->
+<radialGradient id="vig3" cx="50%" cy="50%" r="60%"><stop offset="50%" stop-color="transparent"/><stop offset="100%" stop-color="#0c0a08" stop-opacity="0.5"/></radialGradient>
+<rect width="640" height="400" fill="url(#vig3)"/>
+</svg>`
+}
+];
+document.getElementById('paintGrid').innerHTML=paintSamples.map(s=>{
+  const fullPrompt=`A classical Renaissance oil painting in the style of the reference image.\nMuted, earthy color palette with deep greens, warm ivories, and cloudy blues.\nAged, rich texture with smooth, meticulous brushwork (sfumato) on fabric folds and foliage.\nA detailed landscape background with tall pine trees, rolling hills, and a serene, cloudy sky.\n${s.subject}\nNo modern elements or text.`;
+  return`<div class="paint-card"><div class="paint-canvas">${s.svg}</div><div class="paint-info"><div class="paint-title">${t(s.title,s.title_en)}</div><div class="paint-subtitle">${t(s.desc,s.desc_en)}</div><div class="paint-prompt-box"><code>${fullPrompt}</code><button class="copy-btn" onclick="event.stopPropagation();copyText(\`${fullPrompt.replace(/`/g,'\\`')}\`)">Copy</button></div></div></div>`
+}).join('');
 </script>
 </body>
 </html>
