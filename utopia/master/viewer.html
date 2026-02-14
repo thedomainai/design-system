@@ -329,6 +329,25 @@
       <h3 class="h-section">Toast</h3><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;"><div class="toast-demo toast-demo--default">Default toast</div><div class="toast-demo toast-demo--success">Success</div><div class="toast-demo toast-demo--error">Error</div></div>
       <h3 class="h-section">Table</h3><div style="overflow-x:auto;"><table class="table-demo"><thead><tr><th>Token</th><th>Value</th><th>Usage</th></tr></thead><tbody><tr><td>radius-lg</td><td>10px</td><td>Card, Panel</td></tr><tr><td>radius-md</td><td>6px</td><td>Button, Input</td></tr><tr><td>radius-sm</td><td>3px</td><td>Tag, Badge</td></tr></tbody></table></div>
     </section>
+    <section class="section" id="paint">
+      <div class="section-header"><h2>14 &mdash; Paint</h2></div>
+      <div class="section-desc">
+        <span class="i18n-ja">AI 画像生成でルネサンス油絵スタイルのビジュアルを作成するためのプロンプトテンプレートです。デザインシステム全体との視覚的一貫性を確保します。</span>
+        <span class="i18n-en">Prompt template for generating Renaissance oil painting style visuals with AI. Ensures visual consistency across the design system.</span>
+      </div>
+      <h3 class="h-section h-section--flush">Base Prompt Template</h3>
+      <div class="paint-base-prompt">
+        <code id="basePromptCode">A classical Renaissance oil painting in the style of the reference image.
+Muted, earthy color palette with deep greens, warm ivories, and cloudy blues.
+Aged, rich texture with smooth, meticulous brushwork (sfumato) on fabric folds and foliage.
+A detailed landscape background with tall pine trees, rolling hills, and a serene, cloudy sky.
+[Insert description of subject here].
+No modern elements or text.</code>
+        <button class="copy-btn" onclick="event.stopPropagation();copyText(document.getElementById('basePromptCode').textContent)">Copy</button>
+      </div>
+      <h3 class="h-section">Samples</h3>
+      <div class="paint-grid" id="paintGrid"></div>
+    </section>
   </div>
 </main>
 <div class="toast" id="toast">Copied</div>
