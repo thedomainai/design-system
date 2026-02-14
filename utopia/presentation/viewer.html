@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation Design System — Utopia</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-400: #5a6db8;
+    --primary-500: #3d4f9e;
+    --primary-600: #2e3b78;
+    --secondary-500: #8b6543;
+    --secondary-600: #6e4f35;
+    --accent-500: #b83a24;
+    --gold-300: #dfbc6e;
+    --gold-400: #cca044;
+    --gold-500: #b38628;
+    --neutral-0: #0c0a08;
+    --neutral-100: #18150f;
+    --neutral-200: #211d16;
+    --neutral-300: #2c2720;
+    --neutral-400: #3a342b;
+    --neutral-500: #524a3f;
+    --neutral-600: #6e6456;
+    --neutral-700: #8e8272;
+    --neutral-800: #b0a494;
+    --neutral-900: #d2c8b8;
+    --neutral-950: #ece5d8;
+    --neutral-1000: #faf5ed;
+    --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --sidebar-width: 260px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--neutral-0);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='canvas'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23canvas)' opacity='0.025'/%3E%3C/svg%3E");
+    color: var(--neutral-950);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: rgba(24, 21, 15, 0.82);
+    backdrop-filter: blur(36px) saturate(1.15);
+    -webkit-backdrop-filter: blur(36px) saturate(1.15);
+    border-right: 1px solid rgba(236, 229, 216, 0.07);
+    padding: 32px 0;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .sidebar-header {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--neutral-300);
+    margin-bottom: 16px;
+  }
+  .sidebar-header h1 {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--neutral-1000);
+    letter-spacing: -0.3px;
+  }
+  .sidebar-header p {
+    font-size: 11px;
+    color: var(--neutral-600);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+  .nav-group { padding: 0 12px; }
+  .nav-group a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--neutral-700);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+  }
+  .nav-group a:hover {
+    color: var(--neutral-950);
+    background: var(--neutral-200);
+  }
+  .nav-group a.active {
+    color: var(--neutral-1000);
+    background: var(--neutral-200);
+    font-weight: 600;
+  }
+  .nav-group a .nav-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--neutral-500);
+    width: 20px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .nav-group a.active .nav-num {
+    color: var(--primary-400);
+  }
+
+  /* ── Main ── */
+  .main { margin-left: var(--sidebar-width); min-height: 100vh; }
+  .hero {
+    padding: 80px 64px 64px;
+    background: radial-gradient(ellipse 70% 50% at 50% 20%, rgba(61, 79, 158, 0.18) 0%, rgba(184, 58, 36, 0.05) 40%, rgba(12, 10, 8, 0) 70%);
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: var(--neutral-1000);
+    margin-bottom: 8px;
+  }
+  .hero p {
+    font-size: 14px;
+    color: var(--neutral-700);
+    max-width: 600px;
+  }
+  .content { padding: 0 64px 96px; }
+
+  /* ── Section ── */
+  .section { padding-top: 64px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--neutral-600);
+    white-space: nowrap;
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(223, 188, 110, 0.2) 30%,
+      rgba(204, 160, 68, 0.25) 50%,
+      rgba(223, 188, 110, 0.2) 70%,
+      transparent 100%
+    );
+  }
+
+  /* ── Code Block ── */
+  .code-block {
+    background: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    padding: 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--neutral-800);
+    overflow-x: auto;
+    margin-bottom: 24px;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .code-block:hover {
+    border-color: rgba(223, 188, 110, 0.2);
+  }
+  .code-block pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* ── Color Swatches ── */
+  .color-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .color-swatch {
+    flex: 1;
+    min-width: 120px;
+    min-height: 100px;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    position: relative;
+  }
+  .color-swatch:hover {
+    transform: translateY(-4px);
+  }
+  .color-swatch-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .color-swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* ── Mesh Gradient Demo ── */
+  .mesh-gradient-demo {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    background: #0c0a08;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='canvas'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23canvas)' opacity='0.025'/%3E%3C/svg%3E"),
+      radial-gradient(at 15% 25%, rgba(61, 79, 158, 0.15) 0%, transparent 50%),
+      radial-gradient(at 75% 65%, rgba(184, 58, 36, 0.08) 0%, transparent 45%),
+      radial-gradient(at 50% 80%, rgba(204, 160, 68, 0.06) 0%, transparent 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--neutral-700);
+    margin-bottom: 32px;
+  }
+
+  /* ── Color Role Table ── */
+  .color-role-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+  }
+  .color-role-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--neutral-600);
+    padding: 0 16px 12px;
+    border-bottom: 1px solid var(--neutral-300);
+  }
+  .color-role-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--neutral-200);
+    vertical-align: middle;
+  }
+  .color-role-table .role-name {
+    font-size: 13px;
+    color: var(--neutral-800);
+  }
+  .color-role-table .role-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--primary-400);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .color-role-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  /* ── Typography Table ── */
+  .type-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+  }
+  .type-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--neutral-600);
+    padding: 0 16px 12px;
+    border-bottom: 1px solid var(--neutral-300);
+  }
+  .type-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--neutral-200);
+    vertical-align: middle;
+  }
+  .type-table .type-usage {
+    font-size: 13px;
+    color: var(--neutral-800);
+    white-space: nowrap;
+  }
+  .type-table .type-preview {
+    font-size: 13px;
+    color: var(--neutral-700);
+  }
+  .type-table .type-spec {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--neutral-600);
+  }
+
+  /* ── Text Gradient Demo ── */
+  .text-gradient-demo {
+    font-size: 36px;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    background: linear-gradient(90deg, #ece5d8 0%, #dfbc6e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 32px;
+  }
+
+  /* ── Material Demos ── */
+  .material-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .material-card {
+    min-height: 160px;
+    padding: 24px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .material-card-title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--neutral-1000);
+    margin-bottom: 6px;
+  }
+  .material-card-desc {
+    font-size: 13px;
+    color: var(--neutral-700);
+  }
+
+  .impasto-demo {
+    position: relative;
+    background:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"),
+      linear-gradient(
+        145deg,
+        rgba(33, 29, 22, 0.95) 0%,
+        rgba(24, 21, 15, 0.98) 100%
+      );
+    border: 1px solid rgba(223, 188, 110, 0.12);
+    box-shadow:
+      inset 0 1px 0 rgba(223, 188, 110, 0.08),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .glaze-demo {
+    background: rgba(24, 21, 15, 0.65);
+    backdrop-filter: blur(20px) saturate(1.1);
+    -webkit-backdrop-filter: blur(20px) saturate(1.1);
+    border: 1px solid rgba(236, 229, 216, 0.05);
+  }
+
+  .gold-separator-demo {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(223, 188, 110, 0.2) 30%,
+      rgba(204, 160, 68, 0.25) 50%,
+      rgba(223, 188, 110, 0.2) 70%,
+      transparent 100%
+    );
+    margin: 32px 0;
+  }
+
+  /* ── Slide Pattern Miniatures ── */
+  .slide-patterns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .slide-miniature {
+    aspect-ratio: 16 / 9;
+    background: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-miniature-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--neutral-600);
+    margin-bottom: 16px;
+  }
+  .slide-miniature-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Title Slide Miniature */
+  .slide-title .slide-miniature-content {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .slide-title-h1 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--neutral-1000);
+    margin-bottom: 6px;
+  }
+  .slide-title-subtitle {
+    font-size: 10px;
+    color: var(--neutral-700);
+  }
+
+  /* Content Slide Miniature (3-col cards) */
+  .slide-content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .slide-content-card {
+    background: rgba(33, 29, 22, 0.8);
+    border: 1px solid rgba(223, 188, 110, 0.1);
+    border-radius: 6px;
+    padding: 8px;
+    min-height: 40px;
+  }
+
+  /* Two Column Slide Miniature */
+  .slide-two-col-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .slide-two-col-left {
+    background: rgba(24, 21, 15, 0.4);
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 8px;
+    color: var(--neutral-700);
+  }
+  .slide-two-col-right {
+    background: rgba(61, 79, 158, 0.12);
+    border-radius: 6px;
+    padding: 8px;
+  }
+
+  /* Data Slide Miniature */
+  .slide-data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .slide-data-card {
+    background: rgba(33, 29, 22, 0.8);
+    border: 1px solid rgba(223, 188, 110, 0.1);
+    border-radius: 6px;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .slide-data-number {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--neutral-1000);
+  }
+  .slide-data-label {
+    font-size: 8px;
+    color: var(--neutral-700);
+    margin-top: 2px;
+  }
+
+  /* ── Slide Dimension Demo ── */
+  .slide-dimension-demo {
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 16 / 9;
+    background: var(--neutral-100);
+    border: 2px solid var(--primary-500);
+    border-radius: 8px;
+    position: relative;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide-dimension-demo::before {
+    content: '1920 × 1080px';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--primary-400);
+  }
+  .slide-dimension-demo::after {
+    content: 'padding: 64px 80px';
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--neutral-600);
+  }
+  .slide-dimension-padding {
+    position: absolute;
+    inset: 64px 80px;
+    border: 1px dashed var(--neutral-500);
+    border-radius: 4px;
+  }
+
+  /* ── Bullet List Demo ── */
+  .bullet-list-demo {
+    background: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .bullet-list-demo ul {
+    list-style: none;
+  }
+  .bullet-list-demo li {
+    font-size: 20px;
+    color: var(--neutral-800);
+    line-height: 1.6;
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .bullet-list-demo li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-500);
+  }
+
+  /* ── Code Block Demo (Slide) ── */
+  .code-block-demo {
+    background: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    padding: 32px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--neutral-800);
+    margin-bottom: 24px;
+  }
+
+  /* ── Slide Number Demo ── */
+  .slide-number-demo {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 16 / 9;
+    background: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    margin-bottom: 32px;
+  }
+  .slide-number-demo::after {
+    content: '01 / 12';
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--neutral-700);
+  }
+
+  /* ── Warning List ── */
+  .warning-list {
+    background: rgba(184, 64, 64, 0.05);
+    border: 1px solid rgba(184, 64, 64, 0.2);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .warning-list ul {
+    list-style: none;
+  }
+  .warning-list li {
+    font-size: 14px;
+    color: var(--neutral-800);
+    line-height: 1.6;
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .warning-list li::before {
+    content: '×';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 18px;
+    color: #b84040;
+    font-weight: 600;
+  }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--neutral-400);
+    color: var(--neutral-950);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 9999;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── Mobile ── */
+  .menu-btn {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 200;
+    width: 40px;
+    height: 40px;
+    background: var(--neutral-200);
+    border: 1px solid var(--neutral-300);
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-btn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--neutral-800);
+    border-radius: 1px;
+    transition: all 0.2s ease;
+  }
+  .menu-btn span + span {
+    margin-top: 4px;
+  }
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 90;
+  }
+
+  @media (max-width: 1023px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .main {
+      margin-left: 0;
+    }
+    .hero {
+      padding: 64px 24px 48px;
+    }
+    .content {
+      padding: 0 24px 64px;
+    }
+    .menu-btn {
+      display: flex;
+    }
+    .overlay.open {
+      display: block;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .hero h1 {
+      font-size: 32px;
+    }
+    .color-swatches {
+      flex-direction: column;
+    }
+    .slide-patterns-grid {
+      grid-template-columns: 1fr;
+    }
+    .material-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Mobile Menu Button -->
+<button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>Presentation — Utopia</h1>
+    <p>Renaissance Oil Painting Design for Slides</p>
+  </div>
+  <div class="nav-group">
+    <a href="#basic"><span class="nav-num">01</span>基本設定</a>
+    <a href="#colors"><span class="nav-num">02</span>カラーパレット</a>
+    <a href="#typography"><span class="nav-num">03</span>タイポグラフィ</a>
+    <a href="#radius"><span class="nav-num">04</span>ボーダーラウンド</a>
+    <a href="#materials"><span class="nav-num">05</span>マテリアル</a>
+    <a href="#layout"><span class="nav-num">06</span>レイアウト</a>
+    <a href="#slide-number"><span class="nav-num">07</span>スライド番号</a>
+    <a href="#restrictions"><span class="nav-num">08</span>禁止事項</a>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Presentation Design System</h1>
+    <p>AI がスライドデッキ（HTML）を生成する際に従う Utopia ルールセットのビジュアルリファレンスです。16:9 (1920×1080) ルネサンス油絵美学。</p>
+  </section>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- 01 — 基本設定 -->
+    <section class="section" id="basic">
+      <div class="section-header">
+        <h2>01 — 基本設定</h2>
+      </div>
+
+      <p style="font-size: 14px; color: var(--neutral-700); margin-bottom: 16px;">
+        スライドサイズ: <strong style="color: var(--neutral-950);">1920×1080px（16:9）</strong><br>
+        キーボード操作: <strong style="color: var(--neutral-950);">←→ / スペース</strong> でスライド切り替え<br>
+        フォント: <strong style="color: var(--neutral-950);">Playfair Display (Serif) + Source Sans 3 + JetBrains Mono</strong>
+      </p>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>body {
+  font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0c0a08;  /* Raw Umber キャンバス */
+  color: #ece5d8;
+  overflow: hidden;
+  width: 100vw; height: 100vh;
+}</pre>
+      </div>
+    </section>
+
+    <!-- 02 — カラーパレット -->
+    <section class="section" id="colors">
+      <div class="section-header">
+        <h2>02 — カラーパレット</h2>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px;">Primary (Ultramarine / Lapis Lazuli)</h3>
+      <div class="color-swatches">
+        <div class="color-swatch" style="background: #3d4f9e;" onclick="copyToClipboard('#3d4f9e')">
+          <div class="color-swatch-label" style="color: #ffffff;">primary-500</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#3d4f9e</div>
+        </div>
+        <div class="color-swatch" style="background: #2e3b78;" onclick="copyToClipboard('#2e3b78')">
+          <div class="color-swatch-label" style="color: #ffffff;">primary-600</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#2e3b78</div>
+        </div>
+        <div class="color-swatch" style="background: #232d5c;" onclick="copyToClipboard('#232d5c')">
+          <div class="color-swatch-label" style="color: #ffffff;">primary-700</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#232d5c</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">Secondary (Burnt Sienna)</h3>
+      <div class="color-swatches">
+        <div class="color-swatch" style="background: #8b6543;" onclick="copyToClipboard('#8b6543')">
+          <div class="color-swatch-label" style="color: #ffffff;">secondary-500</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#8b6543</div>
+        </div>
+        <div class="color-swatch" style="background: #6e4f35;" onclick="copyToClipboard('#6e4f35')">
+          <div class="color-swatch-label" style="color: #ffffff;">secondary-600</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#6e4f35</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">Accent (Vermillion)</h3>
+      <div class="color-swatches">
+        <div class="color-swatch" style="background: #b83a24;" onclick="copyToClipboard('#b83a24')">
+          <div class="color-swatch-label" style="color: #ffffff;">accent-500</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#b83a24</div>
+        </div>
+        <div class="color-swatch" style="background: #93301e;" onclick="copyToClipboard('#93301e')">
+          <div class="color-swatch-label" style="color: #ffffff;">accent-600</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#93301e</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">Gold (Gold Ochre)</h3>
+      <div class="color-swatches">
+        <div class="color-swatch" style="background: #dfbc6e;" onclick="copyToClipboard('#dfbc6e')">
+          <div class="color-swatch-label" style="color: #000000;">gold-300</div>
+          <div class="color-swatch-hex" style="color: #000000;">#dfbc6e</div>
+        </div>
+        <div class="color-swatch" style="background: #cca044;" onclick="copyToClipboard('#cca044')">
+          <div class="color-swatch-label" style="color: #000000;">gold-400</div>
+          <div class="color-swatch-hex" style="color: #000000;">#cca044</div>
+        </div>
+        <div class="color-swatch" style="background: #b38628;" onclick="copyToClipboard('#b38628')">
+          <div class="color-swatch-label" style="color: #ffffff;">gold-500</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#b38628</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">Neutral (Raw Umber Canvas)</h3>
+      <div class="color-swatches">
+        <div class="color-swatch" style="background: #0c0a08;" onclick="copyToClipboard('#0c0a08')">
+          <div class="color-swatch-label" style="color: #ffffff;">neutral-0</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#0c0a08</div>
+        </div>
+        <div class="color-swatch" style="background: #18150f;" onclick="copyToClipboard('#18150f')">
+          <div class="color-swatch-label" style="color: #ffffff;">neutral-100</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#18150f</div>
+        </div>
+        <div class="color-swatch" style="background: #2c2720;" onclick="copyToClipboard('#2c2720')">
+          <div class="color-swatch-label" style="color: #ffffff;">neutral-300</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#2c2720</div>
+        </div>
+        <div class="color-swatch" style="background: #524a3f;" onclick="copyToClipboard('#524a3f')">
+          <div class="color-swatch-label" style="color: #ffffff;">neutral-500</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#524a3f</div>
+        </div>
+        <div class="color-swatch" style="background: #8e8272;" onclick="copyToClipboard('#8e8272')">
+          <div class="color-swatch-label" style="color: #000000;">neutral-700</div>
+          <div class="color-swatch-hex" style="color: #000000;">#8e8272</div>
+        </div>
+        <div class="color-swatch" style="background: #b0a494;" onclick="copyToClipboard('#b0a494')">
+          <div class="color-swatch-label" style="color: #000000;">neutral-800</div>
+          <div class="color-swatch-hex" style="color: #000000;">#b0a494</div>
+        </div>
+        <div class="color-swatch" style="background: #ece5d8;" onclick="copyToClipboard('#ece5d8')">
+          <div class="color-swatch-label" style="color: #000000;">neutral-950</div>
+          <div class="color-swatch-hex" style="color: #000000;">#ece5d8</div>
+        </div>
+        <div class="color-swatch" style="background: #faf5ed;" onclick="copyToClipboard('#faf5ed')">
+          <div class="color-swatch-label" style="color: #000000;">neutral-1000</div>
+          <div class="color-swatch-hex" style="color: #000000;">#faf5ed</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 32px;">Canvas Texture + Mesh Gradient</h3>
+      <div class="mesh-gradient-demo">
+        Canvas Background with Mesh Gradient
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background: #0c0a08;
+background-image:
+  url("data:image/svg+xml,...canvas texture..."),
+  radial-gradient(at 15% 25%, rgba(61, 79, 158, 0.15) 0%, transparent 50%),
+  radial-gradient(at 75% 65%, rgba(184, 58, 36, 0.08) 0%, transparent 45%),
+  radial-gradient(at 50% 80%, rgba(204, 160, 68, 0.06) 0%, transparent 50%);</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px;">Color Roles</h3>
+      <table class="color-role-table">
+        <thead>
+          <tr>
+            <th>役割</th>
+            <th>値</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="role-name">背景</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #0c0a08;"></span>
+              #0c0a08 + canvas texture + mesh gradient
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">テキスト primary</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #ece5d8;"></span>
+              #ece5d8
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">テキスト secondary</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #8e8272;"></span>
+              #8e8272
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">テキスト muted</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #524a3f;"></span>
+              #524a3f
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">見出し</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #faf5ed;"></span>
+              #faf5ed (ivory white)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">ラベル</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #8b6543;"></span>
+              #8b6543 (secondary-500)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">装飾番号</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #3d4f9e; opacity: 0.3;"></span>
+              #3d4f9e (opacity 0.3)
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 03 — タイポグラフィ -->
+    <section class="section" id="typography">
+      <div class="section-header">
+        <h2>03 — タイポグラフィ</h2>
+      </div>
+
+      <p style="font-size: 14px; color: var(--neutral-700); margin-bottom: 24px;">
+        <strong style="color: #e0b84a;">⚠ 注意:</strong> スライドでは本文 16px 未満を使わない（プロジェクション視認性）。見出しは必ず Playfair Display Serif を使用。
+      </p>
+
+      <table class="type-table">
+        <thead>
+          <tr>
+            <th>用途</th>
+            <th>プレビュー</th>
+            <th>サイズ / ウェイト / カラー / Font</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="type-usage">タイトルスライド見出し</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(64px, 3vw); font-weight: 700; color: #faf5ed; letter-spacing: -2px;">Renaissance</div>
+            </td>
+            <td class="type-spec">64px / 700 / #faf5ed / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">スライド見出し</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(48px, 2.5vw); font-weight: 700; color: #faf5ed; letter-spacing: -1.5px;">Section Title</div>
+            </td>
+            <td class="type-spec">48px / 700 / #faf5ed / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">カードタイトル</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(28px, 1.5vw); font-weight: 600; color: #faf5ed;">Card Title</div>
+            </td>
+            <td class="type-spec">28px / 600 / #faf5ed / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">本文（スライド基準）</td>
+            <td class="type-preview">
+              <div style="font-size: 20px; font-weight: 400; color: #ece5d8;">Body text for slides with good readability.</div>
+            </td>
+            <td class="type-spec">20px / 400 / #ece5d8 / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">カード本文</td>
+            <td class="type-preview">
+              <div style="font-size: 18px; font-weight: 400; color: #8e8272;">Card body text.</div>
+            </td>
+            <td class="type-spec">18px / 400 / #8e8272 / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">ラベル (uppercase)</td>
+            <td class="type-preview">
+              <div style="font-size: 14px; font-weight: 600; color: #8b6543; letter-spacing: 2px; text-transform: uppercase;">Label</div>
+            </td>
+            <td class="type-spec">14px / 600 / #8b6543 / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">数値ハイライト（大）</td>
+            <td class="type-preview">
+              <div style="font-size: min(64px, 3vw); font-weight: 800; color: #faf5ed;">1,234</div>
+            </td>
+            <td class="type-spec">64px / 800 / #faf5ed / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">装飾番号</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(72px, 3vw); font-weight: 700; color: #3d4f9e; opacity: 0.3;">01</div>
+            </td>
+            <td class="type-spec">72px / 700 / #3d4f9e / Serif, opacity 0.3</td>
+          </tr>
+          <tr>
+            <td class="type-usage">サブタイトル</td>
+            <td class="type-preview">
+              <div style="font-size: 28px; font-weight: 400; color: #8e8272; letter-spacing: -0.5px;">Subtitle text</div>
+            </td>
+            <td class="type-spec">28px / 400 / #8e8272 / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">URL (mono)</td>
+            <td class="type-preview">
+              <div style="font-size: 16px; font-family: var(--font-mono); font-weight: 400; color: #524a3f;">https://example.com</div>
+            </td>
+            <td class="type-spec">16px / 400 / #524a3f / Mono</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 32px;">テキストグラデーション（ゴールド）</h3>
+      <div class="text-gradient-demo">
+        The Renaissance of AI
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background: linear-gradient(90deg, #ece5d8 0%, #dfbc6e 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;</pre>
+      </div>
+    </section>
+
+    <!-- 04 — ボーダーラウンド -->
+    <section class="section" id="radius">
+      <div class="section-header">
+        <h2>04 — ボーダーラウンド</h2>
+      </div>
+
+      <p style="font-size: 14px; color: var(--neutral-700); margin-bottom: 24px;">
+        Presentation では <strong style="color: var(--neutral-950);">radius-md（8px）が上限</strong>です。これを超える border-radius は使用しません（50% の円形を除く）。
+      </p>
+
+      <table class="color-role-table">
+        <thead>
+          <tr>
+            <th>トークン</th>
+            <th>値</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="role-name">radius-xs</td>
+            <td class="role-value">2px</td>
+            <td class="role-name">バッジ・インジケータ</td>
+          </tr>
+          <tr>
+            <td class="role-name">radius-sm</td>
+            <td class="role-value">3px</td>
+            <td class="role-name">小要素・タグ</td>
+          </tr>
+          <tr>
+            <td class="role-name">radius-md</td>
+            <td class="role-value">8px</td>
+            <td class="role-name">カード・コードブロック・入力欄</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 05 — マテリアル -->
+    <section class="section" id="materials">
+      <div class="section-header">
+        <h2>05 — マテリアル</h2>
+      </div>
+
+      <div class="material-grid">
+        <div class="material-card impasto-demo">
+          <div class="material-card-title">Impasto（厚塗り）</div>
+          <div class="material-card-desc">キャンバスノイズ + 深い陰影 + ゴールド縁取り。存在感のある厚塗り質感。</div>
+        </div>
+
+        <div class="material-card glaze-demo">
+          <div class="material-card-title">Glaze（薄塗り）</div>
+          <div class="material-card-desc">半透明レイヤー + blur エフェクト。柔らかな色彩の深み。</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 16px;">Impasto CSS</h3>
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background:
+  url("data:image/svg+xml,...canvas noise..."),
+  linear-gradient(145deg, rgba(33, 29, 22, 0.95) 0%, rgba(24, 21, 15, 0.98) 100%);
+border: 1px solid rgba(223, 188, 110, 0.12);
+border-radius: 8px;
+padding: 48px 40px;
+box-shadow:
+  inset 0 1px 0 rgba(223, 188, 110, 0.08),
+  inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+  0 4px 16px rgba(0, 0, 0, 0.4),
+  0 12px 40px rgba(0, 0, 0, 0.2);</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">Glaze CSS</h3>
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background: rgba(24, 21, 15, 0.65);
+backdrop-filter: blur(20px) saturate(1.1);
+-webkit-backdrop-filter: blur(20px) saturate(1.1);
+border: 1px solid rgba(236, 229, 216, 0.05);
+border-radius: 8px;
+padding: 48px 40px;</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">Gold Separator（装飾区切り線）</h3>
+      <div class="gold-separator-demo"></div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>width: 100%; height: 1px;
+background: linear-gradient(
+  90deg,
+  transparent 0%,
+  rgba(223, 188, 110, 0.2) 30%,
+  rgba(204, 160, 68, 0.25) 50%,
+  rgba(223, 188, 110, 0.2) 70%,
+  transparent 100%
+);
+margin: 48px 0;</pre>
+      </div>
+    </section>
+
+    <!-- 06 — レイアウト -->
+    <section class="section" id="layout">
+      <div class="section-header">
+        <h2>06 — レイアウト</h2>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px;">スライド寸法</h3>
+      <div class="slide-dimension-demo">
+        <div class="slide-dimension-padding"></div>
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>.slide { width: 1920px; height: 1080px; padding: 64px 80px; }</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 16px; margin-top: 32px;">スライドパターン</h3>
+
+      <div class="slide-patterns-grid">
+        <!-- 1. Title Slide -->
+        <div class="slide-miniature slide-title">
+          <div class="slide-miniature-label">1. タイトルスライド</div>
+          <div class="slide-miniature-content">
+            <div style="font-size: 8px; font-family: var(--font-serif); font-style: italic; color: var(--neutral-600); margin-bottom: 8px;">UTOPIA</div>
+            <div class="slide-title-h1">Renaissance of Design</div>
+            <div class="slide-title-subtitle">Oil Painting Aesthetic</div>
+            <div style="font-size: 8px; font-family: var(--font-mono); color: var(--neutral-500); margin-top: 8px;">2026.02</div>
+          </div>
+        </div>
+
+        <!-- 2. Content Slide (3-col cards) -->
+        <div class="slide-miniature">
+          <div class="slide-miniature-label">2. コンテンツスライド（3列カード）</div>
+          <div class="slide-miniature-content">
+            <div style="font-size: 8px; font-weight: 600; color: var(--secondary-500); letter-spacing: 1px; margin-bottom: 4px;">FOUNDATIONS</div>
+            <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 700; color: var(--neutral-1000); margin-bottom: 12px;">見出し</div>
+            <div class="slide-content-grid">
+              <div class="slide-content-card"></div>
+              <div class="slide-content-card"></div>
+              <div class="slide-content-card"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Two-Column Slide -->
+        <div class="slide-miniature">
+          <div class="slide-miniature-label">3. 2カラムスライド</div>
+          <div class="slide-miniature-content">
+            <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 700; color: var(--neutral-1000); margin-bottom: 12px;">見出し</div>
+            <div class="slide-two-col-demo">
+              <div class="slide-two-col-left">
+                テキスト<br>+ 箇条書き
+              </div>
+              <div class="slide-two-col-right"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Data Slide -->
+        <div class="slide-miniature">
+          <div class="slide-miniature-label">4. データスライド（数値ハイライト）</div>
+          <div class="slide-miniature-content">
+            <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 700; color: var(--neutral-1000); margin-bottom: 12px;">統計データ</div>
+            <div class="slide-data-grid">
+              <div class="slide-data-card">
+                <div class="slide-data-number">2</div>
+                <div class="slide-data-label">Materials</div>
+              </div>
+              <div class="slide-data-card">
+                <div class="slide-data-number">5</div>
+                <div class="slide-data-label">Colors</div>
+              </div>
+              <div class="slide-data-card">
+                <div class="slide-data-card">
+                <div class="slide-data-number">8px</div>
+                <div class="slide-data-label">Radius</div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 32px;">箇条書き</h3>
+      <div class="bullet-list-demo">
+        <ul>
+          <li>箇条書き項目の例です（20px）</li>
+          <li>カラーは #b0a494 を使用</li>
+          <li>行間は 1.6 で読みやすく</li>
+        </ul>
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>li { font-size: 20px; color: #b0a494; line-height: 1.6; padding-left: 24px; }
+li::before { width: 8px; height: 8px; border-radius: 50%; background: #3d4f9e; }</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">コードブロック</h3>
+      <div class="code-block-demo">
+        <pre>function renaissance() {
+  console.log('Paint with Precision');
+}</pre>
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background: #18150f; border: 1px solid #2c2720; border-radius: 8px;
+padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7; color: #b0a494;</pre>
+      </div>
+    </section>
+
+    <!-- 07 — スライド番号 -->
+    <section class="section" id="slide-number">
+      <div class="section-header">
+        <h2>07 — スライド番号</h2>
+      </div>
+
+      <div class="slide-number-demo"></div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>position: fixed; bottom: 32px; right: 48px;
+font-family: 'JetBrains Mono'; font-size: 14px; color: #8e8272;</pre>
+      </div>
+    </section>
+
+    <!-- 08 — 禁止事項 -->
+    <section class="section" id="restrictions">
+      <div class="section-header">
+        <h2>08 — 禁止事項</h2>
+      </div>
+
+      <div class="warning-list">
+        <ul>
+          <li>本文を 16px 未満にしない</li>
+          <li>1スライドにカード 3枚 or 箇条書き 5項目が上限目安</li>
+          <li>背景色を #0c0a08 以外にしない</li>
+          <li>スライドの padding を 64px 80px 未満にしない</li>
+          <li>border-radius を radius-md（8px）を超えて使用しない（50% の円形を除く）</li>
+          <li>見出しに Sans 体を使わない（必ず Playfair Display Serif）</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+  // Sidebar toggle for mobile
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+
+  // Active nav link based on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-group a');
+
+  function updateActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (window.scrollY >= sectionTop - 100) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav();
+
+  // Copy to clipboard
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    });
+  }
+
+  // Close sidebar when clicking on a link (mobile)
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 1024) {
+        toggleSidebar();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

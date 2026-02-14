@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Domain AI - Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   The Domain AI — Web UI Template
+   Dark-first design system. Glassmorphism + Liquid Glass.
+   ============================================================ */
+
+/* ── CSS Custom Properties ── */
+:root {
+  /* Primary — Steel Blue */
+  --primary-400: #6b84c0;
+  --primary-500: #5068a4;
+  --primary-600: #445076;
+  --primary-950: #0f1220;
+
+  /* Neutral — Black Scale */
+  --neutral-0:    #000000;
+  --neutral-100:  #0a0a0c;
+  --neutral-200:  #141418;
+  --neutral-300:  #1e1e24;
+  --neutral-400:  #2a2a32;
+  --neutral-500:  #3d3d48;
+  --neutral-700:  #7e7e8c;
+  --neutral-800:  #a5a5b0;
+  --neutral-950:  #e8e8ec;
+  --neutral-1000: #ffffff;
+
+  /* Accent — Violet Smoke */
+  --glow-200: #cbc0e6;
+  --glow-400: #8e7cb4;
+  --glow-800: #36304f;
+
+  /* Status */
+  --success-400: #4ade80; --success-500: #22c55e; --success-900: #0a2615;
+  --warning-400: #facc15; --warning-500: #eab308; --warning-900: #2a2008;
+  --error-400:   #f87171; --error-500:   #ef4444; --error-900:   #2a0a0a;
+  --info-400:    #60a5fa; --info-500:    #3b82f6; --info-900:    #0a1a2e;
+
+  /* Fonts */
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(80, 104, 164, 0.1); }
+  50%      { box-shadow: 0 0 40px rgba(80, 104, 164, 0.25); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* ── Body ── */
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;       /* base */
+  font-weight: 400;
+  line-height: 1.6;
+  color: #e8e8ec;        /* text-primary */
+  background: #000000;   /* bg-page */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   TYPOGRAPHY — 実値で定義。トークン名は参考用コメント。
+   ============================================================ */
+
+/* display-xl: ヒーロー見出し */
+.display-xl {
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: #ffffff;
+}
+
+/* display-lg: セクション大見出し */
+.display-lg {
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: #ffffff;
+}
+
+/* display-md: ページタイトル */
+.display-md {
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+
+/* heading-lg: カードタイトル */
+.heading-lg {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: #ffffff;
+}
+
+/* heading-md: サブセクション */
+.heading-md {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+}
+
+/* heading-sm: 小見出し */
+.heading-sm {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #e8e8ec;
+}
+
+/* body-lg: 本文（大） */
+.body-lg {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #e8e8ec;
+}
+
+/* body-md: 本文（標準） */
+.body-md {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #e8e8ec;
+}
+
+/* body-sm: 注釈・キャプション */
+.body-sm {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.1px;
+  color: #a5a5b0;
+}
+
+/* label-md: セクションラベル（uppercase） */
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #6b84c0;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+/* mono: コード・数値表示 */
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* セカンダリテキスト色 */
+.text-secondary { color: #7e7e8c; }
+.text-muted     { color: #3d3d48; }
+
+/* テキストグラデーション */
+.gradient-text {
+  background: linear-gradient(90deg, #e8e8ec 0%, #8f99b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   MATERIALS — Glassmorphism + Liquid Glass
+   ============================================================ */
+
+/* Standard Glass — カード・パネル */
+.glass {
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+/* Frosted Glass — サイドバー・モーダル */
+.glass-frosted {
+  background: rgba(20, 20, 24, 0.8);
+  backdrop-filter: blur(40px) saturate(1.2);
+  -webkit-backdrop-filter: blur(40px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+/* Tinted Glass — ブランドカラー */
+.glass-tinted {
+  background: rgba(15, 18, 32, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(107, 132, 192, 0.15);
+  border-radius: 12px;
+}
+
+/* Liquid Glass — 動的サーフェス */
+.liquid-glass {
+  position: relative;
+  background: linear-gradient(135deg, rgba(80, 104, 164, 0.08) 0%, rgba(142, 124, 180, 0.05) 50%, rgba(80, 104, 164, 0.08) 100%);
+  backdrop-filter: blur(40px) saturate(1.8) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8) brightness(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 30%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Liquid Glass Deep — ヘッダー・ナビ */
+.liquid-glass-deep {
+  position: relative;
+  background: linear-gradient(135deg, rgba(15, 18, 32, 0.4) 0%, rgba(54, 48, 79, 0.2) 50%, rgba(15, 18, 32, 0.4) 100%);
+  backdrop-filter: blur(60px) saturate(2.0) brightness(0.95);
+  -webkit-backdrop-filter: blur(60px) saturate(2.0) brightness(0.95);
+  border: 1px solid rgba(142, 124, 180, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+section {
+  padding: 96px 0;         /* セクション間余白 */
+  position: relative;
+}
+
+.section-separator {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(80, 104, 164, 0.15) 20%, rgba(142, 124, 180, 0.2) 50%, rgba(80, 104, 164, 0.15) 80%, transparent 100%);
+}
+
+/* カード3列グリッド */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* カード2列グリッド */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+/* ============================================================
+   HEADER — 固定ヘッダー（Liquid Glass Deep）
+   ============================================================ */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e8e8ec;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: #7e7e8c;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.15s ease;
+}
+.nav-links a:hover {
+  color: #e8e8ec;
+}
+
+/* ============================================================
+   HERO — フルスクリーンヒーロー（Mesh Gradient 背景）
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 64px;       /* ヘッダー分 */
+}
+
+/* Hero 背景: gradient-hero + gradient-mesh */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(80, 104, 164, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(at 20% 30%, rgba(80, 104, 164, 0.2) 0%, transparent 50%),
+    radial-gradient(at 80% 70%, rgba(142, 124, 180, 0.15) 0%, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(203, 192, 230, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: #7e7e8c;
+  line-height: 1.6;
+  margin-top: 24px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  margin-top: 40px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ============================================================
+   CARDS — Glass カード
+   ============================================================ */
+.card {
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 32px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: rgba(80, 104, 164, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e8e8ec;
+  margin-bottom: 12px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #7e7e8c;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   BUTTONS — 3 Variants
+   ============================================================ */
+
+/* Primary: Gradient Shift */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background-size: 280% auto;
+  background-image: linear-gradient(325deg, #5068a4 0%, #798bb9 55%, #5068a4 90%);
+  box-shadow:
+    0px 0px 20px rgba(80, 104, 164, 0.5),
+    0px 5px 5px -1px rgba(68, 80, 118, 0.25),
+    inset 4px 4px 8px rgba(196, 211, 255, 0.5),
+    inset -4px -4px 8px rgba(54, 63, 96, 0.35);
+  transition: 0.8s;
+}
+.btn-primary:hover {
+  background-position: right top;
+  transform: translateY(-2px);
+}
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px #5068a4;
+}
+
+/* Secondary: Glow Line */
+.btn-secondary {
+  position: relative;
+  color: rgba(232, 232, 236, 0.66);
+  background: radial-gradient(ellipse at bottom, #2a2a32 0%, #0a0a0c 45%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border-radius: 7px;
+  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+.btn-secondary::before {
+  content: "";
+  width: 70%;
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  background: linear-gradient(90deg, transparent 0%, #e8e8ec 50%, transparent 100%);
+  opacity: 0.2;
+  transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+.btn-secondary:hover {
+  color: #e8e8ec;
+  transform: scale(1.05) translateY(-2px);
+}
+.btn-secondary:hover::before {
+  opacity: 1;
+}
+
+/* Ghost: Liquid Hover */
+.btn-ghost {
+  position: relative;
+  color: #e8e8ec;
+  background: rgba(10, 10, 12, 0.5);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+.btn-ghost::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 100%);
+  transition: top 0.6s cubic-bezier(0, 0, 0.2, 1);
+  pointer-events: none;
+}
+.btn-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(80, 104, 164, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.btn-ghost:hover::before {
+  top: 0;
+}
+
+/* ============================================================
+   SECTION HEADER — セクション見出しパターン
+   ============================================================ */
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 64px;
+}
+
+.section-header .label {
+  margin-bottom: 16px;
+}
+
+.section-header .display-lg {
+  margin-bottom: 16px;
+}
+
+.section-header p {
+  font-size: 18px;
+  color: #7e7e8c;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   BADGES — ステータス・タグ
+   ============================================================ */
+.badge {
+  display: inline-block;
+  height: 22px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 22px;
+  border-radius: 4px;
+  background: #1e1e24;
+  color: #7e7e8c;
+}
+.badge-success { background: #0a2615; color: #4ade80; }
+.badge-warning { background: #2a2008; color: #facc15; }
+.badge-error   { background: #2a0a0a; color: #f87171; }
+.badge-info    { background: #0a1a2e; color: #60a5fa; }
+
+/* ============================================================
+   INPUT — フォーム入力
+   ============================================================ */
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #e8e8ec;
+  background: #0a0a0c;
+  border: 1px solid #1e1e24;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input::placeholder {
+  color: #3d3d48;
+}
+.input:hover {
+  border-color: #2a2a32;
+}
+.input:focus {
+  border-color: #5068a4;
+  box-shadow: 0 0 0 2px rgba(68, 80, 118, 0.6), 0 0 12px rgba(80, 104, 164, 0.3);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  border-top: 1px solid #1e1e24;
+  padding: 48px 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-text {
+  font-size: 13px;
+  color: #3d3d48;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: #7e7e8c;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.footer-links a:hover {
+  color: #e8e8ec;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1023px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .hero { min-height: auto; padding: 120px 0 80px; }
+  .display-xl { font-size: 40px; }
+  .display-lg { font-size: 32px; }
+  section { padding: 64px 0; }
+}
+
+@media (max-width: 639px) {
+  .container { padding: 0 16px; }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .display-xl { font-size: 32px; letter-spacing: -0.5px; }
+  .display-lg { font-size: 28px; }
+  .hero-cta { flex-direction: column; }
+  .nav-links { display: none; }
+  .footer-content { flex-direction: column; gap: 16px; text-align: center; }
+  section { padding: 48px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     固定ヘッダー。backdrop-filter でぼかし背景。
+     ============================================================ -->
+<header>
+  <nav>
+    <a href="#" class="logo">The Domain AI</a>
+    <div class="nav-links">
+      <a href="#principles">Principles</a>
+      <a href="#materials">Materials</a>
+      <a href="#components">Components</a>
+      <a href="#" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">Get Started</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============================================================
+     HERO
+     フルスクリーン。gradient-hero + gradient-mesh 背景。
+     タイトル: display-xl (56px / weight 300 / #ffffff)
+     サブタイトル: 20px / weight 400 / #7e7e8c
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="label">DESIGN SYSTEM V2.0</span>
+      <h1 class="display-xl">Dark-First Design System<br>for The Domain AI</h1>
+      <p class="hero-subtitle">
+        Glassmorphism と Liquid Glass の 2 つのマテリアルを基盤に、漆黒の中に浮かぶ光と透明感で情報階層を表現します。
+      </p>
+      <div class="hero-cta">
+        <a href="#components" class="btn btn-primary">View Components</a>
+        <a href="#specification" class="btn btn-secondary">Read Specification</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-separator"></div>
+
+<!-- ============================================================
+     SECTION A — 5つの Design Principles
+     見出し: display-lg (44px / weight 300 / #ffffff)
+     説明文: 18px / #7e7e8c
+     カードタイトル: 20px / weight 600 / #e8e8ec
+     カード本文: 14px / #7e7e8c
+     ============================================================ -->
+<section id="principles">
+  <div class="container">
+    <div class="section-header">
+      <span class="label">DESIGN PRINCIPLES</span>
+      <h2 class="display-lg">5 つの原則が、すべてのデザイン判断を導く</h2>
+      <p>一貫性のあるデザインを実現するための基本原則です。</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon">◆</div>
+        <h3 class="card-title">Dark-First</h3>
+        <p class="card-text">漆黒を基調に、光の濃淡とマテリアルの透過度で情報の重みを伝える</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">◇</div>
+        <h3 class="card-title">Minimal & Precise</h3>
+        <p class="card-text">余白と抑制された要素数で、コンテンツそのものに没入させる</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">▲</div>
+        <h3 class="card-title">Two Materials</h3>
+        <p class="card-text">Glassmorphism（静）・Liquid Glass（動）の 2 層で奥行きと質感を構成する</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">●</div>
+        <h3 class="card-title">Systematic Consistency</h3>
+        <p class="card-text">すべての値はトークンから導出し、マジックナンバーを排除する</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">■</div>
+        <h3 class="card-title">Platform Adaptive</h3>
+        <p class="card-text">共通トークンを持ちつつ、各プラットフォームの慣習に従う</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-separator"></div>
+
+<!-- ============================================================
+     SECTION B — How It Works (3 Steps)
+     装飾番号: 72px / weight 300 / #5068a4 / opacity 0.3
+     ============================================================ -->
+<section id="materials">
+  <div class="container">
+    <div class="section-header">
+      <span class="label">HOW IT WORKS</span>
+      <h2 class="display-lg">トークンからコンポーネントへ</h2>
+    </div>
+
+    <div class="grid-3">
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 72px; font-weight: 300; color: #5068a4; opacity: 0.3; line-height: 1; margin-bottom: 16px;">01</div>
+        <h3 class="card-title">Define Tokens</h3>
+        <p class="card-text">カラー・タイポグラフィ・スペーシングのトークンを定義</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 72px; font-weight: 300; color: #5068a4; opacity: 0.3; line-height: 1; margin-bottom: 16px;">02</div>
+        <h3 class="card-title">Build Materials</h3>
+        <p class="card-text">Glassmorphism と Liquid Glass の 2 つのマテリアルを構成</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 72px; font-weight: 300; color: #5068a4; opacity: 0.3; line-height: 1; margin-bottom: 16px;">03</div>
+        <h3 class="card-title">Compose Components</h3>
+        <p class="card-text">トークンとマテリアルからコンポーネントを組み立てる</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-separator"></div>
+
+<!-- ============================================================
+     CTA SECTION — コンバージョン
+     ============================================================ -->
+<section id="components">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="display-lg">デザインシステムを導入する</h2>
+      <p>すべてのプロダクトで一貫したブランド体験を提供します。</p>
+      <div style="margin-top: 32px;">
+        <a href="#" class="btn btn-primary">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <span class="footer-text">&copy; 2026 The Domain AI Company</span>
+      <div class="footer-links">
+        <a href="#">GitHub</a>
+        <a href="#">Documentation</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

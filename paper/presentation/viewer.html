@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation Design System — Paper — The Domain AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Ink Scale */
+    --ink-1000: #000000;
+    --ink-900: #1a1a1a;
+    --ink-800: #2d2d2d;
+    --ink-700: #404040;
+    --ink-600: #525252;
+    --ink-500: #6b6b6b;
+    --ink-400: #8a8a8a;
+    --ink-300: #a3a3a3;
+    --ink-200: #c4c4c4;
+    --ink-100: #e0e0e0;
+    --ink-50: #f0f0f0;
+
+    /* Paper Scale */
+    --paper-white: #fdfdfc;
+    --paper-cream: #faf9f7;
+    --paper-warm: #f5f4f0;
+    --paper-kraft: #eeedea;
+    --paper-aged: #e8e7e3;
+    --paper-shadow: #dddcd8;
+
+    /* Fonts */
+    --font-serif: 'Crimson Pro', Georgia, serif;
+    --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+    /* Layout */
+    --sidebar-width: 260px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--paper-white);
+    color: var(--ink-900);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--paper-cream);
+    border-right: 1px solid var(--ink-100);
+    padding: 32px 0;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .sidebar-header {
+    padding: 0 24px 24px;
+    border-bottom: 2px solid var(--ink-1000);
+    margin-bottom: 16px;
+  }
+  .sidebar-header h1 {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink-1000);
+    letter-spacing: -0.3px;
+  }
+  .sidebar-header p {
+    font-size: 11px;
+    color: var(--ink-500);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+  .nav-group { padding: 0 12px; }
+  .nav-group a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-600);
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+  }
+  .nav-group a:hover {
+    color: var(--ink-900);
+    background: var(--paper-warm);
+  }
+  .nav-group a.active {
+    color: var(--ink-1000);
+    background: var(--ink-50);
+    font-weight: 600;
+  }
+  .nav-group a .nav-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-400);
+    width: 20px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .nav-group a.active .nav-num {
+    color: var(--ink-800);
+  }
+
+  /* ── Main ── */
+  .main { margin-left: var(--sidebar-width); min-height: 100vh; }
+  .hero {
+    padding: 80px 64px 64px;
+    background: var(--paper-white);
+    border-bottom: 1px solid var(--ink-100);
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 300;
+    letter-spacing: -1px;
+    color: var(--ink-1000);
+    margin-bottom: 8px;
+  }
+  .hero p {
+    font-size: 14px;
+    color: var(--ink-600);
+    max-width: 600px;
+  }
+  .content { padding: 0 64px 96px; }
+
+  /* ── Section ── */
+  .section { padding-top: 64px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .section-header h2 {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-500);
+    white-space: nowrap;
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink-200);
+  }
+
+  /* ── Code Block ── */
+  .code-block {
+    background: var(--paper-warm);
+    border: 1px solid var(--ink-100);
+    border-radius: 0;
+    padding: 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink-600);
+    overflow-x: auto;
+    margin-bottom: 24px;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .code-block:hover {
+    border-color: var(--ink-300);
+  }
+  .code-block pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* ── Color Swatches ── */
+  .color-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .color-swatch {
+    flex: 1;
+    min-width: 120px;
+    min-height: 100px;
+    border-radius: 0;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .color-swatch:hover {
+    transform: translateY(-4px);
+  }
+  .color-swatch-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .color-swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* ── Color Role Table ── */
+  .color-role-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+  }
+  .color-role-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-500);
+    padding: 0 16px 12px;
+    border-bottom: 2px solid var(--ink-1000);
+  }
+  .color-role-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--ink-100);
+    vertical-align: middle;
+  }
+  .color-role-table .role-name {
+    font-size: 13px;
+    color: var(--ink-700);
+  }
+  .color-role-table .role-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-800);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .color-role-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* ── Typography Table ── */
+  .type-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+  }
+  .type-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-500);
+    padding: 0 16px 12px;
+    border-bottom: 2px solid var(--ink-1000);
+  }
+  .type-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--ink-100);
+    vertical-align: middle;
+  }
+  .type-table .type-usage {
+    font-size: 13px;
+    color: var(--ink-700);
+    white-space: nowrap;
+  }
+  .type-table .type-preview {
+    font-size: 13px;
+    color: var(--ink-600);
+  }
+  .type-table .type-spec {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-500);
+  }
+
+  /* ── Material Demos ── */
+  .material-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .material-card {
+    min-height: 160px;
+    padding: 24px;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .material-card-title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink-1000);
+    margin-bottom: 6px;
+  }
+  .material-card-desc {
+    font-size: 13px;
+    color: var(--ink-600);
+  }
+
+  .flat-paper {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-100);
+  }
+
+  .layered-paper {
+    background: var(--paper-white);
+    border: 1px solid var(--ink-200);
+    box-shadow: 2px 2px 0 var(--ink-50);
+  }
+
+  .editorial-rule {
+    width: 100%;
+    height: 2px;
+    background: var(--ink-1000);
+    margin: 32px 0;
+  }
+
+  .double-line {
+    width: 100%;
+    height: 0;
+    border-top: 3px double var(--ink-1000);
+    margin: 32px 0;
+  }
+
+  /* ── Slide Pattern Miniatures ── */
+  .slide-patterns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .slide-miniature {
+    aspect-ratio: 16 / 9;
+    background: var(--paper-white);
+    border: 1px solid var(--ink-200);
+    border-radius: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-miniature-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-500);
+    margin-bottom: 16px;
+  }
+  .slide-miniature-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Title Slide Miniature */
+  .slide-title .slide-miniature-content {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .slide-title-h1 {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--ink-1000);
+    margin-bottom: 6px;
+  }
+  .slide-title-subtitle {
+    font-size: 10px;
+    color: var(--ink-600);
+  }
+
+  /* Content Slide Miniature (3-col cards) */
+  .slide-content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .slide-content-card {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-100);
+    border-radius: 0;
+    padding: 8px;
+    min-height: 40px;
+  }
+
+  /* Two Column Slide Miniature */
+  .slide-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .slide-two-col-left {
+    background: var(--paper-warm);
+    border-radius: 0;
+    padding: 8px;
+    font-size: 8px;
+    color: var(--ink-600);
+  }
+  .slide-two-col-right {
+    background: var(--ink-50);
+    border-radius: 0;
+    padding: 8px;
+  }
+
+  /* Data Slide Miniature */
+  .slide-data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .slide-data-card {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-100);
+    border-radius: 0;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .slide-data-number {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--ink-1000);
+  }
+  .slide-data-label {
+    font-size: 8px;
+    color: var(--ink-500);
+    margin-top: 2px;
+  }
+
+  /* ── Slide Dimension Demo ── */
+  .slide-dimension-demo {
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 16 / 9;
+    background: var(--paper-white);
+    border: 2px solid var(--ink-1000);
+    border-radius: 0;
+    position: relative;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide-dimension-demo::before {
+    content: '1920 × 1080px';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink-800);
+  }
+  .slide-dimension-demo::after {
+    content: 'padding: 64px 80px';
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ink-500);
+  }
+  .slide-dimension-padding {
+    position: absolute;
+    inset: 64px 80px;
+    border: 1px dashed var(--ink-400);
+    border-radius: 0;
+  }
+
+  /* ── Bullet List Demo ── */
+  .bullet-list-demo {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-100);
+    border-radius: 0;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .bullet-list-demo ul {
+    list-style: none;
+  }
+  .bullet-list-demo li {
+    font-size: 20px;
+    color: var(--ink-600);
+    line-height: 1.7;
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .bullet-list-demo li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ink-900);
+  }
+
+  /* ── Code Block Demo (Slide) ── */
+  .code-block-demo {
+    background: var(--paper-warm);
+    border: 1px solid var(--ink-100);
+    border-radius: 0;
+    padding: 32px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-600);
+    margin-bottom: 24px;
+  }
+
+  /* ── Slide Number Demo ── */
+  .slide-number-demo {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 16 / 9;
+    background: var(--paper-white);
+    border: 1px solid var(--ink-200);
+    border-radius: 0;
+    margin-bottom: 32px;
+  }
+  .slide-number-demo::after {
+    content: '01 / 12';
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--ink-400);
+  }
+
+  /* ── Warning List ── */
+  .warning-list {
+    background: rgba(0, 0, 0, 0.02);
+    border: 2px solid var(--ink-1000);
+    border-radius: 0;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .warning-list ul {
+    list-style: none;
+  }
+  .warning-list li {
+    font-size: 14px;
+    color: var(--ink-700);
+    line-height: 1.6;
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .warning-list li::before {
+    content: '×';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 18px;
+    color: var(--ink-1000);
+    font-weight: 600;
+  }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink-800);
+    color: var(--paper-white);
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 9999;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── Mobile ── */
+  .menu-btn {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 200;
+    width: 40px;
+    height: 40px;
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-200);
+    border-radius: 4px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-btn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--ink-700);
+    border-radius: 0;
+    transition: all 0.2s ease;
+  }
+  .menu-btn span + span {
+    margin-top: 4px;
+  }
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 90;
+  }
+
+  @media (max-width: 1023px) {
+    .sidebar {
+      transform: translateX(-100%);
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .main {
+      margin-left: 0;
+    }
+    .hero {
+      padding: 64px 24px 48px;
+    }
+    .content {
+      padding: 0 24px 64px;
+    }
+    .menu-btn {
+      display: flex;
+    }
+    .overlay.open {
+      display: block;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .hero h1 {
+      font-size: 28px;
+    }
+    .color-swatches {
+      flex-direction: column;
+    }
+    .slide-patterns-grid {
+      grid-template-columns: 1fr;
+    }
+    .material-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Mobile Menu Button -->
+<button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>Paper Presentation</h1>
+    <p>Monochrome Editorial Design System</p>
+  </div>
+  <div class="nav-group">
+    <a href="#basic"><span class="nav-num">01</span>基本設定</a>
+    <a href="#colors"><span class="nav-num">02</span>カラーパレット</a>
+    <a href="#typography"><span class="nav-num">03</span>タイポグラフィ</a>
+    <a href="#materials"><span class="nav-num">04</span>マテリアル</a>
+    <a href="#layout"><span class="nav-num">05</span>レイアウト</a>
+    <a href="#slide-number"><span class="nav-num">06</span>スライド番号</a>
+    <a href="#restrictions"><span class="nav-num">07</span>禁止事項</a>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Paper Presentation Design System</h1>
+    <p>AI がスライドデッキ（HTML）を生成する際に従うルールセットのビジュアルリファレンスです。16:9 (1920×1080) モノクロームスライド。</p>
+  </section>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- 01 — 基本設定 -->
+    <section class="section" id="basic">
+      <div class="section-header">
+        <h2>01 — 基本設定</h2>
+      </div>
+
+      <p style="font-size: 14px; color: var(--ink-600); margin-bottom: 16px;">
+        スライドサイズ: <strong style="color: var(--ink-900);">1920×1080px（16:9）</strong><br>
+        キーボード操作: <strong style="color: var(--ink-900);">←→ / スペース</strong> でスライド切り替え<br>
+        フォント: <strong style="color: var(--ink-900);">Crimson Pro (300,400,600) + Instrument Sans (400,600,700) + JetBrains Mono (400,500)</strong>
+      </p>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>body {
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fdfdfc;
+  color: #1a1a1a;
+  overflow: hidden;
+  width: 100vw; height: 100vh;
+}</pre>
+      </div>
+    </section>
+
+    <!-- 02 — カラーパレット -->
+    <section class="section" id="colors">
+      <div class="section-header">
+        <h2>02 — カラーパレット</h2>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px;">Ink Scale（モノクロームパレット）</h3>
+      <div class="color-swatches">
+        <div class="color-swatch" style="background: #000000;" onclick="copyToClipboard('#000000')">
+          <div class="color-swatch-label" style="color: #ffffff;">ink-1000</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#000000</div>
+        </div>
+        <div class="color-swatch" style="background: #1a1a1a;" onclick="copyToClipboard('#1a1a1a')">
+          <div class="color-swatch-label" style="color: #ffffff;">ink-900</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#1a1a1a</div>
+        </div>
+        <div class="color-swatch" style="background: #2d2d2d;" onclick="copyToClipboard('#2d2d2d')">
+          <div class="color-swatch-label" style="color: #ffffff;">ink-800</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#2d2d2d</div>
+        </div>
+        <div class="color-swatch" style="background: #404040;" onclick="copyToClipboard('#404040')">
+          <div class="color-swatch-label" style="color: #ffffff;">ink-700</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#404040</div>
+        </div>
+        <div class="color-swatch" style="background: #525252;" onclick="copyToClipboard('#525252')">
+          <div class="color-swatch-label" style="color: #ffffff;">ink-600</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#525252</div>
+        </div>
+        <div class="color-swatch" style="background: #6b6b6b;" onclick="copyToClipboard('#6b6b6b')">
+          <div class="color-swatch-label" style="color: #ffffff;">ink-500</div>
+          <div class="color-swatch-hex" style="color: #ffffff;">#6b6b6b</div>
+        </div>
+        <div class="color-swatch" style="background: #8a8a8a;" onclick="copyToClipboard('#8a8a8a')">
+          <div class="color-swatch-label" style="color: #000000;">ink-400</div>
+          <div class="color-swatch-hex" style="color: #000000;">#8a8a8a</div>
+        </div>
+        <div class="color-swatch" style="background: #a3a3a3;" onclick="copyToClipboard('#a3a3a3')">
+          <div class="color-swatch-label" style="color: #000000;">ink-300</div>
+          <div class="color-swatch-hex" style="color: #000000;">#a3a3a3</div>
+        </div>
+        <div class="color-swatch" style="background: #c4c4c4;" onclick="copyToClipboard('#c4c4c4')">
+          <div class="color-swatch-label" style="color: #000000;">ink-200</div>
+          <div class="color-swatch-hex" style="color: #000000;">#c4c4c4</div>
+        </div>
+        <div class="color-swatch" style="background: #e0e0e0;" onclick="copyToClipboard('#e0e0e0')">
+          <div class="color-swatch-label" style="color: #000000;">ink-100</div>
+          <div class="color-swatch-hex" style="color: #000000;">#e0e0e0</div>
+        </div>
+        <div class="color-swatch" style="background: #f0f0f0;" onclick="copyToClipboard('#f0f0f0')">
+          <div class="color-swatch-label" style="color: #000000;">ink-50</div>
+          <div class="color-swatch-hex" style="color: #000000;">#f0f0f0</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 32px;">Paper Scale（紙のテクスチャー）</h3>
+      <div class="color-swatches">
+        <div class="color-swatch" style="background: #fdfdfc;" onclick="copyToClipboard('#fdfdfc')">
+          <div class="color-swatch-label" style="color: #000000;">paper-white</div>
+          <div class="color-swatch-hex" style="color: #000000;">#fdfdfc</div>
+        </div>
+        <div class="color-swatch" style="background: #faf9f7;" onclick="copyToClipboard('#faf9f7')">
+          <div class="color-swatch-label" style="color: #000000;">paper-cream</div>
+          <div class="color-swatch-hex" style="color: #000000;">#faf9f7</div>
+        </div>
+        <div class="color-swatch" style="background: #f5f4f0;" onclick="copyToClipboard('#f5f4f0')">
+          <div class="color-swatch-label" style="color: #000000;">paper-warm</div>
+          <div class="color-swatch-hex" style="color: #000000;">#f5f4f0</div>
+        </div>
+        <div class="color-swatch" style="background: #eeedea;" onclick="copyToClipboard('#eeedea')">
+          <div class="color-swatch-label" style="color: #000000;">paper-kraft</div>
+          <div class="color-swatch-hex" style="color: #000000;">#eeedea</div>
+        </div>
+        <div class="color-swatch" style="background: #e8e7e3;" onclick="copyToClipboard('#e8e7e3')">
+          <div class="color-swatch-label" style="color: #000000;">paper-aged</div>
+          <div class="color-swatch-hex" style="color: #000000;">#e8e7e3</div>
+        </div>
+        <div class="color-swatch" style="background: #dddcd8;" onclick="copyToClipboard('#dddcd8')">
+          <div class="color-swatch-label" style="color: #000000;">paper-shadow</div>
+          <div class="color-swatch-hex" style="color: #000000;">#dddcd8</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 32px;">セマンティックトークン</h3>
+      <table class="color-role-table">
+        <thead>
+          <tr>
+            <th>役割</th>
+            <th>値</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="role-name">背景</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #fdfdfc;"></span>
+              #fdfdfc (paper-white)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">テキスト primary</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #1a1a1a;"></span>
+              #1a1a1a (ink-900)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">テキスト secondary</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #525252;"></span>
+              #525252 (ink-600)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">テキスト muted</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #8a8a8a;"></span>
+              #8a8a8a (ink-400)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">見出し</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #000000;"></span>
+              #000000 (ink-1000)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">ラベル</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #6b6b6b;"></span>
+              #6b6b6b (ink-500)
+            </td>
+          </tr>
+          <tr>
+            <td class="role-name">装飾番号</td>
+            <td class="role-value">
+              <span class="color-role-dot" style="background: #c4c4c4; opacity: 0.4;"></span>
+              #c4c4c4 (ink-200, opacity 0.4)
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 03 — タイポグラフィ -->
+    <section class="section" id="typography">
+      <div class="section-header">
+        <h2>03 — タイポグラフィ</h2>
+      </div>
+
+      <p style="font-size: 14px; color: var(--ink-600); margin-bottom: 24px;">
+        <strong style="color: var(--ink-1000);">⚠ 注意:</strong> スライドでは本文 16px 未満を使わない（プロジェクション視認性）。
+      </p>
+
+      <table class="type-table">
+        <thead>
+          <tr>
+            <th>用途</th>
+            <th>プレビュー</th>
+            <th>サイズ / ウェイト / カラー</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="type-usage">タイトルスライド見出し</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(56px, 2.5vw); font-weight: 300; color: #000000; letter-spacing: -1.5px;">Hello World</div>
+            </td>
+            <td class="type-spec">56px / 300 / #000000 / -1.5px / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">スライド見出し</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(44px, 2vw); font-weight: 300; color: #000000; letter-spacing: -1px;">Section Title</div>
+            </td>
+            <td class="type-spec">44px / 300 / #000000 / -1px / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">カードタイトル</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(28px, 1.5vw); font-weight: 600; color: #000000; letter-spacing: -0.3px;">Card Title</div>
+            </td>
+            <td class="type-spec">28px / 600 / #000000 / -0.3px / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">本文（スライド基準）</td>
+            <td class="type-preview">
+              <div style="font-size: 20px; font-weight: 400; color: #1a1a1a;">Body text for slides with good readability.</div>
+            </td>
+            <td class="type-spec">20px / 400 / #1a1a1a / 0 / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">カード本文</td>
+            <td class="type-preview">
+              <div style="font-size: 18px; font-weight: 400; color: #525252;">Card body text.</div>
+            </td>
+            <td class="type-spec">18px / 400 / #525252 / 0 / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">ラベル (uppercase)</td>
+            <td class="type-preview">
+              <div style="font-size: 14px; font-weight: 700; color: #6b6b6b; letter-spacing: 2px; text-transform: uppercase;">Label</div>
+            </td>
+            <td class="type-spec">14px / 700 / #6b6b6b / 2px / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">数値ハイライト（大）</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(64px, 3vw); font-weight: 300; color: #000000;">1,234</div>
+            </td>
+            <td class="type-spec">64px / 300 / #000000 / 0 / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">数値ハイライト（小）</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(48px, 2.5vw); font-weight: 300; color: #000000;">567</div>
+            </td>
+            <td class="type-spec">48px / 300 / #000000 / 0 / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">装飾番号</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: min(72px, 3vw); font-weight: 300; color: #c4c4c4; opacity: 0.4;">01</div>
+            </td>
+            <td class="type-spec">72px / 300 / #c4c4c4 / 0 / Serif, opacity 0.4</td>
+          </tr>
+          <tr>
+            <td class="type-usage">サブタイトル</td>
+            <td class="type-preview">
+              <div style="font-family: var(--font-serif); font-size: 28px; font-weight: 300; color: #525252; letter-spacing: -0.5px;">Subtitle text</div>
+            </td>
+            <td class="type-spec">28px / 300 / #525252 / -0.5px / Serif</td>
+          </tr>
+          <tr>
+            <td class="type-usage">連絡先</td>
+            <td class="type-preview">
+              <div style="font-size: 18px; font-weight: 400; color: #6b6b6b;">contact@example.com</div>
+            </td>
+            <td class="type-spec">18px / 400 / #6b6b6b / 0 / Sans</td>
+          </tr>
+          <tr>
+            <td class="type-usage">URL (mono)</td>
+            <td class="type-preview">
+              <div style="font-size: 16px; font-family: var(--font-mono); font-weight: 400; color: #8a8a8a;">https://example.com</div>
+            </td>
+            <td class="type-spec">16px / 400 / #8a8a8a / 0 / Mono</td>
+          </tr>
+          <tr>
+            <td class="type-usage">スライド番号 (mono)</td>
+            <td class="type-preview">
+              <div style="font-size: 14px; font-family: var(--font-mono); font-weight: 500; color: #8a8a8a;">01 / 12</div>
+            </td>
+            <td class="type-spec">14px / 500 / #8a8a8a / 0 / Mono</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 04 — マテリアル -->
+    <section class="section" id="materials">
+      <div class="section-header">
+        <h2>04 — マテリアル</h2>
+      </div>
+
+      <div class="material-grid">
+        <div class="material-card flat-paper">
+          <div class="material-card-title">Flat Paper</div>
+          <div class="material-card-desc">基本的な紙カード。角丸なし、シャドウなし。</div>
+        </div>
+
+        <div class="material-card layered-paper">
+          <div class="material-card-title">Layered Paper（強調カード）</div>
+          <div class="material-card-desc">オフセットシャドウで重なり感を表現。角丸なし。</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 16px;">Flat Paper CSS</h3>
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background: #faf9f7;
+border: 1px solid #e0e0e0;
+border-radius: 0;
+padding: 48px 40px;</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 24px;">Layered Paper CSS</h3>
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background: #fdfdfc;
+border: 1px solid #c4c4c4;
+border-radius: 0;
+box-shadow: 2px 2px 0 #f0f0f0;</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 24px;">Editorial Rule（セクション区切り）</h3>
+      <div class="editorial-rule"></div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>width: 100%; height: 2px;
+background: #000000;
+margin: 48px 0;</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 24px;">Double Line（重要区切り）</h3>
+      <div class="double-line"></div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>width: 100%; height: 0;
+border-top: 3px double #000000;
+margin: 48px 0;</pre>
+      </div>
+    </section>
+
+    <!-- 05 — レイアウト -->
+    <section class="section" id="layout">
+      <div class="section-header">
+        <h2>05 — レイアウト</h2>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px;">スライド寸法</h3>
+      <div class="slide-dimension-demo">
+        <div class="slide-dimension-padding"></div>
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>.slide { width: 1920px; height: 1080px; padding: 64px 80px; }</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 16px; margin-top: 32px;">スライドパターン</h3>
+
+      <div class="slide-patterns-grid">
+        <!-- 1. Title Slide -->
+        <div class="slide-miniature slide-title">
+          <div class="slide-miniature-label">1. タイトルスライド</div>
+          <div class="slide-miniature-content">
+            <div style="font-size: 8px; color: var(--ink-500); margin-bottom: 8px;">THE DOMAIN AI</div>
+            <div class="slide-title-h1">Paper Design System</div>
+            <div class="slide-title-subtitle">Monochrome Editorial Presentation</div>
+            <div style="font-size: 8px; font-family: var(--font-mono); color: var(--ink-400); margin-top: 8px;">2026.02.14</div>
+          </div>
+        </div>
+
+        <!-- 2. Content Slide (3-col cards) -->
+        <div class="slide-miniature">
+          <div class="slide-miniature-label">2. コンテンツスライド（3列カード）</div>
+          <div class="slide-miniature-content">
+            <div style="font-size: 8px; font-weight: 700; color: var(--ink-500); letter-spacing: 1px; margin-bottom: 4px;">FEATURES</div>
+            <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 300; color: var(--ink-1000); margin-bottom: 12px;">見出し</div>
+            <div class="slide-content-grid">
+              <div class="slide-content-card"></div>
+              <div class="slide-content-card"></div>
+              <div class="slide-content-card"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Two-Column Slide -->
+        <div class="slide-miniature">
+          <div class="slide-miniature-label">3. 2カラムスライド</div>
+          <div class="slide-miniature-content">
+            <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 300; color: var(--ink-1000); margin-bottom: 12px;">見出し</div>
+            <div class="slide-two-col">
+              <div class="slide-two-col-left">
+                テキスト<br>+ 箇条書き
+              </div>
+              <div class="slide-two-col-right"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Data Slide -->
+        <div class="slide-miniature">
+          <div class="slide-miniature-label">4. データスライド（数値ハイライト）</div>
+          <div class="slide-miniature-content">
+            <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 300; color: var(--ink-1000); margin-bottom: 12px;">統計データ</div>
+            <div class="slide-data-grid">
+              <div class="slide-data-card">
+                <div class="slide-data-number">1,234</div>
+                <div class="slide-data-label">Users</div>
+              </div>
+              <div class="slide-data-card">
+                <div class="slide-data-number">567</div>
+                <div class="slide-data-label">Projects</div>
+              </div>
+              <div class="slide-data-card">
+                <div class="slide-data-number">89%</div>
+                <div class="slide-data-label">Success</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 32px;">箇条書き</h3>
+      <div class="bullet-list-demo">
+        <ul>
+          <li>箇条書き項目の例です（20px）</li>
+          <li>カラーは #525252 を使用</li>
+          <li>行間は 1.7 で読みやすく</li>
+        </ul>
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>li { font-size: 20px; color: #525252; line-height: 1.7; padding-left: 24px; }
+li::before { width: 6px; height: 6px; border-radius: 50%; background: #1a1a1a; }</pre>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 700; color: var(--ink-800); margin-bottom: 12px; margin-top: 24px;">コードブロック</h3>
+      <div class="code-block-demo">
+        <pre>function hello() {
+  console.log('Hello, World!');
+}</pre>
+      </div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>background: #f5f4f0; border: 1px solid #e0e0e0; border-radius: 0;
+padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7; color: #525252;</pre>
+      </div>
+    </section>
+
+    <!-- 06 — スライド番号 -->
+    <section class="section" id="slide-number">
+      <div class="section-header">
+        <h2>06 — スライド番号</h2>
+      </div>
+
+      <div class="slide-number-demo"></div>
+
+      <div class="code-block" onclick="copyToClipboard(this.innerText)">
+        <pre>position: fixed; bottom: 32px; right: 48px;
+font-family: 'JetBrains Mono'; font-size: 14px; color: #8a8a8a;</pre>
+      </div>
+    </section>
+
+    <!-- 07 — 禁止事項 -->
+    <section class="section" id="restrictions">
+      <div class="section-header">
+        <h2>07 — 禁止事項</h2>
+      </div>
+
+      <div class="warning-list">
+        <ul>
+          <li>本文を 16px 未満にしない</li>
+          <li>カラー（彩色）を使用しない（グレースケールのみ）</li>
+          <li>カードに角丸をつけない（radius-none: 0px）</li>
+          <li>border-radius を radius-md（4px）を超えて使用しない（50% の円形を除く）</li>
+          <li>グラデーション・グロウ・ブラーなどの装飾エフェクトを使用しない</li>
+          <li>1スライドにカード 3枚 or 箇条書き 5項目が上限目安</li>
+          <li>背景色を #fdfdfc 以外にしない</li>
+          <li>スライドの padding を 64px 80px 未満にしない</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+  // Sidebar toggle for mobile
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+
+  // Active nav link based on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-group a');
+
+  function updateActiveNav() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (window.scrollY >= sectionTop - 100) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav();
+
+  // Copy to clipboard
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    });
+  }
+
+  // Close sidebar when clicking on a link (mobile)
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 1024) {
+        toggleSidebar();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web UI Design System — The Domain AI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-400: #6b84c0;  --primary-500: #5068a4;  --primary-600: #445076;  --primary-950: #0f1220;
+    --neutral-0: #000000;  --neutral-100: #0a0a0c;  --neutral-200: #141418;  --neutral-300: #1e1e24;
+    --neutral-400: #2a2a32;  --neutral-500: #3d3d48;  --neutral-700: #7e7e8c;  --neutral-800: #a5a5b0;
+    --neutral-950: #e8e8ec;  --neutral-1000: #ffffff;
+    --glow-200: #cbc0e6;  --glow-400: #8e7cb4;  --glow-800: #36304f;
+    --success-400: #4ade80; --success-900: #0a2615;
+    --warning-400: #facc15; --warning-900: #2a2008;
+    --error-400: #f87171;   --error-900: #2a0a0a;
+    --info-400: #60a5fa;    --info-900: #0a1a2e;
+    --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --sidebar-width: 260px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+  body { font-family: var(--font-sans); background: var(--neutral-0); color: var(--neutral-950); line-height: 1.6; overflow-x: hidden; }
+
+  /* ── Sidebar ── */
+  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh; background: var(--neutral-100); border-right: 1px solid var(--neutral-300); padding: 32px 0; overflow-y: auto; z-index: 100; transition: transform .3s cubic-bezier(0.25,0.1,0.25,1); }
+  .sidebar-header { padding: 0 24px 24px; border-bottom: 1px solid var(--neutral-300); margin-bottom: 16px; }
+  .sidebar-header h1 { font-size: 15px; font-weight: 600; color: var(--neutral-1000); letter-spacing: -0.3px; }
+  .sidebar-header p { font-size: 11px; color: var(--neutral-700); margin-top: 4px; font-weight: 400; }
+  .nav-group { padding: 0 12px; }
+  .nav-group a { display: flex; align-items: center; gap: 10px; padding: 8px 12px; font-size: 13px; font-weight: 400; color: var(--neutral-700); text-decoration: none; border-radius: 8px; transition: all .15s ease; margin-bottom: 2px; }
+  .nav-group a:hover { color: var(--neutral-950); background: var(--neutral-200); }
+  .nav-group a.active { color: var(--neutral-1000); background: var(--neutral-200); font-weight: 500; }
+  .nav-group a .nav-num { font-family: var(--font-mono); font-size: 10px; color: var(--neutral-500); width: 20px; text-align: right; flex-shrink: 0; }
+  .nav-group a.active .nav-num { color: var(--primary-400); }
+
+  /* ── Main ── */
+  .main { margin-left: var(--sidebar-width); min-height: 100vh; }
+  .hero { padding: 80px 64px 64px; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(80,104,164,0.12) 0%, transparent 70%); }
+  .hero h1 { font-size: 44px; font-weight: 300; letter-spacing: -1px; color: var(--neutral-1000); margin-bottom: 8px; }
+  .hero p { font-size: 14px; color: var(--neutral-700); max-width: 600px; }
+  .content { padding: 0 64px 96px; }
+
+  /* ── Section ── */
+  .section { padding-top: 64px; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+  .section-header h2 { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--neutral-700); white-space: nowrap; }
+  .section-header::after { content: ''; flex: 1; height: 1px; background: var(--neutral-300); }
+
+  /* ── Code Block ── */
+  .code-block { background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: 12px; padding: 20px; margin-bottom: 24px; font-family: var(--font-mono); font-size: 12px; color: var(--neutral-800); line-height: 1.7; overflow-x: auto; }
+
+  /* ── Color Swatches ── */
+  .palette-group { margin-bottom: 32px; }
+  .palette-label { font-size: 14px; font-weight: 500; color: var(--neutral-950); margin-bottom: 12px; }
+  .swatches { display: flex; gap: 2px; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .swatch { flex: 1; min-height: 80px; padding: 8px 10px; display: flex; flex-direction: column; justify-content: flex-end; cursor: pointer; transition: transform .15s ease; position: relative; }
+  .swatch:hover { transform: scaleY(1.08); z-index: 1; }
+  .swatch-label { font-family: var(--font-mono); font-size: 10px; font-weight: 500; }
+  .swatch-hex { font-family: var(--font-mono); font-size: 9px; opacity: .6; margin-top: 1px; }
+  .swatch.dark .swatch-label, .swatch.dark .swatch-hex { color: var(--neutral-200); }
+  .swatch.light .swatch-label, .swatch.light .swatch-hex { color: var(--neutral-950); }
+
+  /* ── Color Role Table ── */
+  .role-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .role-table th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--neutral-700); padding: 0 16px 12px; border-bottom: 1px solid var(--neutral-300); }
+  .role-table td { padding: 12px 16px; border-bottom: 1px solid var(--neutral-200); vertical-align: middle; font-size: 13px; color: var(--neutral-800); }
+  .role-dot { width: 24px; height: 24px; border-radius: 6px; display: inline-block; vertical-align: middle; margin-right: 8px; }
+
+  /* ── Typography Table ── */
+  .type-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .type-table th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--neutral-700); padding: 0 16px 12px; border-bottom: 1px solid var(--neutral-300); }
+  .type-table td { padding: 16px; border-bottom: 1px solid var(--neutral-200); vertical-align: middle; font-size: 12px; color: var(--neutral-800); }
+  .type-table td:first-child { font-family: var(--font-mono); color: var(--primary-400); font-size: 11px; }
+  .type-preview { font-size: inherit; color: inherit; line-height: inherit; letter-spacing: inherit; font-weight: inherit; }
+
+  /* ── Material Cards ── */
+  .material-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 32px; }
+  .material-card { border-radius: 12px; padding: 24px; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+  .material-name { font-size: 16px; font-weight: 600; color: var(--neutral-1000); margin-bottom: 4px; }
+  .material-desc { font-size: 13px; color: var(--neutral-700); margin-bottom: 12px; }
+  .material-code { font-family: var(--font-mono); font-size: 10px; color: var(--neutral-700); background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; line-height: 1.6; white-space: pre-wrap; }
+
+  .card-standard { background: rgba(10, 10, 12, 0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.06); }
+  .card-frosted { background: rgba(20, 20, 24, 0.8); backdrop-filter: blur(40px) saturate(1.2); -webkit-backdrop-filter: blur(40px) saturate(1.2); border: 1px solid rgba(255, 255, 255, 0.08); }
+  .card-tinted { background: rgba(15, 18, 32, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(107, 132, 192, 0.15); }
+  .card-liquid { position: relative; background: linear-gradient(135deg, rgba(80,104,164,0.08) 0%, rgba(142,124,180,0.05) 50%, rgba(80,104,164,0.08) 100%); backdrop-filter: blur(40px) saturate(1.8) brightness(1.1); -webkit-backdrop-filter: blur(40px) saturate(1.8) brightness(1.1); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.3); }
+  .card-liquid::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 30%, transparent 50%); pointer-events: none; }
+
+  /* ── Layout Demo ── */
+  .layout-demo { background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+  .layout-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--neutral-700); margin-bottom: 16px; }
+  .grid-demo-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-demo-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 16px; }
+  .grid-item { background: var(--neutral-200); border: 1px solid var(--neutral-400); border-radius: 8px; height: 80px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 10px; color: var(--neutral-700); }
+
+  /* ── Buttons ── */
+  .button-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; margin-bottom: 32px; }
+  .button-demo-card { background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: 12px; padding: 32px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .button-demo-title { font-size: 14px; font-weight: 600; color: var(--neutral-1000); }
+  .button-demo-desc { font-size: 12px; color: var(--neutral-700); text-align: center; max-width: 280px; margin-bottom: 8px; }
+
+  .btn-primary {
+    padding: 14px 28px; font-size: 16px; font-weight: 600; border-radius: 8px; color: #ffffff; border: none; cursor: pointer;
+    background-size: 280% auto;
+    background-image: linear-gradient(325deg, #5068a4 0%, #798bb9 55%, #5068a4 90%);
+    box-shadow: 0 0 20px rgba(80,104,164,0.5), 0 5px 5px -1px rgba(68,80,118,0.25), inset 4px 4px 8px rgba(196,211,255,0.5), inset -4px -4px 8px rgba(54,63,96,0.35);
+    transition: 0.8s;
+  }
+  .btn-primary:hover { background-position: right top; transform: translateY(-2px); }
+  .btn-primary:focus-visible { box-shadow: 0 0 0 3px #fff, 0 0 0 6px #5068a4; }
+
+  .btn-secondary {
+    padding: 14px 28px; border-radius: 7px; color: rgba(232,232,236,0.66); border: none; cursor: pointer; position: relative;
+    background: radial-gradient(ellipse at bottom, #2a2a32 0%, #0a0a0c 45%);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+    transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+  }
+  .btn-secondary::before {
+    content: ""; width: 70%; height: 1px; bottom: 0; left: 15%; position: absolute;
+    background: linear-gradient(90deg, transparent, #e8e8ec, transparent); opacity: 0.2;
+    transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+  }
+  .btn-secondary:hover { color: #e8e8ec; transform: scale(1.05) translateY(-2px); }
+  .btn-secondary:hover::before { opacity: 1; }
+
+  .btn-ghost {
+    padding: 14px 28px; border-radius: 12px; color: #e8e8ec; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; position: relative; overflow: hidden;
+    background: rgba(10,10,12,0.5); backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    transition: all 0.4s cubic-bezier(0.25,0.1,0.25,1);
+  }
+  .btn-ghost::before {
+    content: ""; position: absolute; top: -100%; left: 0; right: 0; height: 100%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent);
+    transition: top 0.6s cubic-bezier(0,0,0.2,1); pointer-events: none;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.18); background: rgba(80,104,164,0.15); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 8px 24px rgba(0,0,0,0.3); }
+  .btn-ghost:hover::before { top: 0; }
+
+  /* ── Card Demo ── */
+  .demo-card { background: rgba(10,10,12,0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 32px; transition: transform 0.2s ease, border-color 0.2s ease; max-width: 400px; margin-bottom: 32px; }
+  .demo-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.12); }
+  .card-icon { width: 48px; height: 48px; border-radius: 8px; background: rgba(80,104,164,0.15); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .card-title { font-size: 20px; font-weight: 600; color: var(--neutral-950); margin-bottom: 8px; }
+  .card-text { font-size: 14px; color: var(--neutral-700); line-height: 1.6; }
+
+  /* ── Badges ── */
+  .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .badge { height: 22px; padding: 0 8px; font-size: 11px; font-weight: 500; border-radius: 4px; display: inline-flex; align-items: center; }
+  .badge-default { background: #1e1e24; color: #7e7e8c; }
+  .badge-success { background: #0a2615; color: #4ade80; }
+  .badge-warning { background: #2a2008; color: #facc15; }
+  .badge-error { background: #2a0a0a; color: #f87171; }
+  .badge-info { background: #0a1a2e; color: #60a5fa; }
+
+  /* ── Input Fields ── */
+  .input-demo-group { margin-bottom: 32px; max-width: 400px; }
+  .input-demo-label { font-size: 12px; color: var(--neutral-700); margin-bottom: 8px; display: block; }
+  .input-demo { width: 100%; height: 40px; padding: 0 12px; font-size: 14px; color: var(--neutral-950); background: #0a0a0c; border: 1px solid #1e1e24; border-radius: 8px; font-family: var(--font-sans); outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; margin-bottom: 12px; }
+  .input-demo::placeholder { color: #3d3d48; }
+  .input-demo:hover { border-color: #2a2a32; }
+  .input-demo:focus { border-color: #5068a4; box-shadow: 0 0 0 2px rgba(68,80,118,0.6), 0 0 12px rgba(80,104,164,0.3); }
+
+  /* ── Animation Cards ── */
+  .anim-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .anim-card { background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; }
+  .anim-demo { width: 64px; height: 40px; background: var(--primary-500); border-radius: 8px; margin: 0 auto 12px; }
+  .anim-name { font-size: 13px; font-weight: 500; color: var(--neutral-950); margin-bottom: 4px; }
+  .anim-desc { font-size: 11px; color: var(--neutral-700); }
+  .anim-card:hover .anim-demo { animation-duration: 0.8s; animation-iteration-count: 1; }
+  .anim-card:hover .fadeInUp-demo { animation-name: fadeInUp; }
+  .anim-card:hover .glowPulse-demo { animation-name: glowPulse; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(80,104,164,0.1); }
+    50%      { box-shadow: 0 0 40px rgba(80,104,164,0.25); }
+  }
+
+  /* ── Responsive Table ── */
+  .responsive-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .responsive-table th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--neutral-700); padding: 0 16px 12px; border-bottom: 1px solid var(--neutral-300); }
+  .responsive-table td { padding: 12px 16px; border-bottom: 1px solid var(--neutral-200); font-size: 13px; color: var(--neutral-800); }
+
+  /* ── HTML Structure Display ── */
+  .structure-code { background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: 12px; padding: 24px; font-family: var(--font-mono); font-size: 11px; color: var(--neutral-800); line-height: 1.8; overflow-x: auto; margin-bottom: 32px; }
+
+  /* ── Rule List ── */
+  .rule-list { list-style: none; margin-bottom: 32px; }
+  .rule-list li { font-size: 14px; color: var(--neutral-800); padding: 12px 16px; background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: 8px; margin-bottom: 8px; line-height: 1.6; }
+  .rule-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--error-400); border-radius: 50%; margin-right: 12px; vertical-align: middle; }
+
+  /* ── Toast ── */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--neutral-400); color: var(--neutral-950); padding: 8px 20px; border-radius: 8px; font-size: 12px; font-family: var(--font-mono); opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 9999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── Mobile ── */
+  .menu-btn { display: none; position: fixed; top: 16px; left: 16px; z-index: 200; width: 40px; height: 40px; background: var(--neutral-200); border: 1px solid var(--neutral-300); border-radius: 10px; cursor: pointer; align-items: center; justify-content: center; }
+  .menu-btn span { display: block; width: 18px; height: 2px; background: var(--neutral-800); border-radius: 1px; transition: all .2s ease; }
+  .menu-btn span+span { margin-top: 4px; }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 90; }
+
+  @media(max-width:1023px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .hero { padding: 64px 32px 48px; }
+    .content { padding: 0 32px 64px; }
+    .menu-btn { display: flex; }
+    .overlay.open { display: block; }
+    .grid-demo-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media(max-width:639px) {
+    .hero h1 { font-size: 28px; }
+    .hero { padding: 64px 16px 48px; }
+    .content { padding: 0 16px 64px; }
+    .grid-demo-3, .grid-demo-2 { grid-template-columns: 1fr; }
+    .swatches { flex-wrap: wrap; }
+    .swatch { min-width: calc(25% - 2px); min-height: 64px; }
+  }
+
+  /* ── Gradient Text ── */
+  .gradient-text {
+    background: linear-gradient(90deg, #e8e8ec 0%, #8f99b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
+</head>
+<body>
+
+<!-- Menu Button -->
+<button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>Web UI Design</h1>
+    <p>Visual Reference</p>
+  </div>
+  <div class="nav-group">
+    <a href="#base"><span class="nav-num">01</span>基本設定</a>
+    <a href="#colors"><span class="nav-num">02</span>カラーパレット</a>
+    <a href="#color-usage"><span class="nav-num">03</span>カラーの使い分け</a>
+    <a href="#typography"><span class="nav-num">04</span>タイポグラフィ</a>
+    <a href="#material"><span class="nav-num">05</span>マテリアル</a>
+    <a href="#layout"><span class="nav-num">06</span>レイアウト</a>
+    <a href="#buttons"><span class="nav-num">07</span>ボタン</a>
+    <a href="#cards"><span class="nav-num">08</span>カード</a>
+    <a href="#badges"><span class="nav-num">09</span>バッジ</a>
+    <a href="#inputs"><span class="nav-num">10</span>入力フィールド</a>
+    <a href="#animation"><span class="nav-num">11</span>アニメーション</a>
+    <a href="#responsive"><span class="nav-num">12</span>レスポンシブ</a>
+    <a href="#structure"><span class="nav-num">13</span>ページ構造</a>
+    <a href="#forbidden"><span class="nav-num">14</span>禁止事項</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Web UI Design System</h1>
+    <p>AI がウェブページ（LP・プロダクトページ等）を生成する際に従うルールセットのビジュアルリファレンスです。</p>
+  </div>
+
+  <div class="content">
+
+    <!-- 01 — 基本設定 -->
+    <section id="base" class="section">
+      <div class="section-header">
+        <h2>01 — 基本設定</h2>
+      </div>
+      <div class="code-block">&lt;link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"&gt;</div>
+      <div class="code-block">body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #e8e8ec;
+  background: #000000;
+  -webkit-font-smoothing: antialiased;
+}</div>
+    </section>
+
+    <!-- 02 — カラーパレット -->
+    <section id="colors" class="section">
+      <div class="section-header">
+        <h2>02 — カラーパレット</h2>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Primary</div>
+        <div class="swatches">
+          <div class="swatch dark" style="background:#6b84c0;" onclick="copyColor('#6b84c0')">
+            <div class="swatch-label">400</div>
+            <div class="swatch-hex">#6b84c0</div>
+          </div>
+          <div class="swatch dark" style="background:#5068a4;" onclick="copyColor('#5068a4')">
+            <div class="swatch-label">500</div>
+            <div class="swatch-hex">#5068a4</div>
+          </div>
+          <div class="swatch dark" style="background:#445076;" onclick="copyColor('#445076')">
+            <div class="swatch-label">600</div>
+            <div class="swatch-hex">#445076</div>
+          </div>
+          <div class="swatch dark" style="background:#0f1220;" onclick="copyColor('#0f1220')">
+            <div class="swatch-label">950</div>
+            <div class="swatch-hex">#0f1220</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Neutral</div>
+        <div class="swatches">
+          <div class="swatch dark" style="background:#000000;" onclick="copyColor('#000000')">
+            <div class="swatch-label">0</div>
+            <div class="swatch-hex">#000000</div>
+          </div>
+          <div class="swatch dark" style="background:#0a0a0c;" onclick="copyColor('#0a0a0c')">
+            <div class="swatch-label">100</div>
+            <div class="swatch-hex">#0a0a0c</div>
+          </div>
+          <div class="swatch dark" style="background:#141418;" onclick="copyColor('#141418')">
+            <div class="swatch-label">200</div>
+            <div class="swatch-hex">#141418</div>
+          </div>
+          <div class="swatch dark" style="background:#1e1e24;" onclick="copyColor('#1e1e24')">
+            <div class="swatch-label">300</div>
+            <div class="swatch-hex">#1e1e24</div>
+          </div>
+          <div class="swatch dark" style="background:#2a2a32;" onclick="copyColor('#2a2a32')">
+            <div class="swatch-label">400</div>
+            <div class="swatch-hex">#2a2a32</div>
+          </div>
+          <div class="swatch dark" style="background:#3d3d48;" onclick="copyColor('#3d3d48')">
+            <div class="swatch-label">500</div>
+            <div class="swatch-hex">#3d3d48</div>
+          </div>
+          <div class="swatch light" style="background:#7e7e8c;" onclick="copyColor('#7e7e8c')">
+            <div class="swatch-label">700</div>
+            <div class="swatch-hex">#7e7e8c</div>
+          </div>
+          <div class="swatch light" style="background:#a5a5b0;" onclick="copyColor('#a5a5b0')">
+            <div class="swatch-label">800</div>
+            <div class="swatch-hex">#a5a5b0</div>
+          </div>
+          <div class="swatch light" style="background:#e8e8ec;" onclick="copyColor('#e8e8ec')">
+            <div class="swatch-label">950</div>
+            <div class="swatch-hex">#e8e8ec</div>
+          </div>
+          <div class="swatch light" style="background:#ffffff;" onclick="copyColor('#ffffff')">
+            <div class="swatch-label">1000</div>
+            <div class="swatch-hex">#ffffff</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Glow</div>
+        <div class="swatches">
+          <div class="swatch light" style="background:#cbc0e6;" onclick="copyColor('#cbc0e6')">
+            <div class="swatch-label">200</div>
+            <div class="swatch-hex">#cbc0e6</div>
+          </div>
+          <div class="swatch dark" style="background:#8e7cb4;" onclick="copyColor('#8e7cb4')">
+            <div class="swatch-label">400</div>
+            <div class="swatch-hex">#8e7cb4</div>
+          </div>
+          <div class="swatch dark" style="background:#36304f;" onclick="copyColor('#36304f')">
+            <div class="swatch-label">800</div>
+            <div class="swatch-hex">#36304f</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Semantic Colors</div>
+        <div class="swatches">
+          <div class="swatch dark" style="background:#4ade80;" onclick="copyColor('#4ade80')">
+            <div class="swatch-label">success-400</div>
+            <div class="swatch-hex">#4ade80</div>
+          </div>
+          <div class="swatch dark" style="background:#0a2615;" onclick="copyColor('#0a2615')">
+            <div class="swatch-label">success-900</div>
+            <div class="swatch-hex">#0a2615</div>
+          </div>
+          <div class="swatch dark" style="background:#facc15;" onclick="copyColor('#facc15')">
+            <div class="swatch-label">warning-400</div>
+            <div class="swatch-hex">#facc15</div>
+          </div>
+          <div class="swatch dark" style="background:#2a2008;" onclick="copyColor('#2a2008')">
+            <div class="swatch-label">warning-900</div>
+            <div class="swatch-hex">#2a2008</div>
+          </div>
+          <div class="swatch dark" style="background:#f87171;" onclick="copyColor('#f87171')">
+            <div class="swatch-label">error-400</div>
+            <div class="swatch-hex">#f87171</div>
+          </div>
+          <div class="swatch dark" style="background:#2a0a0a;" onclick="copyColor('#2a0a0a')">
+            <div class="swatch-label">error-900</div>
+            <div class="swatch-hex">#2a0a0a</div>
+          </div>
+          <div class="swatch dark" style="background:#60a5fa;" onclick="copyColor('#60a5fa')">
+            <div class="swatch-label">info-400</div>
+            <div class="swatch-hex">#60a5fa</div>
+          </div>
+          <div class="swatch dark" style="background:#0a1a2e;" onclick="copyColor('#0a1a2e')">
+            <div class="swatch-label">info-900</div>
+            <div class="swatch-hex">#0a1a2e</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 — カラーの使い分け -->
+    <section id="color-usage" class="section">
+      <div class="section-header">
+        <h2>03 — カラーの使い分け</h2>
+      </div>
+      <table class="role-table">
+        <thead>
+          <tr>
+            <th>役割</th>
+            <th>値</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="role-dot" style="background:#000000;"></span>ページ背景</td>
+            <td>#000000</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:rgba(10,10,12,0.6); border:1px solid rgba(255,255,255,0.1);"></span>サーフェス（カード背景）</td>
+            <td>rgba(10,10,12,0.6) + backdrop-filter: blur(24px)</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:rgba(255,255,255,0.06);"></span>ボーダー通常</td>
+            <td>rgba(255,255,255,0.06)</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:rgba(255,255,255,0.12);"></span>ボーダー hover</td>
+            <td>rgba(255,255,255,0.12)</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:#e8e8ec;"></span>テキスト primary（本文）</td>
+            <td>#e8e8ec</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:#7e7e8c;"></span>テキスト secondary（補助）</td>
+            <td>#7e7e8c</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:#3d3d48;"></span>テキスト muted（非活性）</td>
+            <td>#3d3d48</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:#ffffff;"></span>見出し（h1〜h3）</td>
+            <td>#ffffff</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:#6b84c0;"></span>ラベル・アクセント</td>
+            <td>#6b84c0</td>
+          </tr>
+          <tr>
+            <td><span class="role-dot" style="background:#5068a4;"></span>インタラクティブ</td>
+            <td>#5068a4</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 04 — タイポグラフィ -->
+    <section id="typography" class="section">
+      <div class="section-header">
+        <h2>04 — タイポグラフィ</h2>
+      </div>
+      <table class="type-table">
+        <thead>
+          <tr>
+            <th>用途</th>
+            <th>プレビュー</th>
+            <th>スタイル</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ヒーロー見出し</td>
+            <td><span class="type-preview" style="font-size:36px; font-weight:300; line-height:1.1; letter-spacing:-1.5px; color:#ffffff;">Hero Title</span></td>
+            <td>56px / 300 / 1.1 / -1.5px / #ffffff</td>
+          </tr>
+          <tr>
+            <td>セクション見出し</td>
+            <td><span class="type-preview" style="font-size:32px; font-weight:300; line-height:1.15; letter-spacing:-1px; color:#ffffff;">Section Heading</span></td>
+            <td>44px / 300 / 1.15 / -1px / #ffffff</td>
+          </tr>
+          <tr>
+            <td>ページタイトル</td>
+            <td><span class="type-preview" style="font-size:28px; font-weight:300; line-height:1.2; letter-spacing:-0.5px; color:#ffffff;">Page Title</span></td>
+            <td>36px / 300 / 1.2 / -0.5px / #ffffff</td>
+          </tr>
+          <tr>
+            <td>カードタイトル(大)</td>
+            <td><span class="type-preview" style="font-size:22px; font-weight:500; line-height:1.3; letter-spacing:-0.3px; color:#ffffff;">Card Title</span></td>
+            <td>28px / 500 / 1.3 / -0.3px / #ffffff</td>
+          </tr>
+          <tr>
+            <td>サブセクション</td>
+            <td><span class="type-preview" style="font-size:18px; font-weight:500; line-height:1.35; letter-spacing:-0.2px; color:#ffffff;">Subsection</span></td>
+            <td>22px / 500 / 1.35 / -0.2px / #ffffff</td>
+          </tr>
+          <tr>
+            <td>小見出し</td>
+            <td><span class="type-preview" style="font-size:16px; font-weight:600; line-height:1.4; letter-spacing:0; color:#e8e8ec;">Small Heading</span></td>
+            <td>18px / 600 / 1.4 / 0 / #e8e8ec</td>
+          </tr>
+          <tr>
+            <td>本文（大）</td>
+            <td><span class="type-preview" style="font-size:16px; font-weight:400; line-height:1.6; letter-spacing:0; color:#e8e8ec;">Body text large</span></td>
+            <td>16px / 400 / 1.6 / 0 / #e8e8ec</td>
+          </tr>
+          <tr>
+            <td>本文（標準）</td>
+            <td><span class="type-preview" style="font-size:14px; font-weight:400; line-height:1.6; letter-spacing:0; color:#e8e8ec;">Body text standard</span></td>
+            <td>14px / 400 / 1.6 / 0 / #e8e8ec</td>
+          </tr>
+          <tr>
+            <td>注釈</td>
+            <td><span class="type-preview" style="font-size:12px; font-weight:400; line-height:1.5; letter-spacing:0.1px; color:#a5a5b0;">Caption text</span></td>
+            <td>12px / 400 / 1.5 / 0.1px / #a5a5b0</td>
+          </tr>
+          <tr>
+            <td>ラベル(uppercase)</td>
+            <td><span class="type-preview" style="font-size:13px; font-weight:600; letter-spacing:2px; color:#6b84c0; text-transform:uppercase;">Label</span></td>
+            <td>13px / 600 / 2px / #6b84c0</td>
+          </tr>
+          <tr>
+            <td>サブタイトル</td>
+            <td><span class="type-preview" style="font-size:20px; font-weight:400; line-height:1.6; letter-spacing:0; color:#7e7e8c;">Subtitle text</span></td>
+            <td>20px / 400 / 1.6 / 0 / #7e7e8c</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:32px;">
+        <div class="palette-label">テキストグラデーション（装飾用）</div>
+        <div style="font-size:36px; font-weight:300; margin:16px 0;" class="gradient-text">Gradient Text Example</div>
+        <div class="code-block">background: linear-gradient(90deg, #e8e8ec 0%, #8f99b8 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;</div>
+      </div>
+    </section>
+
+    <!-- 05 — マテリアル -->
+    <section id="material" class="section">
+      <div class="section-header">
+        <h2>05 — マテリアル（Glass / Liquid Glass）</h2>
+      </div>
+
+      <div class="material-grid">
+        <div class="material-card card-standard">
+          <div>
+            <div class="material-name">Standard Glass</div>
+            <div class="material-desc">カード・パネル</div>
+          </div>
+          <div class="material-code">background: rgba(10, 10, 12, 0.6);
+backdrop-filter: blur(24px);
+border: 1px solid rgba(255, 255, 255, 0.06);
+border-radius: 12px;</div>
+        </div>
+
+        <div class="material-card card-frosted">
+          <div>
+            <div class="material-name">Frosted Glass</div>
+            <div class="material-desc">サイドバー・モーダル</div>
+          </div>
+          <div class="material-code">background: rgba(20, 20, 24, 0.8);
+backdrop-filter: blur(40px) saturate(1.2);
+border: 1px solid rgba(255, 255, 255, 0.08);
+border-radius: 12px;</div>
+        </div>
+
+        <div class="material-card card-tinted">
+          <div>
+            <div class="material-name">Tinted Glass</div>
+            <div class="material-desc">ブランドカラー付き</div>
+          </div>
+          <div class="material-code">background: rgba(15, 18, 32, 0.7);
+backdrop-filter: blur(24px);
+border: 1px solid rgba(107, 132, 192, 0.15);
+border-radius: 12px;</div>
+        </div>
+
+        <div class="material-card card-liquid">
+          <div>
+            <div class="material-name">Liquid Glass</div>
+            <div class="material-desc">ヒーロー・CTA・動的サーフェス</div>
+          </div>
+          <div class="material-code">background: linear-gradient(135deg,
+  rgba(80,104,164,0.08) 0%,
+  rgba(142,124,180,0.05) 50%,
+  rgba(80,104,164,0.08) 100%);
+backdrop-filter: blur(40px) saturate(1.8) brightness(1.1);
+border: 1px solid rgba(255, 255, 255, 0.12);
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
+  inset 0 -1px 0 rgba(0,0,0,0.1),
+  0 8px 32px rgba(0,0,0,0.3);</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 — レイアウト -->
+    <section id="layout" class="section">
+      <div class="section-header">
+        <h2>06 — レイアウト</h2>
+      </div>
+
+      <div class="code-block">.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+section { padding: 96px 0; }</div>
+
+      <div class="layout-demo">
+        <div class="layout-label">カードグリッド（3列）</div>
+        <div class="grid-demo-3">
+          <div class="grid-item">Card 1</div>
+          <div class="grid-item">Card 2</div>
+          <div class="grid-item">Card 3</div>
+        </div>
+      </div>
+
+      <div class="layout-demo">
+        <div class="layout-label">2列グリッド</div>
+        <div class="grid-demo-2">
+          <div class="grid-item">Column 1</div>
+          <div class="grid-item">Column 2</div>
+        </div>
+      </div>
+
+      <div class="palette-label" style="margin-top:24px;">セクション区切り線</div>
+      <div style="height:1px; background:linear-gradient(90deg, transparent 0%, rgba(80,104,164,0.15) 20%, rgba(142,124,180,0.2) 50%, rgba(80,104,164,0.15) 80%, transparent 100%); margin:16px 0;"></div>
+
+      <div class="code-block" style="margin-top:24px;">/* ヘッダー */
+header {
+  position: fixed; top: 0; width: 100%; z-index: 1000;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ヒーロー */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 64px;
+  position: relative;
+  overflow: hidden;
+}</div>
+    </section>
+
+    <!-- 07 — ボタン -->
+    <section id="buttons" class="section">
+      <div class="section-header">
+        <h2>07 — ボタン</h2>
+      </div>
+
+      <div class="button-grid">
+        <div class="button-demo-card">
+          <div class="button-demo-title">Primary — Gradient Shift</div>
+          <div class="button-demo-desc">CTA ボタン</div>
+          <button class="btn-primary">Get Started</button>
+        </div>
+
+        <div class="button-demo-card">
+          <div class="button-demo-title">Secondary — Glow Line</div>
+          <div class="button-demo-desc">補助アクション</div>
+          <button class="btn-secondary">Learn More</button>
+        </div>
+
+        <div class="button-demo-card">
+          <div class="button-demo-title">Ghost — Liquid Hover</div>
+          <div class="button-demo-desc">最小限のボタン</div>
+          <button class="btn-ghost">Explore</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 — カード -->
+    <section id="cards" class="section">
+      <div class="section-header">
+        <h2>08 — カード</h2>
+      </div>
+
+      <div class="demo-card">
+        <div class="card-icon">✦</div>
+        <div class="card-title">Card Title</div>
+        <div class="card-text">カードのサンプルテキストです。Standard Glass マテリアルを使用し、hover でわずかに浮き上がります。アイコン領域は 48x48px、border-radius 8px です。</div>
+      </div>
+
+      <div class="code-block">background: rgba(10,10,12,0.6);
+backdrop-filter: blur(24px);
+border: 1px solid rgba(255,255,255,0.06);
+border-radius: 12px;
+padding: 32px;
+
+/* :hover */
+transform: translateY(-4px);
+border-color: rgba(255,255,255,0.12);</div>
+    </section>
+
+    <!-- 09 — バッジ -->
+    <section id="badges" class="section">
+      <div class="section-header">
+        <h2>09 — バッジ</h2>
+      </div>
+
+      <div class="badge-row">
+        <span class="badge badge-default">Default</span>
+        <span class="badge badge-success">Success</span>
+        <span class="badge badge-warning">Warning</span>
+        <span class="badge badge-error">Error</span>
+        <span class="badge badge-info">Info</span>
+      </div>
+
+      <div class="code-block">height: 22px;
+padding: 0 8px;
+font-size: 11px;
+font-weight: 500;
+border-radius: 4px;
+
+/* default */ background: #1e1e24; color: #7e7e8c;
+/* success */ background: #0a2615; color: #4ade80;
+/* warning */ background: #2a2008; color: #facc15;
+/* error */   background: #2a0a0a; color: #f87171;
+/* info */    background: #0a1a2e; color: #60a5fa;</div>
+    </section>
+
+    <!-- 10 — 入力フィールド -->
+    <section id="inputs" class="section">
+      <div class="section-header">
+        <h2>10 — 入力フィールド</h2>
+      </div>
+
+      <div class="input-demo-group">
+        <label class="input-demo-label">デフォルト状態</label>
+        <input type="text" class="input-demo" placeholder="Placeholder text">
+      </div>
+
+      <div class="input-demo-group">
+        <label class="input-demo-label">ホバー時（カーソルを重ねる）</label>
+        <input type="text" class="input-demo" placeholder="Hover to see effect">
+      </div>
+
+      <div class="input-demo-group">
+        <label class="input-demo-label">フォーカス時（クリックする）</label>
+        <input type="text" class="input-demo" placeholder="Click to focus">
+      </div>
+
+      <div class="code-block">height: 40px;
+padding: 0 12px;
+font-size: 14px;
+color: #e8e8ec;
+background: #0a0a0c;
+border: 1px solid #1e1e24;
+border-radius: 8px;
+
+/* ::placeholder */ color: #3d3d48;
+/* :hover */ border-color: #2a2a32;
+/* :focus */
+border-color: #5068a4;
+box-shadow: 0 0 0 2px rgba(68,80,118,0.6),
+            0 0 12px rgba(80,104,164,0.3);</div>
+    </section>
+
+    <!-- 11 — アニメーション -->
+    <section id="animation" class="section">
+      <div class="section-header">
+        <h2>11 — アニメーション</h2>
+      </div>
+
+      <div class="anim-grid">
+        <div class="anim-card">
+          <div class="anim-demo fadeInUp-demo"></div>
+          <div class="anim-name">fadeInUp</div>
+          <div class="anim-desc">カーソルを重ねると再生</div>
+        </div>
+
+        <div class="anim-card">
+          <div class="anim-demo glowPulse-demo"></div>
+          <div class="anim-name">glowPulse</div>
+          <div class="anim-desc">カーソルを重ねると再生</div>
+        </div>
+      </div>
+
+      <div class="code-block">@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(80,104,164,0.1); }
+  50%      { box-shadow: 0 0 40px rgba(80,104,164,0.25); }
+}</div>
+    </section>
+
+    <!-- 12 — レスポンシブ -->
+    <section id="responsive" class="section">
+      <div class="section-header">
+        <h2>12 — レスポンシブ</h2>
+      </div>
+
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th>ブレークポイント</th>
+            <th>変更</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>max-width: 1023px</td>
+            <td>グリッド→2列、ヒーロー min-height auto、見出し縮小(40px/32px)、section padding 64px</td>
+          </tr>
+          <tr>
+            <td>max-width: 639px</td>
+            <td>グリッド→1列、container padding 16px、見出し縮小(32px/28px)、ナビ非表示、section padding 48px</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 13 — ページ構造 -->
+    <section id="structure" class="section">
+      <div class="section-header">
+        <h2>13 — ページ構造（HTML）</h2>
+      </div>
+
+      <div class="structure-code">&lt;header&gt;
+  &lt;nav&gt;
+    &lt;a class="logo"&gt;...&lt;/a&gt;
+    &lt;div class="nav-links"&gt;&lt;a&gt;...&lt;/a&gt; ... &lt;/div&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;section class="hero"&gt;
+  &lt;div class="container"&gt;
+    &lt;div class="hero-content"&gt;
+      &lt;span class="label"&gt;LABEL&lt;/span&gt;
+      &lt;h1&gt;...&lt;/h1&gt;
+      &lt;p class="hero-subtitle"&gt;...&lt;/p&gt;
+      &lt;div class="hero-cta"&gt;
+        &lt;a class="btn btn-primary"&gt;...&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;div class="section-separator"&gt;&lt;/div&gt;
+
+&lt;section&gt;
+  &lt;div class="container"&gt;
+    &lt;div class="section-header"&gt;
+      &lt;span class="label"&gt;LABEL&lt;/span&gt;
+      &lt;h2&gt;...&lt;/h2&gt;
+      &lt;p&gt;...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="grid-3"&gt;
+      &lt;div class="card"&gt;...&lt;/div&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;footer&gt;
+  &lt;div class="container"&gt;...&lt;/div&gt;
+&lt;/footer&gt;</div>
+    </section>
+
+    <!-- 14 — 禁止事項 -->
+    <section id="forbidden" class="section">
+      <div class="section-header">
+        <h2>14 — 禁止事項</h2>
+      </div>
+
+      <ul class="rule-list">
+        <li>font-weight: 700 は使わない（最大 600）</li>
+        <li>見出しに #e8e8ec より暗い色を使わない（見出しは #ffffff）</li>
+        <li>border-radius を 12px より大きくしない（Liquid Glass の 16px、ピル型ボタンは例外）</li>
+        <li>!important は使わない</li>
+        <li>セクション間余白を 64px 未満にしない</li>
+        <li>カード padding を 24px 未満にしない</li>
+      </ul>
+    </section>
+
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// Sidebar toggle
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// Active nav link
+const navLinks = document.querySelectorAll('.nav-group a');
+const sections = document.querySelectorAll('section[id]');
+
+function updateActiveLink() {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    if (scrollY >= (sectionTop - 100)) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', updateActiveLink);
+updateActiveLink();
+
+// Copy color to clipboard
+function copyColor(color) {
+  navigator.clipboard.writeText(color).then(() => {
+    showToast('Copied: ' + color);
+  });
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>

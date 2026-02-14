@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Domain AI Design System — Paper Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   The Domain AI — Paper Presentation Template
+   16:9 (1920×1080). Light / Monochrome. Keyboard ←→ navigation.
+   ============================================================ */
+
+:root {
+  --ink-1000: #000000;
+  --ink-900:  #1a1a1a;
+  --ink-800:  #2d2d2d;
+  --ink-700:  #404040;
+  --ink-600:  #525252;
+  --ink-500:  #6b6b6b;
+  --ink-400:  #8a8a8a;
+  --ink-300:  #a3a3a3;
+  --ink-200:  #c4c4c4;
+  --ink-100:  #e0e0e0;
+  --ink-50:   #f0f0f0;
+  --paper-white:  #fdfdfc;
+  --paper-cream:  #faf9f7;
+  --paper-warm:   #f5f4f0;
+  --paper-kraft:  #eeedea;
+  --paper-aged:   #e8e7e3;
+  --paper-shadow: #dddcd8;
+  --font-serif: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--paper-white);
+  color: var(--ink-900);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Slide Container ── */
+.deck {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper-white);
+}
+
+/* ── Slide Base ── */
+.slide {
+  display: none;
+  width: 1920px;
+  height: 1080px;
+  max-width: 100vw;
+  max-height: 100vh;
+  padding: 64px 80px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.slide.active {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Slide Number ── */
+.slide-number {
+  position: fixed;
+  bottom: 32px;
+  right: 48px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink-400);
+  font-weight: 500;
+  z-index: 10;
+}
+
+/* ============================================================
+   TYPOGRAPHY — Serif headings + Sans body
+   ============================================================ */
+
+/* 56px — タイトルスライド見出し */
+.display-xl {
+  font-family: var(--font-serif);
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: var(--ink-1000);
+}
+
+/* 48px — タイトルスライド variant */
+.display-lg {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  color: var(--ink-1000);
+}
+
+/* 44px — 各スライドの見出し */
+.display-md {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  color: var(--ink-1000);
+}
+
+/* 28px — カード内タイトル */
+.heading-lg {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: var(--ink-1000);
+}
+
+/* 20px — 本文（大）— スライドでの本文基準 */
+.body-lg {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--ink-900);
+}
+
+/* 18px — カード本文 */
+.body-md {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ink-600);
+}
+
+/* 14px — セクションラベル（uppercase） */
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  margin-bottom: 16px;
+}
+
+.mono { font-family: var(--font-mono); }
+
+/* ============================================================
+   MATERIALS — Flat Paper & Layered Paper
+   ============================================================ */
+.paper-flat {
+  background: var(--paper-cream);
+  border: 1px solid var(--ink-100);
+  border-radius: 0;
+}
+
+.paper-layered {
+  background: var(--paper-white);
+  border: 1px solid var(--ink-200);
+  border-radius: 0;
+  box-shadow: 2px 2px 0 var(--ink-50);
+}
+
+/* ── Editorial Rule ── */
+.editorial-rule {
+  width: 100%;
+  height: 2px;
+  background: var(--ink-1000);
+  margin: 48px 0;
+}
+
+/* ── Double Line ── */
+.double-line {
+  width: 100%;
+  height: 0;
+  border: none;
+  border-top: 3px double var(--ink-1000);
+  margin: 48px 0;
+}
+
+/* ── Metric Number ── */
+.metric {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink-1000);
+}
+
+.metric-sm {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink-1000);
+}
+
+/* ── Step Number (decorative) ── */
+.step-number {
+  font-family: var(--font-serif);
+  font-size: 72px;
+  font-weight: 300;
+  color: var(--ink-200);
+  opacity: 0.4;
+  line-height: 1;
+}
+
+/* ============================================================
+   SLIDE LAYOUTS
+   ============================================================ */
+
+/* Title slide — centered */
+.slide-title {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Content slide — top-aligned with grid */
+.slide-content {
+  gap: 0;
+}
+.slide-content .slide-head {
+  margin-bottom: 64px;
+}
+
+/* Two-column slide */
+.slide-two-col {
+  gap: 0;
+}
+.slide-two-col .slide-head {
+  margin-bottom: 64px;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  flex: 1;
+  align-items: center;
+}
+
+/* 3-column card grid */
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  flex: 1;
+}
+
+/* 2-column card grid */
+.card-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  flex: 1;
+}
+
+/* Paper card for slides */
+.slide-card {
+  background: var(--paper-cream);
+  border: 1px solid var(--ink-100);
+  border-radius: 0;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Bullet list for slides */
+.slide-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.slide-list li {
+  font-size: 20px;
+  color: var(--ink-600);
+  line-height: 1.7;
+  padding-left: 24px;
+  position: relative;
+}
+.slide-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-900);
+}
+
+/* Code block */
+.slide-code {
+  background: var(--paper-warm);
+  border: 1px solid var(--ink-100);
+  border-radius: 0;
+  padding: 32px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-600);
+  overflow: hidden;
+}
+
+/* Color Swatch Bar */
+.color-swatch-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+.color-swatch {
+  height: 56px;
+  border-radius: 0;
+  border: 1px solid var(--ink-100);
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- ============================================================
+       SLIDE 1: TITLE
+       中央配置。ラベル + Serif タイトル + サブタイトル
+       ============================================================ -->
+  <div class="slide slide-title active" id="slide-1">
+    <div style="font-size: 14px; font-weight: 700; letter-spacing: 4px; margin-bottom: 80px; color: #6b6b6b; text-transform: uppercase;">
+      THE DOMAIN AI
+    </div>
+    <h1 class="display-xl">Design System — Paper</h1>
+    <p style="font-family: var(--font-serif); font-size: 28px; color: #525252; font-weight: 300; letter-spacing: -0.5px; margin-top: 32px;">
+      Monochrome Editorial Design
+    </p>
+    <p style="font-size: 16px; color: #8a8a8a; margin-top: 48px;" class="mono">
+      2026.02
+    </p>
+  </div>
+
+  <!-- ============================================================
+       SLIDE 2: CONTENT — 見出し + 3列カード
+       ============================================================ -->
+  <div class="slide slide-content" id="slide-2">
+    <div class="slide-head">
+      <span class="label">FOUNDATIONS</span>
+      <h2 class="display-md">Design Principles</h2>
+    </div>
+    <div class="card-grid-3">
+      <div class="slide-card">
+        <div class="step-number">01</div>
+        <h3 class="heading-lg">Paper-First</h3>
+        <p class="body-md">紙とインクだけで成立するデザイン。色に頼らず構造で伝える</p>
+      </div>
+      <div class="slide-card">
+        <div class="step-number">02</div>
+        <h3 class="heading-lg">Monochrome</h3>
+        <p class="body-md">使用色は黒・白・グレーのみ。グレー濃淡で情報の重みを表現</p>
+      </div>
+      <div class="slide-card">
+        <div class="step-number">03</div>
+        <h3 class="heading-lg">Ink Economy</h3>
+        <p class="body-md">すべての要素に「インクを使う価値があるか」を問い、装飾を排する</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SLIDE 3: TWO COLUMN — テキスト + ビジュアル
+       ============================================================ -->
+  <div class="slide slide-two-col" id="slide-3">
+    <div class="slide-head">
+      <span class="label">INK SYSTEM</span>
+      <h2 class="display-md">インクスケール</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <p class="body-lg" style="color: #525252; margin-bottom: 32px;">
+          黒から白への 11 段階のインクスケールで、テキスト・ボーダー・アイコンのすべてを構成します。彩色は一切使用しません。
+        </p>
+        <ul class="slide-list">
+          <li>ink-1000: 見出し・最大強調</li>
+          <li>ink-900: 本文テキスト</li>
+          <li>ink-600: セカンダリテキスト</li>
+          <li>ink-100: ボーダー・セパレーター</li>
+        </ul>
+      </div>
+      <div>
+        <div class="slide-card" style="min-height: 400px; justify-content: center;">
+          <div class="color-swatch-bar">
+            <div class="color-swatch" style="background: #000000;"></div>
+            <div class="color-swatch" style="background: #1a1a1a;"></div>
+            <div class="color-swatch" style="background: #525252;"></div>
+            <div class="color-swatch" style="background: #8a8a8a;"></div>
+            <div class="color-swatch" style="background: #c4c4c4;"></div>
+            <div class="color-swatch" style="background: #e0e0e0;"></div>
+            <div class="color-swatch" style="background: #f0f0f0;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SLIDE 4: DATA — 数値ハイライト + カード
+       ============================================================ -->
+  <div class="slide slide-content" id="slide-4">
+    <div class="slide-head">
+      <span class="label">TOKENS</span>
+      <h2 class="display-md">デザイントークン概要</h2>
+    </div>
+    <div class="card-grid-3">
+      <div class="slide-card" style="align-items: center; text-align: center;">
+        <div class="metric">11</div>
+        <p class="body-md" style="margin-top: 12px;">Ink Shades</p>
+      </div>
+      <div class="slide-card" style="align-items: center; text-align: center;">
+        <div class="metric">6</div>
+        <p class="body-md" style="margin-top: 12px;">Paper Tones</p>
+      </div>
+      <div class="slide-card" style="align-items: center; text-align: center;">
+        <div class="metric">2</div>
+        <p class="body-md" style="margin-top: 12px;">Material Variants</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SLIDE 5: CLOSING
+       ============================================================ -->
+  <div class="slide slide-title" id="slide-5">
+    <h2 class="display-lg" style="margin-bottom: 32px;">Build with Restraint</h2>
+    <p style="font-family: var(--font-serif); font-size: 24px; color: #525252; font-weight: 300; margin-bottom: 48px;">
+      インクと紙だけで、明快な情報伝達を
+    </p>
+    <div class="editorial-rule" style="max-width: 400px;"></div>
+    <div style="margin-top: 48px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+      <p style="font-size: 18px; color: #6b6b6b;">thedomainai.com</p>
+      <p style="font-size: 16px; color: #8a8a8a;" class="mono">github.com/thedomainai</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Slide Number -->
+<div class="slide-number">
+  <span id="current-slide">1</span> / <span id="total-slides">5</span>
+</div>
+
+<!-- Keyboard Navigation: ← → -->
+<script>
+  let currentSlide = 1;
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+
+  document.getElementById('total-slides').textContent = totalSlides;
+
+  function showSlide(n) {
+    if (n > totalSlides) currentSlide = totalSlides;
+    if (n < 1) currentSlide = 1;
+    slides.forEach(s => s.classList.remove('active'));
+    slides[currentSlide - 1].classList.add('active');
+    document.getElementById('current-slide').textContent = currentSlide;
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      currentSlide++;
+      showSlide(currentSlide);
+    } else if (e.key === 'ArrowLeft') {
+      currentSlide--;
+      showSlide(currentSlide);
+    }
+  });
+
+  showSlide(currentSlide);
+</script>
+
+</body>
+</html>
