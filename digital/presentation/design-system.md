@@ -338,20 +338,6 @@ background: #0a0a0c; border: 1px solid #1e1e24; border-radius: 8px;
 padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7; color: #a5a5b0;
 ```
 
-## スライド番号
-```css
-position: fixed; bottom: 32px; right: 48px;
-font-family: 'JetBrains Mono'; font-size: 14px; color: #7e7e8c;
-```
-
-## キーボード操作（JavaScript）
-```javascript
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'ArrowRight' || e.key === ' ') { nextSlide(); }
-  else if (e.key === 'ArrowLeft') { prevSlide(); }
-});
-```
-
 ## 禁止事項
 
 - 本文を 16px 未満にしない
