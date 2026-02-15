@@ -403,11 +403,11 @@ font-size: 0.6875rem; font-weight: 600; text-transform: uppercase;
 background: var(--paper-warm); color: var(--ink-900); border: 1px solid var(--ink-200);
 ```
 
-| Status | Label | Border |
-|--------|-------|--------|
-| Active | "LIVE" | `ink-900` |
-| In Progress | "PILOT" | `ink-300` |
-| Planned | "PLANNING" | `ink-100` |
+| Status | Label | Background | Text | Border |
+|--------|-------|------------|------|--------|
+| Active | "LIVE" | `wash-green` | `ink-green` | `ink-green` |
+| In Progress | "PILOT" | `wash-blue` | `ink-blue` | `ink-blue` |
+| Planned | "PLANNING" | `wash-amber` | `ink-amber` | `ink-amber` |
 
 ### Modal `.paper-modal`
 
