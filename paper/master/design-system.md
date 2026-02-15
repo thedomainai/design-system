@@ -374,7 +374,7 @@ Radius: 全サイズ `radius-md` (4px)
 .btn-secondary:hover { background: var(--ink-900); color: var(--paper-white); }
 ```
 
-- **Focus**: `outline: 2px solid var(--ink-700); outline-offset: 2px`
+- **Focus**: `outline: 2px solid var(--ink-blue); outline-offset: 2px`
 - **Disabled**: `opacity: 0.3; cursor: not-allowed`
 - **Loading**: テキストを `...` に差し替え、`pointer-events: none`
 
