@@ -1123,7 +1123,7 @@ document.getElementById('semanticGrid').innerHTML = semanticTokens.map(s =>
 
 // Status
 document.getElementById('statusGrid').innerHTML = statusItems.map(s =>
-  `<div class="card-base status-card"><h3>${s.name}</h3><div class="status-demo" style="border-top:1px solid var(--ink-100);"><div class="status-symbol">${s.symbol}</div><div><div class="status-text">${s.label}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-top:2px;">border: ${s.border}</div></div></div></div>`
+  `<div class="card-base status-card" style="border-color:${s.borderHex};"><h3>${s.name}</h3><div class="status-demo" style="background:${s.bg};border-top:1px solid ${s.borderHex};"><div class="status-symbol" style="color:${s.color};">${s.symbol}</div><div><div class="status-text" style="color:${s.color};">${s.label}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-top:2px;">${s.border}</div></div></div></div>`
 ).join('');
 
 // 04 Layout — Breakpoints
