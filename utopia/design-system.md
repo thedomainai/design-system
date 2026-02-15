@@ -1013,16 +1013,246 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 - Dynamic Type をサポートし、Type Scale は参考値として扱う
 - キャンバステクスチャはパフォーマンスを考慮し、背景色のみでフォールバック
 
-### 11.4 Visual Presentation
+### 11.4 Presentation (pptx)
 
-- アスペクト比: **16:9**（1920×1080）
-- 背景: `neutral-0` + `.canvas-warm` + `gradient-mesh`
-- タイトル: `display-xl`（64px）、Playfair Display Bold 700
-- 本文: `body-lg`（16px）以上（視認性確保）
-- コードブロック: `mono-md`、`.glaze` 背景 + `radius-lg`
-- キーワード・数値強調には `glow-medium` + `gradient-text`（ゴールドグラデーション）
-- セクション区切りに `--line-ornament` を使用
-- 余白はデスクトップより大きく取る（`space-8` 以上）
+AI がスライドデッキ（pptx）を生成する際に従うルールセット。カラーパレット・セマンティックトークンはセクション 2 を参照。マテリアル CSS 定義はセクション 7 を参照。ボーダーラウンドはセクション 6 を参照。
+
+#### 基本設定
+
+- 出力形式: pptx（PowerPoint）
+- サイズ: 1920×1080px（16:9） — pptx 換算 13.333" × 7.5"
+- フォント: Playfair Display (500,700,800) + Source Sans 3 (500,700,900) + JetBrains Mono (500,600)
+
+#### タイポグラフィ
+
+**注意: スライドでは 10px 未満を使わない。**
+
+テキストカラーはタイポグラフィでは固定しない。セマンティックトークン（text-primary, text-secondary, text-muted 等）を背景色との組み合わせで選択する。具体的な対応は「カラーの使い分け」セクション（2.3 相当）を参照のこと。
+
+| 用途 | size | weight | line-height | letter-spacing | font |
+|------|------|--------|-------------|----------------|------|
+| タイトルスライド見出し | 64px | 800 | 1.1 | -2px | Serif |
+| スライド見出し | 48px | 800 | 1.15 | -1.5px | Serif |
+| カードタイトル | 28px | 700 | 1.3 | -0.5px | Serif |
+| 本文（スライド基準） | 20px | 500 | 1.6 | 0 | Sans |
+| カード本文 | 18px | 500 | 1.6 | 0.1px | Sans |
+| ラベル(uppercase) | 14px | 700 | 1.2 | 2px | Sans |
+| 数値ハイライト(大) | 64px | 900 | 1.0 | 0 | Sans |
+| 数値ハイライト(小) | 48px | 900 | 1.0 | 0 | Sans |
+| 装飾番号 | 72px | 800 | 1.0 | 0, opacity 0.3 | Serif |
+| サブタイトル | 28px | 500 | 1.4 | -0.5px | Sans |
+| 連絡先 | 18px | 500 | 1.5 | 0 | Sans |
+| URL (mono) | 16px | 500 | 1.5 | 0 | Mono |
+| スライド番号 (mono) | 14px | 600 | 1.0 | 0 | Mono |
+| copyright (mono) | 10px | 500 | 1.0 | 0 | Mono |
+
+テキストグラデーション（ゴールド装飾）:
+```css
+background: linear-gradient(90deg, #ece5d8 0%, #dfbc6e 100%);
+-webkit-background-clip: text; -webkit-text-fill-color: transparent;
+```
+
+#### マテリアル使用ルール
+
+**Impasto カード（厚塗り）**
+```css
+position: relative;
+background:
+  url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"),
+  linear-gradient(
+    145deg,
+    rgba(33, 29, 22, 0.95) 0%,        /* neutral-200 */
+    rgba(24, 21, 15, 0.98) 100%        /* neutral-100 */
+  );
+border: 1px solid rgba(223, 188, 110, 0.12);  /* gold-300 @ 12% */
+border-radius: 8px;
+padding: 48px 40px;
+box-shadow:
+  inset 0 1px 0 rgba(223, 188, 110, 0.08),    /* 上縁ゴールドハイライト */
+  inset 0 -2px 4px rgba(0, 0, 0, 0.3),         /* 下部の深い影 */
+  0 4px 16px rgba(0, 0, 0, 0.4),
+  0 12px 40px rgba(0, 0, 0, 0.2);
+```
+
+**Glaze カード（薄塗り）**
+```css
+background: rgba(24, 21, 15, 0.65);            /* neutral-100 @ 65% */
+backdrop-filter: blur(20px) saturate(1.1);
+-webkit-backdrop-filter: blur(20px) saturate(1.1);
+border: 1px solid rgba(236, 229, 216, 0.05);   /* neutral-950 @ 5% */
+border-radius: 8px;
+padding: 48px 40px;
+```
+
+**Gold Separator（装飾区切り線）**
+```css
+width: 100%; height: 1px;
+background: linear-gradient(
+  90deg,
+  transparent 0%,
+  rgba(223, 188, 110, 0.2) 30%,
+  rgba(204, 160, 68, 0.25) 50%,
+  rgba(223, 188, 110, 0.2) 70%,
+  transparent 100%
+);
+margin: 48px 0;
+```
+
+**マテリアル内テキスト配置** — マテリアルグループ（同一種類のマテリアルが横に並ぶ集合）では、代表となる1つのマテリアルについてテキスト配置を決定し、グループ内の全マテリアルに同一ルールを適用する。個別のマテリアルごとに配置を変えない。
+
+| マテリアル | 水平方向 | 垂直方向 | 備考 |
+|-----------|---------|---------|------|
+| Impasto カード（厚塗り） | left | top | コンテンツは上から下へ流す |
+| Glaze カード（薄塗り） | center | center | インパクト重視、短いテキスト向け |
+| データカード（数値ハイライト） | center | center | 数値を中央に大きく配置 |
+| コードブロック | left | top | コードは左上起点 |
+
+**枠線と中塗りの使い分け** — 枠線と中塗りの併用はマテリアル定義（Impasto / Glaze）内で許可される。マテリアル定義外で独自の border + fill の組み合わせを作成しない。
+
+#### レイアウト
+
+**スライド共通**
+```css
+.slide { width: 1920px; height: 1080px; padding: 64px 80px; }
+```
+
+**スライドコンポーネント** — スライドは header / body / footer の3コンポーネントで構成する。各コンポーネントを組み合わせてスライドパターンを作成する。
+
+**Header** — スライド上部の見出し領域。
+
+| サブ要素 | 内容 | タイポグラフィ |
+|---------|------|--------------|
+| agenda | セクションラベル（例: 「01 INTRODUCTION」） | 14px / 700 / uppercase / letter-spacing: 2px |
+| title | スライド見出し | 48px / 800 / Serif / letter-spacing: -1.5px |
+| main message | メインメッセージ・要点 | 20px / 500 |
+
+Grid（pptx 座標）:
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | 64 | 0.44" |
+| width | 1760 | 12.22" |
+| height（agenda + title） | 160 | 1.11" |
+| height（+ main message） | 200 | 1.39" |
+
+**Body** — メインコンテンツ領域。カード・テキスト・図表等を配置する。
+
+Grid（pptx 座標）:
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | header 下端 + 40 | header 下端 + 0.28" |
+| width | 1760 | 12.22" |
+| height | footer 上端まで（auto） | — |
+
+**Footer** — スライド下部の固定領域。
+
+| サブ要素 | 内容 | タイポグラフィ | 配置 |
+|---------|------|--------------|------|
+| page number | スライド番号 | 14px / 600 / mono | 右寄せ |
+| copyright | 著作権表示 | 10px / 500 / mono | 左寄せ |
+
+Grid（pptx 座標）:
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | 1032 | 7.17" |
+| width | 1760 | 12.22" |
+| height | 48 | 0.33" |
+
+#### スライドパターン
+
+**1. タイトルスライド**
+- Header: 使用しない
+- Body: 全要素中央配置 — logo → タイトル（64px / 800 / Serif）→ サブタイトル（28px / 500 / Sans）→ 日付（16px / mono）
+- Footer: copyright のみ
+
+**2. コンテンツスライド** — 見出し + 3列カードグリッド
+- Header: agenda + title
+- Body: `grid-template-columns: repeat(3, 1fr); gap: 40px`
+- Footer: page number + copyright
+
+**3. 2カラムスライド** — テキスト + ビジュアル
+- Header: title
+- Body: `grid-template-columns: 1fr 1fr; gap: 64px; align-items: center`
+- Footer: page number + copyright
+
+**4. データスライド** — 数値ハイライト
+- Header: title
+- Body: 数値カード（center 配置、64px / 900 / Sans + ラベル 18px / 500 / Sans）、Impasto カードに内包
+- Footer: page number + copyright
+
+#### 箇条書き
+```css
+li { font-size: 20px; color: #b0a494; line-height: 1.6; padding-left: 24px; }
+li::before { width: 8px; height: 8px; border-radius: 50%; background: #3d4f9e; }
+```
+
+#### コードブロック
+```css
+background: #18150f; border: 1px solid #2c2720; border-radius: 8px;
+padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7; color: #b0a494;
+```
+
+#### 表（テーブル）
+
+| プロパティ | 値 |
+|-----------|-----|
+| ヘッダーフォント | 14px / 700 / uppercase / letter-spacing: 1px |
+| ヘッダーカラー | text-secondary |
+| ヘッダー下ボーダー | 1px solid secondary-500 |
+| セルフォント | 18px / 500 |
+| セルカラー | text-primary |
+| セルパディング | 16px 20px |
+| セル line-height | 1.5 |
+| 行ボーダー | 0.5px solid border-default |
+| 交互行背景 | なし |
+| 数値セル | mono / right-aligned |
+
+#### 画像・図表
+
+| プロパティ | ルール |
+|-----------|-------|
+| 最大幅 | body 幅（1760px / 12.22"） |
+| アスペクト比 | 元画像の比率を維持 |
+| 配置 | body 領域内で水平中央 |
+| キャプション | 画像下部、text-secondary、14px / 500、margin-top: 12px |
+| スクリーンショット枠 | 1px solid border-default + radius-md |
+| チャート内テキスト | 14px 以上（視認性確保） |
+| チャートカラー | テーマカラー使用可（primary, secondary, gold, neutral） |
+| 背景透過 | 図表の背景は透過させスライド背景と一体化する |
+
+#### ロゴ
+
+| スライドタイプ | 配置 | サイズ |
+|-------------|------|-------|
+| タイトルスライド | body 中央、タイトル上部 | height: 48px |
+| コンテンツスライド | 使用しない | — |
+
+ロゴはゴールド装飾版を使用する。
+
+#### トランジション
+
+| 項目 | ルール |
+|------|-------|
+| スライド切替 | カット（瞬時切替）をデフォルトとする |
+| セクション間切替 | フェード（0.3s）を許可 |
+| オブジェクトアニメーション | 使用しない |
+
+#### 禁止事項
+
+- 10px 未満のフォントサイズを使用しない
+- font-weight は Serif 800 / Sans 900 が上限（master のフォント仕様に準ずる）
+- タイポグラフィにカラーを固定指定しない（セマンティックトークンで背景色と合わせて決定する。テキストグラデーションは許可）
+- 1スライドにカード 3枚 or 箇条書き 5項目が上限目安
+- 背景色を #0c0a08 以外にしない（mesh gradient は許可）
+- スライドの padding を 64px 80px 未満にしない
+- border-radius を radius-md（8px）を超えて使用しない（50% の円形を除く）
+- 見出しに Sans 体を使わない（必ず Playfair Display Serif）
+- マテリアル定義外の独自 border + fill 組み合わせを使用しない
 
 ## 12. Usage Quick Reference
 
