@@ -456,7 +456,7 @@ border-bottom: 1px solid var(--border-default);
 ```
 
 - **Nav Item**: `font-size: 0.85rem`, `color: var(--text-muted)`, `padding: 12px 16px`
-- **Active / Hover**: `color: var(--text-primary)`, `border-bottom: 2px solid var(--ink-900)`
+- **Active / Hover**: `color: var(--text-primary)`, `border-bottom: 2px solid var(--ink-blue)`
 - IntersectionObserver によるスクロール連動ハイライト
 
 ### Table
