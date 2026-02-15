@@ -258,26 +258,28 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
 }
 ```
 
-### Layered Paper — 微細な影で浮かせるマテリアル
+### Layered Paper — 影のみで浮かせるマテリアル
+
+枠線は使用しない。影だけで紙の境界と奥行きを表現する。
 
 ```css
 .paper-layered {
   background: var(--paper-white);
-  border: 1px solid var(--ink-100);
+  border: none;
   border-radius: 0;
   box-shadow: 2px 2px 0 var(--ink-50);  /* フラットな紙の影 */
 }
 
 .paper-modal {
   background: var(--paper-white);
-  border: 1px solid var(--ink-200);
+  border: none;
   border-radius: 0;
   box-shadow: 4px 4px 0 var(--ink-100), 8px 8px 0 var(--ink-50);  /* 多層影 */
 }
 
 .paper-elevated {
   background: var(--paper-white);
-  border: 1px solid var(--ink-100);
+  border: none;
   border-radius: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
