@@ -249,50 +249,82 @@ margin: 48px 0;
 .slide { width: 1920px; height: 1080px; padding: 64px 80px; }
 ```
 
+### スライドコンポーネント
+
+スライドは header / body / footer の3コンポーネントで構成する。各コンポーネントを組み合わせてスライドパターンを作成する。
+
+#### Header
+
+スライド上部の見出し領域。
+
+| サブ要素 | 内容 | タイポグラフィ |
+|---------|------|--------------|
+| agenda | セクションラベル（例: 「01 INTRODUCTION」） | 12px / 700 / uppercase / letter-spacing: 2px |
+| title | スライド見出し | 44px / 400 / letter-spacing: -1px |
+| main message | メインメッセージ・要点 | 20px / 500 |
+
+**Grid（pptx 座標）:**
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | 64 | 0.44" |
+| width | 1760 | 12.22" |
+| height（agenda + title） | 160 | 1.11" |
+| height（+ main message） | 200 | 1.39" |
+
+#### Body
+
+メインコンテンツ領域。カード・テキスト・図表等を配置する。
+
+**Grid（pptx 座標）:**
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | header 下端 + 40 | header 下端 + 0.28" |
+| width | 1760 | 12.22" |
+| height | footer 上端まで（auto） | — |
+
+#### Footer
+
+スライド下部の固定領域。
+
+| サブ要素 | 内容 | タイポグラフィ | 配置 |
+|---------|------|--------------|------|
+| page number | スライド番号 | 11px / 600 / mono / letter-spacing: 0.5px | 右寄せ |
+| copyright | 著作権表示 | 10px / 500 / mono | 左寄せ |
+
+**Grid（pptx 座標）:**
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | 1032 | 7.17" |
+| width | 1760 | 12.22" |
+| height | 48 | 0.33" |
+
 ### スライドパターン
 
-**1. タイトルスライド** — 全要素中央配置
-```html
-<div class="slide" style="justify-content: center; align-items: center; text-align: center;">
-  <div>LOGO</div>
-  <h1>タイトル (56px/300)</h1>
-  <p>サブタイトル (28px/300/#7e7e8c)</p>
-  <p>日付 (16px/mono/#3d3d48)</p>
-</div>
-```
+**1. タイトルスライド**
+- Header: 使用しない
+- Body: 全要素中央配置 — logo → タイトル（56px / 400）→ サブタイトル（24px / 400）→ 日付（14px / mono）
+- Footer: copyright のみ
 
 **2. コンテンツスライド** — 見出し + 3列カードグリッド
-```html
-<div class="slide" style="flex-direction: column;">
-  <div style="margin-bottom: 64px;">
-    <span>LABEL (14px/600/#6b84c0/uppercase)</span>
-    <h2>見出し (44px/300)</h2>
-  </div>
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; flex: 1;">
-    <div class="glass-card">...</div>
-    <div class="glass-card">...</div>
-    <div class="glass-card">...</div>
-  </div>
-</div>
-```
+- Header: agenda + title
+- Body: `grid-template-columns: repeat(3, 1fr); gap: 40px`
+- Footer: page number + copyright
 
 **3. 2カラムスライド** — テキスト + ビジュアル
-```html
-<div class="slide" style="flex-direction: column;">
-  <div style="margin-bottom: 64px;">
-    <h2>見出し (44px/300)</h2>
-  </div>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; flex: 1; align-items: center;">
-    <div>テキスト + 箇条書き</div>
-    <div>ビジュアル（図表・コード等）</div>
-  </div>
-</div>
-```
+- Header: title
+- Body: `grid-template-columns: 1fr 1fr; gap: 64px; align-items: center`
+- Footer: page number + copyright
 
 **4. データスライド** — 数値ハイライト
-- 数値: 64px / weight 500 / #ffffff
-- ラベル: 18px / #7e7e8c
-- Glass カードに内包、text-align center
+- Header: title
+- Body: 数値カード（center 配置、64px / 600 + ラベル 18px / 500）、Glass カードに内包
+- Footer: page number + copyright
 
 ### 箇条書き
 ```css
