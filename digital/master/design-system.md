@@ -337,6 +337,12 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 | モーダル・ダイアログ | Glassmorphism | 落ち着いた背景分離 |
 | ツールチップ | Liquid Glass | 軽量かつコンテンツ追従する自然な佇まい |
 
+#### 枠線と中塗りの使い分け
+
+枠線（border/stroke）と中塗り（background fill）は基本的に併用しない。
+
+- **併用可能な例外**: 中塗りが十分に薄く（低 opacity）、同系統の色で枠線を引く場合のみ許可（例: Glass カードの半透明背景 + 同系統の微細ボーダー）
+
 ### 7.2 Glassmorphism
 
 磨りガラスのように背景を柔らかくぼかし、静的で落ち着いた透過面を構成します。
