@@ -1020,8 +1020,11 @@
         <h2>03 — タイポグラフィ</h2>
       </div>
 
-      <p style="font-size: 14px; color: var(--neutral-700); margin-bottom: 24px;">
-        <strong style="color: #facc15;">⚠ 注意:</strong> スライドでは本文 16px 未満を使わない（プロジェクション視認性）。
+      <p style="font-size: 14px; color: var(--neutral-700); margin-bottom: 12px;">
+        <strong style="color: #facc15;">⚠ 注意:</strong> スライドでは 10px 未満を使わない。
+      </p>
+      <p style="font-size: 13px; color: var(--neutral-600); margin-bottom: 24px;">
+        テキストカラーはタイポグラフィでは固定しない。セマンティックトークン（text-primary, text-secondary, text-muted 等）を背景色との組み合わせで選択する。
       </p>
 
       <table class="type-table">
@@ -1029,100 +1032,107 @@
           <tr>
             <th>用途</th>
             <th>プレビュー</th>
-            <th>サイズ / ウェイト / カラー</th>
+            <th>サイズ / ウェイト / letter-spacing</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="type-usage">タイトルスライド見出し</td>
             <td class="type-preview">
-              <div style="font-size: min(56px, 2.5vw); font-weight: 300; color: #ffffff; letter-spacing: -1.5px;">Hello World</div>
+              <div style="font-size: min(56px, 2.5vw); font-weight: 400; color: var(--neutral-1000); letter-spacing: -1.5px;">Hello World</div>
             </td>
-            <td class="type-spec">56px / 300 / #ffffff / -1.5px</td>
+            <td class="type-spec">56px / 400 / -1.5px</td>
           </tr>
           <tr>
             <td class="type-usage">スライド見出し</td>
             <td class="type-preview">
-              <div style="font-size: min(44px, 2vw); font-weight: 300; color: #ffffff; letter-spacing: -1px;">Section Title</div>
+              <div style="font-size: min(44px, 2vw); font-weight: 400; color: var(--neutral-1000); letter-spacing: -1px;">Section Title</div>
             </td>
-            <td class="type-spec">44px / 300 / #ffffff / -1px</td>
+            <td class="type-spec">44px / 400 / -1px</td>
           </tr>
           <tr>
             <td class="type-usage">カードタイトル</td>
             <td class="type-preview">
-              <div style="font-size: min(28px, 1.5vw); font-weight: 400; color: #ffffff;">Card Title</div>
+              <div style="font-size: min(28px, 1.5vw); font-weight: 600; color: var(--neutral-1000);">Card Title</div>
             </td>
-            <td class="type-spec">28px / 400 / #ffffff / 0</td>
+            <td class="type-spec">28px / 600 / 0</td>
           </tr>
           <tr>
             <td class="type-usage">本文（スライド基準）</td>
             <td class="type-preview">
-              <div style="font-size: 20px; font-weight: 400; color: #e8e8ec;">Body text for slides with good readability.</div>
+              <div style="font-size: 20px; font-weight: 500; color: var(--neutral-950);">Body text for slides with good readability.</div>
             </td>
-            <td class="type-spec">20px / 400 / #e8e8ec / 0</td>
+            <td class="type-spec">20px / 500 / 0</td>
           </tr>
           <tr>
             <td class="type-usage">カード本文</td>
             <td class="type-preview">
-              <div style="font-size: 18px; font-weight: 400; color: #7e7e8c;">Card body text.</div>
+              <div style="font-size: 18px; font-weight: 500; color: var(--neutral-700);">Card body text.</div>
             </td>
-            <td class="type-spec">18px / 400 / #7e7e8c / 0</td>
+            <td class="type-spec">18px / 500 / 0</td>
           </tr>
           <tr>
             <td class="type-usage">ラベル (uppercase)</td>
             <td class="type-preview">
-              <div style="font-size: 14px; font-weight: 600; color: #6b84c0; letter-spacing: 2px; text-transform: uppercase;">Label</div>
+              <div style="font-size: 12px; font-weight: 700; color: var(--primary-400); letter-spacing: 2px; text-transform: uppercase;">Label</div>
             </td>
-            <td class="type-spec">14px / 600 / #6b84c0 / 2px</td>
+            <td class="type-spec">12px / 700 / 2px</td>
           </tr>
           <tr>
             <td class="type-usage">数値ハイライト（大）</td>
             <td class="type-preview">
-              <div style="font-size: min(64px, 3vw); font-weight: 500; color: #ffffff;">1,234</div>
+              <div style="font-size: min(64px, 3vw); font-weight: 600; color: var(--neutral-1000);">1,234</div>
             </td>
-            <td class="type-spec">64px / 500 / #ffffff / 0</td>
+            <td class="type-spec">64px / 600 / 0</td>
           </tr>
           <tr>
             <td class="type-usage">数値ハイライト（小）</td>
             <td class="type-preview">
-              <div style="font-size: min(48px, 2.5vw); font-weight: 500; color: #ffffff;">567</div>
+              <div style="font-size: min(48px, 2.5vw); font-weight: 600; color: var(--neutral-1000);">567</div>
             </td>
-            <td class="type-spec">48px / 500 / #ffffff / 0</td>
+            <td class="type-spec">48px / 600 / 0</td>
           </tr>
           <tr>
             <td class="type-usage">装飾番号</td>
             <td class="type-preview">
-              <div style="font-size: min(72px, 3vw); font-weight: 300; color: #5068a4; opacity: 0.3;">01</div>
+              <div style="font-size: min(72px, 3vw); font-weight: 400; color: var(--primary-500); opacity: 0.3;">01</div>
             </td>
-            <td class="type-spec">72px / 300 / #5068a4 / 0, opacity 0.3</td>
+            <td class="type-spec">72px / 400 / 0, opacity 0.3</td>
           </tr>
           <tr>
             <td class="type-usage">サブタイトル</td>
             <td class="type-preview">
-              <div style="font-size: 28px; font-weight: 300; color: #7e7e8c; letter-spacing: -0.5px;">Subtitle text</div>
+              <div style="font-size: 24px; font-weight: 400; color: var(--neutral-700); letter-spacing: -0.5px;">Subtitle text</div>
             </td>
-            <td class="type-spec">28px / 300 / #7e7e8c / -0.5px</td>
+            <td class="type-spec">24px / 400 / -0.5px</td>
           </tr>
           <tr>
             <td class="type-usage">連絡先</td>
             <td class="type-preview">
-              <div style="font-size: 18px; font-weight: 400; color: #a5a5b0;">contact@example.com</div>
+              <div style="font-size: 16px; font-weight: 500; color: var(--neutral-800);">contact@example.com</div>
             </td>
-            <td class="type-spec">18px / 400 / #a5a5b0 / 0</td>
+            <td class="type-spec">16px / 500 / 0</td>
           </tr>
           <tr>
             <td class="type-usage">URL (mono)</td>
             <td class="type-preview">
-              <div style="font-size: 16px; font-family: var(--font-mono); font-weight: 400; color: #3d3d48;">https://example.com</div>
+              <div style="font-size: 14px; font-family: var(--font-mono); font-weight: 500; color: var(--neutral-500);">https://example.com</div>
             </td>
-            <td class="type-spec">16px / 400 / #3d3d48 / 0</td>
+            <td class="type-spec">14px / 500 / 0</td>
           </tr>
           <tr>
             <td class="type-usage">スライド番号 (mono)</td>
             <td class="type-preview">
-              <div style="font-size: 14px; font-family: var(--font-mono); font-weight: 500; color: #7e7e8c;">01 / 12</div>
+              <div style="font-size: 11px; font-family: var(--font-mono); font-weight: 600; color: var(--neutral-700); letter-spacing: 0.5px;">01 / 12</div>
             </td>
-            <td class="type-spec">14px / 500 / #7e7e8c / 0</td>
+            <td class="type-spec">11px / 600 / 0.5px</td>
+          </tr>
+          <tr>
+            <td class="type-usage">copyright (mono)</td>
+            <td class="type-preview">
+              <div style="font-size: 10px; font-family: var(--font-mono); font-weight: 500; color: var(--neutral-600);">© 2026 The Domain AI Company</div>
+            </td>
+            <td class="type-spec">10px / 500 / 0</td>
           </tr>
         </tbody>
       </table>
