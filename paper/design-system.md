@@ -548,7 +548,7 @@ Card の拡張。中央揃え、`padding: space-6`。
 | **Web Page / LP** | ヒーロー `display-xl` light + italic。ヘッダー直下に `border-heavy`。セクション間 `space-9`+。CTA は `btn-primary`。背景にグリッドパターン |
 | **Web App** | サーフェス階層: `bg-page` → `bg-surface` → `bg-surface-raised`。サイドバー `paper-kraft`。ヘッダー `backdrop-filter: blur(8px)`。本文 `body-md`、密度の高いUIは `body-sm` |
 | **Mobile (iOS)** | iOS HIG 優先。カラートークンのみ適用。タッチターゲット 44×44pt 以上。SF Pro 基本、見出しのみ Crimson Pro 検討。Dynamic Type サポート |
-| **Presentation** | 16:9 (1920×1080)。`paper-white` + グリッドパターン (opacity: 0.15)。タイトル `display-xl`、本文 `body-lg` 以上。セクション区切りに `separator-double`。余白 `space-8`+ |
+| **Presentation** | 16:9 (1920×1080)。`paper-white` + グリッドパターン (opacity: 0.15)。タイトル `display-xl`、本文 `body-lg` 以上。最小フォントサイズ 14pt（copyright・脚注含む）。セクション区切りに `separator-double`。余白 `space-8`+ |
 
 ## CSS Custom Properties Reference
 
