@@ -232,6 +232,15 @@ DX投資による全社レベルの利益インパクト                      �
 
 Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性をデジタル上で再現する 2 つのマテリアルで構成する。
 
+### 基本ルール: 枠線と影の排他使用
+
+`border` と `box-shadow` は同一要素に併用しない。輪郭の定義手段を 1 つに絞ることで、Flat Paper（罫線）と Layered Paper（影）の視覚的差異を明確にする。
+
+| マテリアル | 輪郭の定義 | 禁止 |
+|---|---|---|
+| Flat Paper | `border` | `box-shadow` |
+| Layered Paper | `box-shadow` | `border` |
+
 ### Flat Paper — 罫線のみの基本マテリアル
 
 ```css
