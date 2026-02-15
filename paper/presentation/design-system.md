@@ -164,84 +164,153 @@ margin: 48px 0;
 .slide { width: 1920px; height: 1080px; padding: 64px 80px; }
 ```
 
+### スライドコンポーネント
+
+スライドは header / body / footer の3コンポーネントで構成する。各コンポーネントを組み合わせてスライドパターンを作成する。
+
+#### Header
+
+スライド上部の見出し領域。
+
+| サブ要素 | 内容 | タイポグラフィ |
+|---------|------|--------------|
+| agenda | セクションラベル（例: 「01 OVERVIEW」） | 14px / 700 / uppercase / letter-spacing: 2px |
+| title | スライド見出し | 44px / 400 / Serif / letter-spacing: -1px |
+| main message | メインメッセージ・要点 | 20px / 500 |
+
+**Grid（pptx 座標）:**
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | 64 | 0.44" |
+| width | 1760 | 12.22" |
+| height（agenda + title） | 160 | 1.11" |
+| height（+ main message） | 200 | 1.39" |
+
+#### Body
+
+メインコンテンツ領域。カード・テキスト・図表等を配置する。
+
+**Grid（pptx 座標）:**
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | header 下端 + 40 | header 下端 + 0.28" |
+| width | 1760 | 12.22" |
+| height | footer 上端まで（auto） | — |
+
+#### Footer
+
+スライド下部の固定領域。
+
+| サブ要素 | 内容 | タイポグラフィ | 配置 |
+|---------|------|--------------|------|
+| page number | スライド番号 | 11px / 600 / mono / letter-spacing: 0.5px | 右寄せ |
+| copyright | 著作権表示 | 10px / 500 / mono | 左寄せ |
+
+**Grid（pptx 座標）:**
+
+| プロパティ | px | inch |
+|-----------|-----|------|
+| left | 80 | 0.56" |
+| top | 1032 | 7.17" |
+| width | 1760 | 12.22" |
+| height | 48 | 0.33" |
+
 ### スライドパターン
 
-**1. タイトルスライド** — 全要素中央配置
-```html
-<div class="slide" style="justify-content: center; align-items: center; text-align: center;">
-  <div>THE DOMAIN AI (uppercase label)</div>
-  <h1>タイトル (56px/Serif/300)</h1>
-  <p>サブタイトル (28px/Serif/300/#525252)</p>
-  <p>日付 (16px/mono/#8a8a8a)</p>
-</div>
-```
+**1. タイトルスライド**
+- Header: 使用しない
+- Body: 全要素中央配置 — logo → タイトル（56px / 400 / Serif）→ サブタイトル（28px / 400 / Serif）→ 日付（16px / mono）
+- Footer: copyright のみ
 
 **2. コンテンツスライド** — 見出し + 3列カードグリッド
-```html
-<div class="slide" style="flex-direction: column;">
-  <div style="margin-bottom: 64px;">
-    <span>LABEL (14px/700/#6b6b6b/uppercase)</span>
-    <h2>見出し (44px/Serif/300)</h2>
-  </div>
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; flex: 1;">
-    <div class="paper-flat">...</div>
-    <div class="paper-flat">...</div>
-    <div class="paper-flat">...</div>
-  </div>
-</div>
-```
+- Header: agenda + title
+- Body: `grid-template-columns: repeat(3, 1fr); gap: 40px`
+- Footer: page number + copyright
 
 **3. 2カラムスライド** — テキスト + ビジュアル
-```html
-<div class="slide" style="flex-direction: column;">
-  <div style="margin-bottom: 64px;">
-    <h2>見出し (44px/Serif/300)</h2>
-  </div>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; flex: 1; align-items: center;">
-    <div>テキスト + 箇条書き</div>
-    <div>ビジュアル（図表・コード等）</div>
-  </div>
-</div>
-```
+- Header: title
+- Body: `grid-template-columns: 1fr 1fr; gap: 64px; align-items: center`
+- Footer: page number + copyright
 
 **4. データスライド** — 数値ハイライト
-- 数値: 64px / Serif / weight 300 / #000000
-- ラベル: 18px / Sans / #8a8a8a
-- Flat Paper カードに内包、text-align center
+- Header: title
+- Body: 数値カード（center 配置、64px / 400 / Serif + ラベル 18px / 500 / Sans）、Flat Paper カードに内包
+- Footer: page number + copyright
 
 ### 箇条書き
 ```css
-li { font-size: 20px; color: #525252; line-height: 1.7; padding-left: 24px; }
+li { font-size: 20px; line-height: 1.7; padding-left: 24px; }
 li::before { width: 6px; height: 6px; border-radius: 50%; background: #1a1a1a; }
 ```
 
 ### コードブロック
 ```css
 background: #f5f4f0; border: 1px solid #e0e0e0; border-radius: 0;
-padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7; color: #525252;
+padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7;
 ```
 
-## スライド番号
-```css
-position: fixed; bottom: 32px; right: 48px;
-font-family: 'JetBrains Mono'; font-size: 14px; color: #8a8a8a;
-```
+### 表（テーブル）
 
-## キーボード操作（JavaScript）
-```javascript
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'ArrowRight' || e.key === ' ') { nextSlide(); }
-  else if (e.key === 'ArrowLeft') { prevSlide(); }
-});
-```
+| プロパティ | 値 |
+|-----------|-----|
+| ヘッダーフォント | 14px / 700 / uppercase / letter-spacing: 1px |
+| ヘッダーカラー | text-secondary |
+| ヘッダー下ボーダー | 2px solid ink-900 |
+| セルフォント | 18px / 500 |
+| セルカラー | text-primary |
+| セルパディング | 16px 20px |
+| セル line-height | 1.5 |
+| 行ボーダー | 0.5px solid border-default |
+| 交互行背景 | なし |
+| 数値セル | mono / right-aligned |
+
+### 画像・図表
+
+| プロパティ | ルール |
+|-----------|-------|
+| 最大幅 | body 幅（1760px / 12.22"） |
+| アスペクト比 | 元画像の比率を維持 |
+| 配置 | body 領域内で水平中央 |
+| キャプション | 画像下部、text-secondary、14px / 500、margin-top: 12px |
+| スクリーンショット枠 | 1px solid border-default、border-radius: 0 |
+| チャート内テキスト | 14px 以上（視認性確保） |
+| チャートカラー | グレースケールのみ（ink-900, ink-600, ink-300, ink-100） |
+| 背景透過 | 図表の背景は透過させスライド背景と一体化する |
+
+### ロゴ
+
+| スライドタイプ | 配置 | サイズ |
+|-------------|------|-------|
+| タイトルスライド | body 中央、タイトル上部 | height: 48px |
+| コンテンツスライド | 使用しない | — |
+
+ロゴは単色版（#000000）を使用する。
+
+### トランジション
+
+| 項目 | ルール |
+|------|-------|
+| スライド切替 | カット（瞬時切替）をデフォルトとする |
+| セクション間切替 | カット（Paper テーマではフェードも使用しない） |
+| オブジェクトアニメーション | 使用しない |
+
+Paper テーマでは紙の静的な性質に従い、一切のトランジション・アニメーションを排除する。
 
 ## 禁止事項
 
-- 本文を 16px 未満にしない
+- 10px 未満のフォントサイズを使用しない
+- font-weight: 800 以上は使わない
+- タイポグラフィにカラーを固定指定しない（セマンティックトークンで背景色と合わせて決定する）
 - カラー（彩色）を使用しない（グレースケールのみ）
+- 枠線（border）と中塗り（fill）を併用しない（ページ背景色に近い薄い中塗り + 同系統グレーの枠線の場合を除く）
 - カードに角丸をつけない（radius-none: 0px）
 - 1スライドにカード 3枚 or 箇条書き 5項目が上限目安
 - 背景色を #fdfdfc 以外にしない
 - スライドの padding を 64px 80px 未満にしない
 - border-radius を radius-md（4px）を超えて使用しない（50% の円形を除く）
 - グラデーション・グロウ・ブラーなどの装飾エフェクトを使用しない
+- トランジション・アニメーションを使用しない
