@@ -216,7 +216,7 @@
   .platform-list li{font-size:13px;color:var(--ink-700);padding:10px 14px;background:var(--paper-cream);border:1px solid var(--ink-100);line-height:1.5;}
   .platform-list li::before{content:'';display:inline-block;width:6px;height:6px;background:var(--ink-900);margin-right:10px;vertical-align:middle;}
 
-  /* Quick Reference */
+  /* Page Structure */
   .ref-visual{background:var(--paper-cream);border:1px solid var(--ink-100);padding:32px;max-width:720px;}
   .ref-layer{padding:20px;position:relative;}
   .ref-label{font-family:var(--font-mono);font-size:10px;color:var(--ink-400);position:absolute;top:8px;right:12px;}
@@ -297,6 +297,20 @@
   .metric-value{font-family:var(--font-serif);font-size:36px;font-weight:300;color:var(--ink-900);}
   .metric-label{font-size:12px;color:var(--ink-400);margin-top:4px;}
 
+  /* Interaction Patterns */
+  .interaction-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+  .interaction-card{padding:24px;}
+  .interaction-title{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink-1000);margin-bottom:8px;}
+  .interaction-steps{list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .interaction-steps li{font-size:13px;color:var(--ink-600);padding-left:20px;position:relative;line-height:1.5;}
+  .interaction-steps li::before{content:attr(data-step);position:absolute;left:0;font-family:var(--font-mono);font-size:11px;color:var(--ink-400);font-weight:600;}
+
+  /* Dependencies */
+  .dep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+  .dep-card{padding:16px;}
+  .dep-name{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--ink-900);margin-bottom:4px;}
+  .dep-desc{font-size:12px;color:var(--ink-600);line-height:1.5;}
+
   /* Toast notification */
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink-900);color:var(--paper-white);padding:8px 20px;font-size:12px;font-family:var(--font-mono);opacity:0;pointer-events:none;transition:all .2s ease;z-index:9999;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -323,6 +337,7 @@
     .status-grid{grid-template-columns:1fr;}
     .swatches{flex-wrap:wrap;}
     .swatch{min-width:calc(25% - 2px);min-height:64px;}
+    .interaction-grid{grid-template-columns:1fr;}
   }
 
   @media(prefers-reduced-motion:reduce){
@@ -343,7 +358,7 @@
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <h1>The Domain AI</h1>
-    <p>Paper Design System v1.0</p>
+    <p>Paper Design System v2.0</p>
     <div class="switcher-bar">
       <div class="switcher" id="langSwitcher">
         <button onclick="setLang('en')">EN</button>
@@ -352,19 +367,20 @@
     </div>
   </div>
   <div class="nav-group">
-    <a href="#principles"><span class="nav-num">01</span>Design Principles</a>
-    <a href="#colors"><span class="nav-num">02</span>Color System</a>
-    <a href="#typography"><span class="nav-num">03</span>Typography</a>
-    <a href="#spacing"><span class="nav-num">04</span>Spacing</a>
-    <a href="#grid"><span class="nav-num">05</span>Grid &amp; Layout</a>
-    <a href="#radius"><span class="nav-num">06</span>Shape &amp; Radius</a>
+    <a href="#philosophy"><span class="nav-num">01</span>Design Philosophy</a>
+    <a href="#typography"><span class="nav-num">02</span>Typography</a>
+    <a href="#colors"><span class="nav-num">03</span>Color Tokens</a>
+    <a href="#layout"><span class="nav-num">04</span>Layout</a>
+    <a href="#spacing"><span class="nav-num">05</span>Spacing</a>
+    <a href="#shape"><span class="nav-num">06</span>Shape &amp; Lines</a>
     <a href="#materials"><span class="nav-num">07</span>Material System</a>
     <a href="#elevation"><span class="nav-num">08</span>Elevation</a>
     <a href="#motion"><span class="nav-num">09</span>Motion</a>
-    <a href="#iconography"><span class="nav-num">10</span>Iconography</a>
-    <a href="#platforms"><span class="nav-num">11</span>Platform Guidelines</a>
-    <a href="#reference"><span class="nav-num">12</span>Quick Reference</a>
-    <a href="#components"><span class="nav-num">13</span>Components</a>
+    <a href="#components"><span class="nav-num">10</span>Components</a>
+    <a href="#interactions"><span class="nav-num">11</span>Interaction Patterns</a>
+    <a href="#iconography"><span class="nav-num">12</span>Iconography</a>
+    <a href="#platforms"><span class="nav-num">13</span>Platform Guidelines</a>
+    <a href="#dependencies"><span class="nav-num">14</span>Dependencies</a>
   </div>
 </nav>
 
@@ -377,34 +393,20 @@
       <span>February 2026</span>
     </div>
     <h1>Paper Design <em>System</em></h1>
-    <p><span class="i18n-ja">インクと紙だけで構成されたエディトリアルデザインを基盤に、色を極限まで排除したモノクロームの世界で情報階層を表現するデザインシステムです。</span><span class="i18n-en">A design system built on editorial design with ink and paper alone, expressing information hierarchy in a monochrome world with minimal color.</span></p>
+    <p><span class="i18n-ja">紙とインクだけで成立する Editorial / Magazine-inspired design。色に頼らず、セリフ体の見出しとサンセリフ体の本文の対比、ウェイトとサイズの段階、そして余白の量と質で情報階層を表現するデザインシステムです。</span><span class="i18n-en">Editorial / Magazine-inspired design built with paper and ink alone. Information hierarchy is expressed through serif/sans-serif contrast, weight and size gradation, and the quantity and quality of whitespace.</span></p>
   </div>
 
   <div class="content">
 
-    <!-- 01 Design Principles -->
-    <section class="section" id="principles">
-      <div class="section-header"><h2>01 &mdash; Design Principles</h2></div>
+    <!-- 01 Design Philosophy -->
+    <section class="section" id="philosophy">
+      <div class="section-header"><h2>01 &mdash; Design Philosophy</h2></div>
       <div class="grid-auto principles-grid" id="principlesGrid"></div>
     </section>
 
-    <!-- 02 Color System -->
-    <section class="section" id="colors">
-      <div class="section-header"><h2>02 &mdash; Color System</h2></div>
-      <div id="paletteContainer"></div>
-
-      <h3 class="h-section">Semantic Tokens</h3>
-      <p class="section-desc" style="margin-bottom:16px;"><span class="i18n-ja">用途に基づく意味的トークンです。実装時はこちらを優先して使用します。</span><span class="i18n-en">Semantic tokens based on intended use. Prefer these over raw palette values.</span></p>
-      <div class="grid-auto semantic-grid" id="semanticGrid"></div>
-
-      <h3 class="h-section">Status Indication</h3>
-      <p class="section-desc" style="margin-bottom:16px;"><span class="i18n-ja">色に頼らず、テキストラベル・記号・ボーダー太さでステータスを伝えます。</span><span class="i18n-en">Status is conveyed through text labels, symbols, and border weight — not color.</span></p>
-      <div class="status-grid" id="statusGrid"></div>
-    </section>
-
-    <!-- 03 Typography -->
+    <!-- 02 Typography -->
     <section class="section" id="typography">
-      <div class="section-header"><h2>03 &mdash; Typography</h2></div>
+      <div class="section-header"><h2>02 &mdash; Typography</h2></div>
       <div class="section-desc"><span class="i18n-ja">Crimson Pro（見出し・セリフ）と Instrument Sans（本文・UI）の 2 書体構成です。対比によるリズムが Paper テーマの中核です。</span><span class="i18n-en">Two typefaces: Crimson Pro (headings, serif) and Instrument Sans (body, UI). The contrast between them is the core rhythm of the Paper theme.</span></div>
 
       <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
@@ -434,17 +436,56 @@
       </div>
     </section>
 
-    <!-- 04 Spacing -->
-    <section class="section" id="spacing">
-      <div class="section-header"><h2>04 &mdash; Spacing</h2></div>
-      <div class="section-desc"><span class="i18n-ja">8px グリッドベースのスペーシングスケールです。Paper テーマでは space-8 以上の余白を多用します。</span><span class="i18n-en">An 8px grid-based spacing scale. Paper theme uses generous whitespace (space-8 and above).</span></div>
-      <div class="spacing-list" id="spacingList"></div>
+    <!-- 03 Color Tokens -->
+    <section class="section" id="colors">
+      <div class="section-header"><h2>03 &mdash; Color Tokens</h2></div>
+      <div id="paletteContainer"></div>
+
+      <h3 class="h-section">Semantic Tokens</h3>
+      <p class="section-desc" style="margin-bottom:16px;"><span class="i18n-ja">用途に基づく意味的トークンです。実装時はこちらを優先して使用します。</span><span class="i18n-en">Semantic tokens based on intended use. Prefer these over raw palette values.</span></p>
+      <div class="grid-auto semantic-grid" id="semanticGrid"></div>
+
+      <h3 class="h-section">Status Indication</h3>
+      <p class="section-desc" style="margin-bottom:16px;"><span class="i18n-ja">色に頼らず、テキストラベル・記号・ボーダー太さでステータスを伝えます。</span><span class="i18n-en">Status is conveyed through text labels, symbols, and border weight — not color.</span></p>
+      <div class="status-grid" id="statusGrid"></div>
     </section>
 
-    <!-- 05 Grid & Layout -->
-    <section class="section" id="grid">
-      <div class="section-header"><h2>05 &mdash; Grid &amp; Layout</h2></div>
+    <!-- 04 Layout -->
+    <section class="section" id="layout">
+      <div class="section-header"><h2>04 &mdash; Layout</h2></div>
       <div class="section-desc"><span class="i18n-ja">コンテンツの最大幅を狭めに設定し、書籍・雑誌の段組に近い読みやすさを追求します。</span><span class="i18n-en">Narrower max-width for readability closer to book and magazine layouts.</span></div>
+
+      <h3 class="h-section h-section--flush">Page Structure</h3>
+      <div class="ref-visual">
+        <div class="ref-layer" style="background:var(--paper-white);border:2px solid var(--ink-1000);border-bottom-width:1px;">
+          <span class="ref-label">Page Background &middot; paper-white</span>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:12px;">#fdfdfc</div>
+          <div class="ref-layer" style="background:var(--paper-cream);border:1px solid var(--ink-100);">
+            <span class="ref-label">Surface &middot; paper-cream</span>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:16px;">#faf9f7 &middot; border: ink-100 #e0e0e0</div>
+            <div class="ref-text-line">
+              <span class="ref-text-role">Heading</span>
+              <span style="font-family:var(--font-serif);font-size:24px;font-weight:300;color:var(--ink-1000);">Display Heading</span>
+            </div>
+            <div class="ref-text-line">
+              <span class="ref-text-role">Body</span>
+              <span style="font-size:14px;color:var(--ink-900);">Body text in ink-900</span>
+            </div>
+            <div class="ref-text-line">
+              <span class="ref-text-role">Sub text</span>
+              <span style="font-size:12px;color:var(--ink-600);">Secondary text in ink-600</span>
+            </div>
+            <div class="ref-inner-card" style="background:var(--paper-white);border:1px solid var(--ink-100);margin-top:16px;">
+              <span class="ref-label">Raised &middot; paper-white</span>
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:12px;">#fdfdfc</div>
+              <span class="ref-btn" style="background:var(--ink-900);color:var(--paper-white);border-radius:4px;">Primary Button</span>
+              <span class="ref-btn" style="background:transparent;color:var(--ink-900);border:1px solid var(--ink-900);border-radius:4px;margin-left:8px;">Secondary</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="h-section">Breakpoints</h3>
       <div class="grid-auto bp-grid" id="bpGrid"></div>
       <div class="card-base grid-demo" style="margin-top:24px;">
         <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-500);margin-bottom:12px;">12-Column Grid Preview</div>
@@ -452,15 +493,25 @@
       </div>
     </section>
 
-    <!-- 06 Shape & Radius -->
-    <section class="section" id="radius">
-      <div class="section-header"><h2>06 &mdash; Shape &amp; Radius</h2></div>
+    <!-- 05 Spacing -->
+    <section class="section" id="spacing">
+      <div class="section-header"><h2>05 &mdash; Spacing</h2></div>
+      <div class="section-desc"><span class="i18n-ja">8px グリッドベースのスペーシングスケールです。Paper テーマでは space-8 以上の余白を多用します。</span><span class="i18n-en">An 8px grid-based spacing scale. Paper theme uses generous whitespace (space-8 and above).</span></div>
+      <div class="spacing-list" id="spacingList"></div>
+    </section>
+
+    <!-- 06 Shape & Lines -->
+    <section class="section" id="shape">
+      <div class="section-header"><h2>06 &mdash; Shape &amp; Lines</h2></div>
       <div class="section-desc"><span class="i18n-ja">角丸を最小限に抑え、紙・印刷物の直線的な質感を維持します。カードの標準は 0px（直角）です。</span><span class="i18n-en">Minimal border-radius to maintain the linear quality of paper and print. Card default is 0px (sharp edges).</span></div>
       <div class="radius-grid" id="radiusGrid"></div>
 
-      <h3 class="h-section">Border &amp; Stroke Width</h3>
+      <h3 class="h-section">Stroke Width</h3>
       <p class="section-desc"><span class="i18n-ja">1px (stroke-sm) をデフォルトのボーダー幅とします。ヘッダー直下には stroke-lg 以上を使用します。</span><span class="i18n-en">1px (stroke-sm) is the default. Use stroke-lg or heavier below headers.</span></p>
       <div class="stroke-grid" id="strokeGrid"></div>
+
+      <h3 class="h-section">Separators</h3>
+      <div class="line-demo-grid" id="lineGrid"></div>
     </section>
 
     <!-- 07 Material System -->
@@ -488,23 +539,20 @@
       <h3 class="h-section">Layered Paper</h3>
       <div class="grid-auto material-demo-grid" id="layeredPaperGrid" style="margin-bottom:24px;"></div>
 
-      <h3 class="h-section">Decorative Lines &amp; Separators</h3>
-      <div class="line-demo-grid" id="lineGrid"></div>
-
       <h3 class="h-section">Shadows</h3>
       <div class="shadow-grid" id="shadowGrid"></div>
     </section>
 
     <!-- 08 Elevation -->
     <section class="section" id="elevation">
-      <div class="section-header"><h2>08 &mdash; Elevation &amp; Layers</h2></div>
+      <div class="section-header"><h2>08 &mdash; Elevation</h2></div>
       <div class="section-desc"><span class="i18n-ja">z-index の階層定義です。</span><span class="i18n-en">z-index layer definitions.</span></div>
       <div class="elevation-stack" id="elevationStack"></div>
     </section>
 
     <!-- 09 Motion -->
     <section class="section" id="motion">
-      <div class="section-header"><h2>09 &mdash; Motion &amp; Animation</h2></div>
+      <div class="section-header"><h2>09 &mdash; Motion</h2></div>
       <div class="section-desc"><span class="i18n-ja">紙は動かない。必要な状態遷移のみ短い duration で実行します。ホバーでプレビューを確認できます。</span><span class="i18n-en">Paper does not move. Only necessary state transitions with short durations. Hover to preview.</span></div>
 
       <h3 class="h-section h-section--flush">Duration &amp; Easing</h3>
@@ -539,62 +587,9 @@
       </div>
     </section>
 
-    <!-- 10 Iconography -->
-    <section class="section" id="iconography">
-      <div class="section-header"><h2>10 &mdash; Iconography</h2></div>
-      <div class="section-desc"><span class="i18n-ja">Paper テーマではアイコンの使用を最小限にし、テキストラベルを優先します。</span><span class="i18n-en">Paper theme minimizes icon usage and prioritizes text labels.</span></div>
-      <table class="icon-table" id="iconTable"></table>
-    </section>
-
-    <!-- 11 Platform Guidelines -->
-    <section class="section" id="platforms">
-      <div class="section-header"><h2>11 &mdash; Platform Guidelines</h2></div>
-      <div class="tab-bar" id="tabBar"></div>
-      <div id="tabContents"></div>
-    </section>
-
-    <!-- 12 Quick Reference -->
-    <section class="section" id="reference">
-      <div class="section-header"><h2>12 &mdash; Quick Reference</h2></div>
-      <div class="section-desc"><span class="i18n-ja">UI の基本的な構成パターンです。</span><span class="i18n-en">Basic UI composition patterns.</span></div>
-
-      <div class="ref-visual">
-        <div class="ref-layer" style="background:var(--paper-white);border:2px solid var(--ink-1000);border-bottom-width:1px;">
-          <span class="ref-label">Page Background &middot; paper-white</span>
-          <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:12px;">#fdfdfc</div>
-          <div class="ref-layer" style="background:var(--paper-cream);border:1px solid var(--ink-100);">
-            <span class="ref-label">Surface &middot; paper-cream</span>
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:16px;">#faf9f7 &middot; border: ink-100 #e0e0e0</div>
-            <div class="ref-text-line">
-              <span class="ref-text-role">Heading</span>
-              <span style="font-family:var(--font-serif);font-size:24px;font-weight:300;color:var(--ink-1000);">Display Heading</span>
-            </div>
-            <div class="ref-text-line">
-              <span class="ref-text-role">Body</span>
-              <span style="font-size:14px;color:var(--ink-900);">Body text in ink-900</span>
-            </div>
-            <div class="ref-text-line">
-              <span class="ref-text-role">Sub text</span>
-              <span style="font-size:12px;color:var(--ink-600);">Secondary text in ink-600</span>
-            </div>
-            <div class="ref-inner-card" style="background:var(--paper-white);border:1px solid var(--ink-100);margin-top:16px;">
-              <span class="ref-label">Raised &middot; paper-white</span>
-              <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:12px;">#fdfdfc</div>
-              <span class="ref-btn" style="background:var(--ink-900);color:var(--paper-white);border-radius:4px;">Primary Button</span>
-              <span class="ref-btn" style="background:transparent;color:var(--ink-900);border:1px solid var(--ink-900);border-radius:4px;margin-left:8px;">Secondary</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <h3 class="h-section">Status Usage</h3>
-      <p class="section-desc" style="margin-bottom:16px;"><span class="i18n-ja">色ではなくテキストラベルとボーダー太さでステータスを区別します。</span><span class="i18n-en">Status distinguished by text labels and border weight, not color.</span></p>
-      <div id="statusRef"></div>
-    </section>
-
-    <!-- 13 Components -->
+    <!-- 10 Components -->
     <section class="section" id="components">
-      <div class="section-header"><h2>13 &mdash; Components</h2></div>
+      <div class="section-header"><h2>10 &mdash; Components</h2></div>
       <div class="section-desc"><span class="i18n-ja">全コンポーネントはデザイントークンから値を導出し、色を排したモノクロームで構成します。</span><span class="i18n-en">All components derive values from design tokens in monochrome.</span></div>
 
       <!-- Buttons -->
@@ -731,6 +726,34 @@
           </tbody>
         </table>
       </div>
+    </section>
+
+    <!-- 11 Interaction Patterns -->
+    <section class="section" id="interactions">
+      <div class="section-header"><h2>11 &mdash; Interaction Patterns</h2></div>
+      <div class="section-desc"><span class="i18n-ja">ユーザーの操作フローを定義するインタラクションパターンです。</span><span class="i18n-en">Interaction patterns that define user operation flows.</span></div>
+      <div class="interaction-grid" id="interactionGrid"></div>
+    </section>
+
+    <!-- 12 Iconography -->
+    <section class="section" id="iconography">
+      <div class="section-header"><h2>12 &mdash; Iconography</h2></div>
+      <div class="section-desc"><span class="i18n-ja">Paper テーマではアイコンの使用を最小限にし、テキストラベルを優先します。</span><span class="i18n-en">Paper theme minimizes icon usage and prioritizes text labels.</span></div>
+      <table class="icon-table" id="iconTable"></table>
+    </section>
+
+    <!-- 13 Platform Guidelines -->
+    <section class="section" id="platforms">
+      <div class="section-header"><h2>13 &mdash; Platform Guidelines</h2></div>
+      <div class="tab-bar" id="tabBar"></div>
+      <div id="tabContents"></div>
+    </section>
+
+    <!-- 14 Dependencies -->
+    <section class="section" id="dependencies">
+      <div class="section-header"><h2>14 &mdash; Dependencies</h2></div>
+      <div class="section-desc"><span class="i18n-ja">本デザインシステムの実装に必要な外部依存です。</span><span class="i18n-en">External dependencies required for implementing this design system.</span></div>
+      <div class="dep-grid" id="depGrid"></div>
     </section>
 
   </div>
@@ -983,6 +1006,44 @@ const platformData = {
   },
 };
 
+const interactionPatterns = [
+  {
+    title:'Drill-Down Navigation',
+    title_en:'Drill-Down Navigation',
+    steps:[
+      {n:'1', ja:'概要カード群をグリッド表示', en:'Display overview cards in grid'},
+      {n:'2', ja:'カードクリック → selected 状態（border-color: ink-900）', en:'Click card → selected state (border-color: ink-900)'},
+      {n:'3', ja:'詳細セクションにスムーズスクロール + コンテンツレンダリング', en:'Smooth scroll to detail section + render content'},
+      {n:'4', ja:'詳細内の行クリック → アコーディオンで打ち手展開', en:'Click detail row → expand measures via accordion'},
+    ]
+  },
+  {
+    title:'Expandable Tree',
+    title_en:'Expandable Tree',
+    steps:[
+      {n:'1', ja:'ヘッダークリックで子要素の表示/非表示を切り替え', en:'Click header to toggle child visibility'},
+      {n:'2', ja:'左辺のツリーラインで親子関係を視覚化', en:'Tree line on left visualizes parent-child relationship'},
+      {n:'3', ja:'同時に複数ノードを展開可能', en:'Multiple nodes can be expanded simultaneously'},
+    ]
+  },
+  {
+    title:'Time Period Toggle',
+    title_en:'Time Period Toggle',
+    steps:[
+      {n:'1', ja:'タブボタンで期間を切り替え（例: 1年目 / 3年累計）', en:'Switch periods via tab buttons (e.g., Year 1 / 3-Year Total)'},
+      {n:'2', ja:'メトリクス値を直接 DOM 書き換え', en:'Metric values updated via direct DOM manipulation'},
+    ]
+  },
+];
+
+const dependencyItems = [
+  {name:'Tailwind CSS', desc:'ユーティリティクラスベース。カスタムプロパティを tailwind.config で拡張', desc_en:'Utility-class based. Extend custom properties via tailwind.config'},
+  {name:'Google Fonts', desc:'Crimson Pro (300, 400, 600, 400italic), Instrument Sans (400, 600)', desc_en:'Crimson Pro (300, 400, 600, 400italic), Instrument Sans (400, 600)'},
+  {name:'JetBrains Mono', desc:'Google Fonts or self-hosted', desc_en:'Google Fonts or self-hosted'},
+  {name:'Lucide Icons', desc:'Outline スタイル、角丸最小', desc_en:'Outline style, minimal border-radius'},
+  {name:'JavaScript', desc:'Vanilla JS（IntersectionObserver, accordion 制御）', desc_en:'Vanilla JS (IntersectionObserver, accordion control)'},
+];
+
 /* Render functions */
 function copyHex(hex) {
   navigator.clipboard.writeText(hex);
@@ -1000,29 +1061,12 @@ function copyText(text) {
   setTimeout(() => el.classList.remove('show'), 1200);
 }
 
-// 01 Principles
+// 01 Design Philosophy
 document.getElementById('principlesGrid').innerHTML = principles.map(p =>
   `<div class="card-base"><div class="principle-num">${p.num}</div><div class="principle-title">${p.title}</div><div class="principle-desc">${t(p.desc, p.desc_en)}</div></div>`
 ).join('');
 
-// 02 Colors
-document.getElementById('paletteContainer').innerHTML = palettes.map(p =>
-  `<div class="palette-group"><div class="palette-label">${p.name} <span>${p.sub}</span></div><div class="swatches">${
-    p.colors.map(c => `<div class="swatch ${c.t}" style="background:${c.h}" onclick="copyHex('${c.h}')"><span class="swatch-label">${c.l}</span><span class="swatch-hex">${c.h}</span></div>`).join('')
-  }</div></div>`
-).join('');
-
-// Semantic tokens
-document.getElementById('semanticGrid').innerHTML = semanticTokens.map(s =>
-  `<div class="card-base semantic-card" onclick="copyHex('${s.hex}')"><div class="semantic-dot" style="background:${s.hex};border:1px solid var(--ink-100);"></div><div><div class="semantic-name">${s.name}</div><div class="semantic-detail">${s.maps} \u00b7 ${s.hex} \u00b7 ${t(s.desc, s.desc_en)}</div></div></div>`
-).join('');
-
-// Status
-document.getElementById('statusGrid').innerHTML = statusItems.map(s =>
-  `<div class="card-base status-card"><h3>${s.name}</h3><div class="status-demo" style="border-top:1px solid var(--ink-100);"><div class="status-symbol">${s.symbol}</div><div><div class="status-text">${s.label}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-top:2px;">border: ${s.border}</div></div></div></div>`
-).join('');
-
-// 03 Typography
+// 02 Typography
 const fontWeights = [
   {weight:300,name:'Light',font:'serif'},{weight:400,name:'Regular',font:'sans'},
   {weight:600,name:'SemiBold',font:'serif'},{weight:700,name:'Bold',font:'sans'},
@@ -1053,20 +1097,37 @@ typeScale.forEach(s => {
 thtml += '</tbody>';
 tt.innerHTML = thtml;
 
-// 04 Spacing
+// 03 Color Tokens
+document.getElementById('paletteContainer').innerHTML = palettes.map(p =>
+  `<div class="palette-group"><div class="palette-label">${p.name} <span>${p.sub}</span></div><div class="swatches">${
+    p.colors.map(c => `<div class="swatch ${c.t}" style="background:${c.h}" onclick="copyHex('${c.h}')"><span class="swatch-label">${c.l}</span><span class="swatch-hex">${c.h}</span></div>`).join('')
+  }</div></div>`
+).join('');
+
+// Semantic tokens
+document.getElementById('semanticGrid').innerHTML = semanticTokens.map(s =>
+  `<div class="card-base semantic-card" onclick="copyHex('${s.hex}')"><div class="semantic-dot" style="background:${s.hex};border:1px solid var(--ink-100);"></div><div><div class="semantic-name">${s.name}</div><div class="semantic-detail">${s.maps} \u00b7 ${s.hex} \u00b7 ${t(s.desc, s.desc_en)}</div></div></div>`
+).join('');
+
+// Status
+document.getElementById('statusGrid').innerHTML = statusItems.map(s =>
+  `<div class="card-base status-card"><h3>${s.name}</h3><div class="status-demo" style="border-top:1px solid var(--ink-100);"><div class="status-symbol">${s.symbol}</div><div><div class="status-text">${s.label}</div><div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-top:2px;">border: ${s.border}</div></div></div></div>`
+).join('');
+
+// 04 Layout — Breakpoints
+document.getElementById('bpGrid').innerHTML = breakpoints.map(b =>
+  `<div class="card-base"><div class="bp-name">${b.name}</div><div class="bp-range">${b.range}</div><div class="bp-detail">Columns: ${b.cols}<br>Gutter: ${b.gutter}<br>Margin: ${b.margin}<br>Max: ${b.maxW}</div></div>`
+).join('');
+document.getElementById('gridPreview').innerHTML = Array.from({length:12}, (_,i) => `<div class="grid-col">${i+1}</div>`).join('');
+
+// 05 Spacing
 const maxPx = 128;
 document.getElementById('spacingList').innerHTML = spacingScale.map(s => {
   const w = s.px === 0 ? 2 : Math.max(2, (s.px / maxPx) * 100);
   return `<div class="spacing-row"><span class="spacing-token">${s.token}</span><span class="spacing-value">${s.val}</span><div class="spacing-bar" style="width:${w}%"></div></div>`;
 }).join('');
 
-// 05 Grid
-document.getElementById('bpGrid').innerHTML = breakpoints.map(b =>
-  `<div class="card-base"><div class="bp-name">${b.name}</div><div class="bp-range">${b.range}</div><div class="bp-detail">Columns: ${b.cols}<br>Gutter: ${b.gutter}<br>Margin: ${b.margin}<br>Max: ${b.maxW}</div></div>`
-).join('');
-document.getElementById('gridPreview').innerHTML = Array.from({length:12}, (_,i) => `<div class="grid-col">${i+1}</div>`).join('');
-
-// 06 Radius
+// 06 Shape & Lines — Radius
 document.getElementById('radiusGrid').innerHTML = radii.map(r => {
   const rad = r.val === '9999px' ? `${r.size/2}px` : r.val;
   return `<div class="radius-item"><div class="radius-box" style="width:${r.size}px;height:${r.size}px;border-radius:${rad};"></div><div class="radius-label">${r.token}</div><div class="radius-val">${r.val}</div></div>`;
@@ -1074,6 +1135,11 @@ document.getElementById('radiusGrid').innerHTML = radii.map(r => {
 
 document.getElementById('strokeGrid').innerHTML = strokeWidths.map(s =>
   `<div class="stroke-row"><span class="stroke-token">${s.token}</span><span class="stroke-value">${s.val}</span><div class="stroke-line" style="border-top-width:${s.px}px;"></div></div>`
+).join('');
+
+// Separators (lines)
+document.getElementById('lineGrid').innerHTML = lineStyles.map(l =>
+  `<div class="line-demo"><div class="line-demo-label">${l.name} \u2014 ${t(l.desc, l.desc_en)}</div><div style="${l.style}"></div></div>`
 ).join('');
 
 // 07 Materials
@@ -1084,11 +1150,6 @@ function renderMaterialCards(container, items) {
 }
 renderMaterialCards(document.getElementById('flatPaperGrid'), flatPaperMaterials);
 renderMaterialCards(document.getElementById('layeredPaperGrid'), layeredPaperMaterials);
-
-// Lines
-document.getElementById('lineGrid').innerHTML = lineStyles.map(l =>
-  `<div class="line-demo"><div class="line-demo-label">${l.name} \u2014 ${t(l.desc, l.desc_en)}</div><div style="${l.style}"></div></div>`
-).join('');
 
 // Shadows
 document.getElementById('shadowGrid').innerHTML = shadows.map(s =>
@@ -1111,10 +1172,20 @@ document.getElementById('motionGrid').innerHTML = motionTokens.map(m =>
   </div>`
 ).join('');
 
-// 10 Iconography
+// 11 Interaction Patterns
+document.getElementById('interactionGrid').innerHTML = interactionPatterns.map(p =>
+  `<div class="card-base interaction-card">
+    <div class="interaction-title">${t(p.title, p.title_en)}</div>
+    <ol class="interaction-steps">${p.steps.map(s =>
+      `<li data-step="${s.n}.">${t(s.ja, s.en)}</li>`
+    ).join('')}</ol>
+  </div>`
+).join('');
+
+// 12 Iconography
 document.getElementById('iconTable').innerHTML = iconProps.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
 
-// 11 Platforms
+// 13 Platforms
 const platformKeys = Object.keys(platformData);
 document.getElementById('tabBar').innerHTML = platformKeys.map((key, i) =>
   `<button class="tab-btn${i===0?' active':''}" onclick="switchTab('${key}',this)">${key}</button>`
@@ -1132,19 +1203,10 @@ function switchTab(key, btn) {
   document.querySelector(`.tab-content[data-tab="${key}"]`).classList.add('active');
 }
 
-// 12 Status Reference
-document.getElementById('statusRef').innerHTML = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">' + statusItems.map(s =>
-  `<div style="display:flex;flex-direction:column;gap:8px;">
-    <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-500);">${s.name}</div>
-    <div style="background:var(--paper-warm);border:${s.border.includes('2px') ? '2px' : '1px'} solid ${s.borderHex};padding:12px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-        <span style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--ink-900);">${s.symbol}</span>
-        <span style="font-size:13px;font-weight:600;color:var(--ink-900);">${s.label}</span>
-      </div>
-      <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);">border: ${s.border} \u00b7 bg: paper-warm</div>
-    </div>
-  </div>`
-).join('') + '</div>';
+// 14 Dependencies
+document.getElementById('depGrid').innerHTML = dependencyItems.map(d =>
+  `<div class="card-base dep-card"><div class="dep-name">${d.name}</div><div class="dep-desc">${t(d.desc, d.desc_en)}</div></div>`
+).join('');
 
 /* Sidebar: Intersection Observer */
 const sections = document.querySelectorAll('.section');
