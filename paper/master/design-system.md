@@ -391,8 +391,8 @@ Radius: 全サイズ `radius-md` (4px)
 | Placeholder | `text-muted` (ink-400) |
 
 - **Hover**: `border-color: var(--ink-200)`
-- **Focus**: `border-color: var(--ink-900)`, `outline: 2px solid var(--ink-700)`, `outline-offset: 2px`
-- **Error**: `border-color: var(--ink-900)`, `border-width: 2px`, エラーメッセージを下に表示
+- **Focus**: `border-color: var(--ink-blue)`, `outline: 2px solid var(--ink-blue)`, `outline-offset: 2px`
+- **Error**: `border-color: var(--ink-red)`, `border-width: 2px`, エラーメッセージを `ink-red` で表示
 - **Disabled**: `background: paper-kraft`, `opacity: 0.5`
 
 ### Badge / Tag
