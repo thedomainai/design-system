@@ -129,16 +129,14 @@ DX投資による全社レベルの利益インパクト                      �
 
 ### Status Indication
 
-色に頼らず、テキストラベル・記号・ボーダー太さで状態を伝える。
+テキストラベル・記号で状態を伝えつつ、淡い色付きインクで即座の識別を補助する。
 
-| Status | Label | Symbol | Background | Border |
-|--------|-------|--------|------------|--------|
-| Success | "Complete" | ✓ | `paper-warm` | `ink-200` |
-| Warning | "Attention" | ! | `paper-warm` | `ink-300` |
-| Error | "Error" | × | `paper-warm` | `ink-700` 2px |
-| Info | "Note" | i | `paper-cream` | `ink-100` |
-
-データ可視化・ステータスドット（直径 6px 以下）に限り、Success `#16a34a` / Error `#dc2626` を使用可。
+| Status | Label | Symbol | Text | Background | Border |
+|--------|-------|--------|------|------------|--------|
+| Success | "Complete" | ✓ | `ink-green` | `wash-green` | `ink-green` |
+| Warning | "Attention" | ! | `ink-amber` | `wash-amber` | `ink-amber` |
+| Error | "Error" | × | `ink-red` | `wash-red` | `ink-red` |
+| Info | "Note" | i | `ink-blue` | `wash-blue` | `ink-blue` |
 
 ## Layout
 
