@@ -1256,6 +1256,33 @@ margin: 48px 0;</pre>
         <pre>.slide { width: 1920px; height: 1080px; padding: 64px 80px; }</pre>
       </div>
 
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 16px; margin-top: 32px;">スライドコンポーネント（Header / Body / Footer）</h3>
+
+      <p style="font-size: 13px; color: var(--neutral-700); margin-bottom: 16px;">
+        スライドは header / body / footer の3コンポーネントで構成する。各コンポーネントを組み合わせてスライドパターンを作成する。
+      </p>
+
+      <div class="component-zone-demo">
+        <div class="zone-header">
+          Header — agenda (12px/700) + title (44px/400) + main message (20px/500)<br>
+          <span style="opacity: 0.6;">top: 64px (0.44") / height: 160-200px (1.11-1.39")</span>
+        </div>
+        <div class="zone-body">
+          Body — contents<br>
+          <span style="opacity: 0.6;">auto height</span>
+        </div>
+        <div class="zone-footer">
+          <span>copyright (10px/500/mono)</span>
+          <span>page number (11px/600/mono)</span>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 24px;">Footer</h3>
+      <div class="footer-demo">
+        <div class="footer-demo-copyright">© 2026 The Domain AI Company</div>
+        <div class="footer-demo-page">01 / 12</div>
+      </div>
+
       <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 16px; margin-top: 32px;">スライドパターン</h3>
 
       <div class="slide-patterns-grid">
@@ -1264,22 +1291,26 @@ margin: 48px 0;</pre>
           <div class="slide-miniature-label">1. タイトルスライド</div>
           <div class="slide-miniature-content">
             <div style="font-size: 8px; color: var(--neutral-600); margin-bottom: 8px;">LOGO</div>
-            <div class="slide-title-h1">The Domain AI</div>
-            <div class="slide-title-subtitle">Presentation Design System</div>
-            <div style="font-size: 8px; font-family: var(--font-mono); color: var(--neutral-500); margin-top: 8px;">2026.02.14</div>
+            <div style="font-size: 18px; font-weight: 400; color: var(--neutral-1000); margin-bottom: 6px;">The Domain AI</div>
+            <div style="font-size: 10px; font-weight: 400; color: var(--neutral-700);">Presentation Design System</div>
+            <div style="font-size: 8px; font-family: var(--font-mono); color: var(--neutral-500); margin-top: 8px;">2026.02.15</div>
           </div>
+          <div style="font-size: 7px; font-family: var(--font-mono); color: var(--neutral-600); text-align: center; margin-top: auto; padding-top: 8px;">Footer: copyright</div>
         </div>
 
         <!-- 2. Content Slide (3-col cards) -->
         <div class="slide-miniature">
           <div class="slide-miniature-label">2. コンテンツスライド（3列カード）</div>
           <div class="slide-miniature-content">
-            <div style="font-size: 8px; font-weight: 600; color: var(--primary-400); letter-spacing: 1px; margin-bottom: 4px;">FEATURES</div>
-            <div style="font-size: 14px; font-weight: 300; color: var(--neutral-1000); margin-bottom: 12px;">見出し</div>
-            <div class="slide-content-grid">
+            <div style="font-size: 7px; font-weight: 700; color: var(--primary-400); letter-spacing: 1px; margin-bottom: 2px;">FEATURES</div>
+            <div style="font-size: 14px; font-weight: 400; color: var(--neutral-1000); margin-bottom: 8px;">見出し</div>
+            <div class="slide-content-grid" style="flex: 1;">
               <div class="slide-content-card"></div>
               <div class="slide-content-card"></div>
               <div class="slide-content-card"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 7px; font-family: var(--font-mono); color: var(--neutral-600); margin-top: 8px;">
+              <span>©</span><span>01/12</span>
             </div>
           </div>
         </div>
@@ -1288,12 +1319,15 @@ margin: 48px 0;</pre>
         <div class="slide-miniature">
           <div class="slide-miniature-label">3. 2カラムスライド</div>
           <div class="slide-miniature-content">
-            <div style="font-size: 14px; font-weight: 300; color: var(--neutral-1000); margin-bottom: 12px;">見出し</div>
-            <div class="slide-two-col">
+            <div style="font-size: 14px; font-weight: 400; color: var(--neutral-1000); margin-bottom: 8px;">見出し</div>
+            <div class="slide-two-col" style="flex: 1;">
               <div class="slide-two-col-left">
                 テキスト<br>+ 箇条書き
               </div>
               <div class="slide-two-col-right"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 7px; font-family: var(--font-mono); color: var(--neutral-600); margin-top: 8px;">
+              <span>©</span><span>01/12</span>
             </div>
           </div>
         </div>
@@ -1302,20 +1336,23 @@ margin: 48px 0;</pre>
         <div class="slide-miniature">
           <div class="slide-miniature-label">4. データスライド（数値ハイライト）</div>
           <div class="slide-miniature-content">
-            <div style="font-size: 14px; font-weight: 300; color: var(--neutral-1000); margin-bottom: 12px;">統計データ</div>
-            <div class="slide-data-grid">
+            <div style="font-size: 14px; font-weight: 400; color: var(--neutral-1000); margin-bottom: 8px;">統計データ</div>
+            <div class="slide-data-grid" style="flex: 1;">
               <div class="slide-data-card">
-                <div class="slide-data-number">1,234</div>
+                <div class="slide-data-number" style="font-weight: 600;">1,234</div>
                 <div class="slide-data-label">Users</div>
               </div>
               <div class="slide-data-card">
-                <div class="slide-data-number">567</div>
+                <div class="slide-data-number" style="font-weight: 600;">567</div>
                 <div class="slide-data-label">Projects</div>
               </div>
               <div class="slide-data-card">
-                <div class="slide-data-number">89%</div>
+                <div class="slide-data-number" style="font-weight: 600;">89%</div>
                 <div class="slide-data-label">Success</div>
               </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 7px; font-family: var(--font-mono); color: var(--neutral-600); margin-top: 8px;">
+              <span>©</span><span>01/12</span>
             </div>
           </div>
         </div>
