@@ -1194,6 +1194,51 @@ box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.3);</p
 background: linear-gradient(90deg, transparent 0%, rgba(80,104,164,0.15) 20%, rgba(142,124,180,0.2) 50%, rgba(80,104,164,0.15) 80%, transparent 100%);
 margin: 48px 0;</pre>
       </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 32px;">マテリアル内テキスト配置</h3>
+      <p style="font-size: 13px; color: var(--neutral-700); margin-bottom: 16px;">
+        マテリアルグループ（同一種類のマテリアルが横に並ぶ集合）では、代表となる1つのマテリアルについてテキスト配置を決定し、グループ内の全マテリアルに同一ルールを適用する。
+      </p>
+
+      <div class="alignment-grid">
+        <div class="alignment-demo-card" style="justify-content: flex-start; align-items: flex-start;">
+          <div class="alignment-demo-card-label">Glass カード</div>
+          <div class="alignment-demo-card-content">left / top<br><span style="color: var(--neutral-600); font-size: 10px;">コンテンツは上から下へ</span></div>
+        </div>
+        <div class="alignment-demo-card" style="justify-content: center; align-items: center; text-align: center;">
+          <div class="alignment-demo-card-label">Liquid Glass</div>
+          <div class="alignment-demo-card-content">center / center<br><span style="color: var(--neutral-600); font-size: 10px;">インパクト重視</span></div>
+        </div>
+        <div class="alignment-demo-card" style="justify-content: center; align-items: center; text-align: center;">
+          <div class="alignment-demo-card-label">データカード</div>
+          <div class="alignment-demo-card-content" style="font-size: 20px; font-weight: 600; color: var(--neutral-1000);">89%<br><span style="color: var(--neutral-600); font-size: 10px;">center / center</span></div>
+        </div>
+        <div class="alignment-demo-card" style="justify-content: flex-start; align-items: flex-start;">
+          <div class="alignment-demo-card-label">コードブロック</div>
+          <div class="alignment-demo-card-content" style="font-family: var(--font-mono); font-size: 10px;">left / top<br>code here...</div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 14px; font-weight: 600; color: var(--neutral-900); margin-bottom: 12px; margin-top: 32px;">枠線と中塗りの使い分け</h3>
+      <p style="font-size: 13px; color: var(--neutral-700); margin-bottom: 16px;">
+        枠線（border/stroke）と中塗り（background fill）は基本的に併用しない。<br>
+        <strong style="color: var(--neutral-800);">例外:</strong> 中塗りが十分に薄く（低 opacity）、同系統の色で枠線を引く場合のみ許可。
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;">
+        <div style="padding: 20px; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; text-align: center;">
+          <div style="font-size: 10px; color: var(--neutral-600); margin-bottom: 8px;">枠線のみ</div>
+          <div style="font-size: 11px; color: #4ade80;">OK</div>
+        </div>
+        <div style="padding: 20px; background: rgba(80,104,164,0.15); border-radius: 8px; text-align: center;">
+          <div style="font-size: 10px; color: var(--neutral-600); margin-bottom: 8px;">中塗りのみ</div>
+          <div style="font-size: 11px; color: #4ade80;">OK</div>
+        </div>
+        <div style="padding: 20px; background: rgba(10,10,12,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; text-align: center;">
+          <div style="font-size: 10px; color: var(--neutral-600); margin-bottom: 8px;">薄い中塗り + 同系統枠線</div>
+          <div style="font-size: 11px; color: #4ade80;">例外OK</div>
+        </div>
+      </div>
     </section>
 
     <!-- 05 — レイアウト -->
