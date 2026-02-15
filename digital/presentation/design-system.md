@@ -338,6 +338,51 @@ background: #0a0a0c; border: 1px solid #1e1e24; border-radius: 8px;
 padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7; color: #a5a5b0;
 ```
 
+### 表（テーブル）
+
+| プロパティ | 値 |
+|-----------|-----|
+| ヘッダーフォント | 12px / 700 / uppercase / letter-spacing: 1px |
+| ヘッダーカラー | text-secondary |
+| ヘッダー下ボーダー | 1px solid border-default |
+| セルフォント | 18px / 500 |
+| セルカラー | text-primary |
+| セルパディング | 16px 20px |
+| セル line-height | 1.5 |
+| 行ボーダー | 0.5px solid border-default |
+| 交互行背景 | なし（ダーク背景では不使用） |
+| 数値セル | mono / right-aligned |
+
+### 画像・図表
+
+| プロパティ | ルール |
+|-----------|-------|
+| 最大幅 | body 幅（1760px / 12.22"） |
+| アスペクト比 | 元画像の比率を維持 |
+| 配置 | body 領域内で水平中央 |
+| キャプション | 画像下部、text-secondary、14px / 500、margin-top: 12px |
+| スクリーンショット枠 | 1px solid border-default + radius-md |
+| チャート内テキスト | 14px 以上（視認性確保） |
+| チャートカラー | primary / glow パレットから選択 |
+| 背景透過 | 図表の背景は透過させスライド背景と一体化する |
+
+### ロゴ
+
+| スライドタイプ | 配置 | サイズ |
+|-------------|------|-------|
+| タイトルスライド | body 中央、タイトル上部 | height: 48px |
+| コンテンツスライド | 使用しない | — |
+
+ロゴは単色版を使用する。Dark Mode では #ffffff、Light Mode では #141418。
+
+### トランジション
+
+| 項目 | ルール |
+|------|-------|
+| スライド切替 | カット（瞬時切替）をデフォルトとする |
+| セクション間切替 | フェード（0.3s）を許可 |
+| オブジェクトアニメーション | 使用しない |
+
 ## 禁止事項
 
 - 10px 未満のフォントサイズを使用しない
