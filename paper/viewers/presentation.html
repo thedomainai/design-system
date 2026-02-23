@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation Design System — Paper</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Paper Theme Colors */
+    --ink-1000: #000000;
+    --ink-900:  #1a1a1a;
+    --ink-800:  #2d2d2d;
+    --ink-700:  #404040;
+    --ink-600:  #525252;
+    --ink-500:  #6b6b6b;
+    --ink-400:  #8a8a8a;
+    --ink-300:  #a3a3a3;
+    --ink-200:  #c4c4c4;
+    --ink-100:  #e0e0e0;
+    --paper-white:  #fdfdfc;
+    --paper-cream:  #faf9f7;
+    --paper-warm:   #f5f4f0;
+    --paper-kraft:  #eeedea;
+    --paper-aged:   #e8e7e3;
+    --ink-blue:  #4a6d8c;
+    --ink-green: #4a7c5c;
+    --ink-amber: #8c6d3f;
+    --wash-blue:  #eef2f7;
+    --wash-green: #edf4ef;
+    --wash-amber: #f5f1ea;
+
+    --font-serif: 'Crimson Pro', Georgia, serif;
+    --font-sans: 'Instrument Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--paper-white);
+    color: var(--ink-900);
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .page-header {
+    background: var(--paper-cream);
+    border-bottom: 2px solid var(--ink-1000);
+    padding: 48px 64px 32px;
+  }
+  .page-header h1 {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    color: var(--ink-1000);
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    font-size: 14px;
+    color: var(--ink-600);
+  }
+
+  /* Content */
+  .content { padding: 64px; max-width: 1400px; margin: 0 auto; }
+
+  .section {
+    margin-bottom: 80px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-600);
+    white-space: nowrap;
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink-200);
+  }
+
+  /* Typography Preview */
+  .type-preview {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-100);
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 16px;
+  }
+  .type-sample {
+    margin-bottom: 24px;
+  }
+  .type-sample:last-child { margin-bottom: 0; }
+  .type-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-500);
+    margin-bottom: 8px;
+  }
+
+  /* Slide Layout Preview */
+  .slide-preview {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--paper-white);
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 50px 72px 80px;
+    position: relative;
+    margin-bottom: 24px;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, var(--ink-100) 39px, var(--ink-100) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, var(--ink-100) 39px, var(--ink-100) 40px);
+    background-size: 40px 40px;
+    opacity: 1;
+  }
+  .slide-preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="200" height="200" filter="url(%23n)" opacity="0.03" /></svg>');
+    pointer-events: none;
+    border-radius: 8px;
+  }
+  .slide-inner {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-header {
+    margin-bottom: 18px;
+  }
+  .section-label {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ink-600);
+    margin-bottom: 8px;
+  }
+  .key-message {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ink-1000);
+    border-bottom: 2px solid var(--ink-1000);
+    padding-bottom: 8px;
+  }
+  .slide-body {
+    flex: 1;
+    display: grid;
+    gap: 16px;
+  }
+  .slide-footer {
+    position: absolute;
+    left: 72px;
+    right: 72px;
+    bottom: 80px;
+    height: 80px;
+  }
+  .footer-line {
+    width: 100%;
+    height: 1px;
+    background: var(--ink-100);
+    margin-bottom: 18px;
+  }
+  .slide-number {
+    text-align: right;
+    font-size: 14px;
+    color: var(--ink-400);
+  }
+
+  /* Card Samples */
+  .card-flat {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .card-layered {
+    background: var(--paper-white);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink-1000);
+    margin-bottom: 8px;
+  }
+  .card-body {
+    font-size: 16px;
+    color: var(--ink-900);
+    line-height: 1.5;
+  }
+
+  /* Metric Card */
+  .metric-card {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 32px;
+    text-align: center;
+  }
+  .metric-value {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 600;
+    color: var(--ink-1000);
+    line-height: 1.0;
+    margin-bottom: 8px;
+  }
+  .metric-label {
+    font-size: 18px;
+    color: var(--ink-400);
+  }
+
+  /* Table */
+  .table-container {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-100);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-600);
+    background: var(--paper-warm);
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1.5px solid var(--ink-900);
+  }
+  td {
+    font-size: 18px;
+    color: var(--ink-900);
+    padding: 10px 12px;
+    line-height: 1.5;
+    border-bottom: 0.5px solid var(--ink-100);
+  }
+  td.mono {
+    font-family: var(--font-mono);
+    font-size: 17px;
+  }
+
+  /* Grid Reference */
+  .grid-ref {
+    background: var(--paper-cream);
+    border: 1px solid var(--ink-100);
+    border-radius: 8px;
+    padding: 24px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-700);
+  }
+  .grid-ref .label { color: var(--ink-blue); }
+  .grid-ref .value { color: var(--ink-amber); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Presentation Design System — Paper</h1>
+  <p>Editorial magazine-inspired presentation design — 1920×1080px (16:9)</p>
+</div>
+
+<div class="content">
+
+  <!-- Typography -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Typography Scale</h2>
+    </div>
+
+    <div class="type-preview">
+      <div class="type-sample">
+        <div class="type-meta">タイトルスライド見出し — Serif 72px / 300</div>
+        <div style="font-family: var(--font-serif); font-size: 72px; font-weight: 300; line-height: 1.1; letter-spacing: -1px; color: var(--ink-1000);">
+          Editorial Excellence
+        </div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta">スライド見出し（key-message） — Serif 32px / 600</div>
+        <div style="font-family: var(--font-serif); font-size: 32px; font-weight: 600; line-height: 1.3; color: var(--ink-1000);">
+          The Power of Restrained Design
+        </div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta">本文（スライド基準） — Sans 18px / 400</div>
+        <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 400; line-height: 1.5; color: var(--ink-900);">
+          情報階層はセリフ体とサンセリフ体の対比、ウェイトとサイズの段階、余白の量と質で表現する。色は黒インクを主軸に、意味のある場面でのみ淡い色付きインクを添える。
+        </div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta">数値ハイライト（大） — Serif 44px / 600</div>
+        <div style="font-family: var(--font-serif); font-size: 44px; font-weight: 600; line-height: 1.0; color: var(--ink-1000);">
+          ¥20.7M
+        </div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta">セクションラベル — Sans 16px / 700 / uppercase / tracking: 2.5px</div>
+        <div style="font-family: var(--font-sans); font-size: 16px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ink-600);">
+          EXECUTIVE SUMMARY
+        </div>
+      </div>
+      <div class="type-sample">
+        <div class="type-meta">脚注・copyright — Sans 14px / 400（最小サイズ）</div>
+        <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--ink-500);">
+          © 2026 The Domain AI Company. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide Layout -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Slide Layout — Content Slide</h2>
+    </div>
+
+    <div class="slide-preview">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="section-label">EXECUTIVE SUMMARY</div>
+          <div class="key-message">DX Impact Dashboard</div>
+        </div>
+        <div class="slide-body" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="card-flat">
+            <div class="card-title">全社成果</div>
+            <div class="card-body">DX投資による全社レベルの利益インパクト。生産性向上と新規収益の合算値。</div>
+          </div>
+          <div class="card-flat">
+            <div class="card-title">個別施策成果</div>
+            <div class="card-body">トップ5施策による貢献額の内訳。優先度判断の根拠となる。</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-line"></div>
+          <div class="slide-number">1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-ref">
+<span class="label">slide</span>: <span class="value">1920 × 1080px</span>
+<span class="label">slide-inner padding</span>: <span class="value">50px 72px 80px</span>
+  → コンテンツ幅: <span class="value">1776px</span> (1920 - 72×2)
+  → コンテンツ上端: <span class="value">50px</span>
+  → コンテンツ下端: <span class="value">1000px</span> (1080 - 80)
+
+<span class="label">header → body</span>: <span class="value">18px</span> (key-message margin-bottom)
+<span class="label">footer-line top</span>: <span class="value">1000px</span> (6.94")
+<span class="label">footer height</span>: <span class="value">80px</span>
+    </div>
+  </section>
+
+  <!-- Data Slide -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Slide Layout — Data Slide</h2>
+    </div>
+
+    <div class="slide-preview">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="section-label">KEY METRICS</div>
+          <div class="key-message">年間利益貢献額</div>
+        </div>
+        <div class="slide-body" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="metric-card">
+            <div class="metric-value">¥20.7M</div>
+            <div class="metric-label">総額</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">¥12.4M</div>
+            <div class="metric-label">生産性向上</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">¥8.3M</div>
+            <div class="metric-label">新規収益</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <div class="footer-line"></div>
+          <div class="slide-number">2</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Components -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Components</h2>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--ink-900);">Flat Paper Card</h3>
+    <div class="card-flat" style="margin-bottom: 32px;">
+      <div class="card-title">カードタイトル — Serif 22px / 600</div>
+      <div class="card-body">カード本文 — Sans 16px / 400。背景 paper-cream、border 1px solid ink-200。</div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--ink-900);">Layered Paper Card</h3>
+    <div class="card-layered" style="margin-bottom: 32px;">
+      <div class="card-title">カードタイトル — Serif 22px / 600</div>
+      <div class="card-body">背景 paper-white、box-shadow あり。border と shadow は併用しない。</div>
+    </div>
+
+    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--ink-900);">Table</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>施策名</th>
+            <th>効果額</th>
+            <th>ROI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AI チャットボット導入</td>
+            <td class="mono">¥4.2M</td>
+            <td class="mono">320%</td>
+          </tr>
+          <tr>
+            <td>業務自動化（RPA）</td>
+            <td class="mono">¥3.8M</td>
+            <td class="mono">280%</td>
+          </tr>
+          <tr>
+            <td>データ分析基盤構築</td>
+            <td class="mono">¥2.1M</td>
+            <td class="mono">150%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Important Rules</h2>
+    </div>
+
+    <div style="background: var(--paper-cream); border-left: 3px solid var(--ink-amber); border-radius: 4px; padding: 24px;">
+      <h3 style="font-size: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-700); margin-bottom: 12px;">禁止事項</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="font-size: 16px; color: var(--ink-900); line-height: 1.6; padding-left: 20px; margin-bottom: 8px; position: relative;">
+          <span style="position: absolute; left: 0;">×</span> 14px 未満のフォントサイズを使用しない（copyright・脚注含む）
+        </li>
+        <li style="font-size: 16px; color: var(--ink-900); line-height: 1.6; padding-left: 20px; margin-bottom: 8px; position: relative;">
+          <span style="position: absolute; left: 0;">×</span> font-weight: 800 以上は使わない
+        </li>
+        <li style="font-size: 16px; color: var(--ink-900); line-height: 1.6; padding-left: 20px; margin-bottom: 8px; position: relative;">
+          <span style="position: absolute; left: 0;">×</span> border と box-shadow を同一要素に併用しない
+        </li>
+        <li style="font-size: 16px; color: var(--ink-900); line-height: 1.6; padding-left: 20px; margin-bottom: 8px; position: relative;">
+          <span style="position: absolute; left: 0;">×</span> 1スライドにカード 4枚 or 箇条書き 6項目が上限目安
+        </li>
+        <li style="font-size: 16px; color: var(--ink-900); line-height: 1.6; padding-left: 20px; position: relative;">
+          <span style="position: absolute; left: 0;">×</span> 装飾目的で色付きインク（Accent Ink）を使用しない
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

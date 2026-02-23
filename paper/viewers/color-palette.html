@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Paper — Color Palette</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ─── Ink Scale ─── */
+    --ink-1000: #000000;
+    --ink-900:  #1a1a1a;
+    --ink-800:  #2d2d2d;
+    --ink-700:  #404040;
+    --ink-600:  #525252;
+    --ink-500:  #6b6b6b;
+    --ink-400:  #8a8a8a;
+    --ink-300:  #a3a3a3;
+    --ink-200:  #c4c4c4;
+    --ink-100:  #e0e0e0;
+    --ink-50:   #f0f0f0;
+
+    /* ─── Paper Scale ─── */
+    --paper-white:  #fdfdfc;
+    --paper-cream:  #faf9f7;
+    --paper-warm:   #f5f4f0;
+    --paper-kraft:  #eeedea;
+    --paper-aged:   #e8e7e3;
+    --paper-shadow: #dddcd8;
+
+    /* ─── Accent Ink ─── */
+    --ink-blue:  #4a6d8c;
+    --ink-green: #4a7c5c;
+    --ink-amber: #8c6d3f;
+    --ink-red:   #8c4a4a;
+
+    /* ─── Wash ─── */
+    --wash-blue:  #eef2f7;
+    --wash-green: #edf4ef;
+    --wash-amber: #f5f1ea;
+    --wash-red:   #f5eded;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: #fdfdfc;
+    color: #1a1a1a;
+    padding: 48px;
+    min-height: 100vh;
+  }
+
+  .header {
+    margin-bottom: 56px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 24px;
+  }
+  .header h1 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: #000000;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: 14px;
+    color: #525252;
+    font-weight: 400;
+  }
+
+  .palette-section {
+    margin-bottom: 48px;
+  }
+  .palette-section h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #525252;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .palette-section h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+  }
+
+  .swatches {
+    display: flex;
+    gap: 2px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+  }
+  .swatch {
+    flex: 1;
+    min-height: 88px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .swatch:hover {
+    transform: scaleY(1.08);
+    z-index: 1;
+  }
+  .swatch-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+  .swatch-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+  .swatch.dark-text .swatch-label,
+  .swatch.dark-text .swatch-hex { color: #1a1a1a; }
+  .swatch.light-text .swatch-label,
+  .swatch.light-text .swatch-hex { color: #fdfdfc; }
+
+  /* Accent & Wash colors */
+  .accent-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .accent-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .accent-card h3 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 16px 8px;
+    color: #525252;
+    background: #faf9f7;
+  }
+  .accent-swatches {
+    display: flex;
+  }
+  .accent-swatch {
+    flex: 1;
+    height: 72px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+  .accent-swatch .swatch-label {
+    font-size: 9px;
+    font-weight: 600;
+  }
+  .accent-swatch .swatch-hex {
+    font-size: 9px;
+  }
+
+  /* CSS Variables export */
+  .code-block {
+    background: #faf9f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 48px;
+    overflow-x: auto;
+  }
+  .code-block pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #1a1a1a;
+  }
+  .code-block .comment { color: #6b6b6b; }
+  .code-block .prop { color: #4a6d8c; }
+  .code-block .val { color: #8c6d3f; }
+
+  /* Semantic tokens section */
+  .semantic-section {
+    margin-top: 48px;
+  }
+  .semantic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .semantic-card {
+    background: #faf9f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .semantic-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    border: 1px solid #e0e0e0;
+  }
+  .semantic-info {
+    flex: 1;
+  }
+  .semantic-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  .semantic-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #6b6b6b;
+    margin-top: 2px;
+  }
+
+  /* Copy tooltip */
+  .copied-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1a1a1a;
+    color: #fdfdfc;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+  }
+  .copied-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Design System — Paper</h1>
+  <p>Editorial magazine-inspired design — click any swatch to copy hex</p>
+</div>
+
+<!-- Ink Scale -->
+<div class="palette-section">
+  <h2>Ink Scale — Text & Borders</h2>
+  <div class="swatches" id="ink"></div>
+</div>
+
+<!-- Paper Scale -->
+<div class="palette-section">
+  <h2>Paper Scale — Backgrounds</h2>
+  <div class="swatches" id="paper"></div>
+</div>
+
+<!-- Accent Ink -->
+<div class="palette-section">
+  <h2>Accent Ink — Colored Ink</h2>
+  <div class="accent-group">
+    <div class="accent-card">
+      <h3>Blue</h3>
+      <div class="accent-swatches">
+        <div class="accent-swatch light-text" style="background:#4a6d8c" onclick="copyColor('#4a6d8c')">
+          <span class="swatch-label">ink</span>
+          <span class="swatch-hex">#4a6d8c</span>
+        </div>
+        <div class="accent-swatch dark-text" style="background:#eef2f7" onclick="copyColor('#eef2f7')">
+          <span class="swatch-label">wash</span>
+          <span class="swatch-hex">#eef2f7</span>
+        </div>
+      </div>
+    </div>
+    <div class="accent-card">
+      <h3>Green</h3>
+      <div class="accent-swatches">
+        <div class="accent-swatch light-text" style="background:#4a7c5c" onclick="copyColor('#4a7c5c')">
+          <span class="swatch-label">ink</span>
+          <span class="swatch-hex">#4a7c5c</span>
+        </div>
+        <div class="accent-swatch dark-text" style="background:#edf4ef" onclick="copyColor('#edf4ef')">
+          <span class="swatch-label">wash</span>
+          <span class="swatch-hex">#edf4ef</span>
+        </div>
+      </div>
+    </div>
+    <div class="accent-card">
+      <h3>Amber</h3>
+      <div class="accent-swatches">
+        <div class="accent-swatch light-text" style="background:#8c6d3f" onclick="copyColor('#8c6d3f')">
+          <span class="swatch-label">ink</span>
+          <span class="swatch-hex">#8c6d3f</span>
+        </div>
+        <div class="accent-swatch dark-text" style="background:#f5f1ea" onclick="copyColor('#f5f1ea')">
+          <span class="swatch-label">wash</span>
+          <span class="swatch-hex">#f5f1ea</span>
+        </div>
+      </div>
+    </div>
+    <div class="accent-card">
+      <h3>Red</h3>
+      <div class="accent-swatches">
+        <div class="accent-swatch light-text" style="background:#8c4a4a" onclick="copyColor('#8c4a4a')">
+          <span class="swatch-label">ink</span>
+          <span class="swatch-hex">#8c4a4a</span>
+        </div>
+        <div class="accent-swatch dark-text" style="background:#f5eded" onclick="copyColor('#f5eded')">
+          <span class="swatch-label">wash</span>
+          <span class="swatch-hex">#f5eded</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Semantic Tokens -->
+<div class="palette-section semantic-section">
+  <h2>Semantic Tokens — Usage Guide</h2>
+  <div class="semantic-grid" id="semantic"></div>
+</div>
+
+<!-- CSS Variables -->
+<div class="code-block">
+  <pre id="codeOutput"></pre>
+</div>
+
+<div class="copied-toast" id="toast">Copied</div>
+
+<script>
+const palettes = {
+  ink: [
+    { label: '1000', hex: '#000000', dark: false },
+    { label: '900',  hex: '#1a1a1a', dark: false },
+    { label: '800',  hex: '#2d2d2d', dark: false },
+    { label: '700',  hex: '#404040', dark: false },
+    { label: '600',  hex: '#525252', dark: false },
+    { label: '500',  hex: '#6b6b6b', dark: false },
+    { label: '400',  hex: '#8a8a8a', dark: false },
+    { label: '300',  hex: '#a3a3a3', dark: true },
+    { label: '200',  hex: '#c4c4c4', dark: true },
+    { label: '100',  hex: '#e0e0e0', dark: true },
+    { label: '50',   hex: '#f0f0f0', dark: true },
+  ],
+  paper: [
+    { label: 'white',  hex: '#fdfdfc', dark: true },
+    { label: 'cream',  hex: '#faf9f7', dark: true },
+    { label: 'warm',   hex: '#f5f4f0', dark: true },
+    { label: 'kraft',  hex: '#eeedea', dark: true },
+    { label: 'aged',   hex: '#e8e7e3', dark: true },
+    { label: 'shadow', hex: '#dddcd8', dark: true },
+  ],
+};
+
+const semanticTokens = [
+  { name: 'Background', color: '#fdfdfc', detail: 'paper-white' },
+  { name: 'Surface', color: '#faf9f7', detail: 'paper-cream' },
+  { name: 'Surface Raised', color: '#fdfdfc', detail: 'paper-white' },
+  { name: 'Border Default', color: '#e0e0e0', detail: 'ink-100' },
+  { name: 'Border Strong', color: '#c4c4c4', detail: 'ink-200' },
+  { name: 'Border Heavy', color: '#000000', detail: 'ink-1000' },
+  { name: 'Text Primary', color: '#1a1a1a', detail: 'ink-900' },
+  { name: 'Text Heading', color: '#000000', detail: 'ink-1000' },
+  { name: 'Text Secondary', color: '#525252', detail: 'ink-600' },
+  { name: 'Text Muted', color: '#8a8a8a', detail: 'ink-400' },
+  { name: 'Text Caption', color: '#6b6b6b', detail: 'ink-500' },
+  { name: 'Interactive', color: '#4a6d8c', detail: 'ink-blue' },
+];
+
+// Render palettes
+Object.entries(palettes).forEach(([key, colors]) => {
+  const container = document.getElementById(key);
+  colors.forEach(c => {
+    const el = document.createElement('div');
+    el.className = `swatch ${c.dark ? 'dark-text' : 'light-text'}`;
+    el.style.background = c.hex;
+    el.innerHTML = `<span class="swatch-label">${c.label}</span><span class="swatch-hex">${c.hex}</span>`;
+    el.onclick = () => copyColor(c.hex);
+    container.appendChild(el);
+  });
+});
+
+// Render semantic tokens
+const semanticContainer = document.getElementById('semantic');
+semanticTokens.forEach(t => {
+  const card = document.createElement('div');
+  card.className = 'semantic-card';
+  card.innerHTML = `
+    <div class="semantic-dot" style="background:${t.color}" onclick="copyColor('${t.color}')"></div>
+    <div class="semantic-info">
+      <div class="semantic-name">${t.name}</div>
+      <div class="semantic-detail">${t.detail} · ${t.color}</div>
+    </div>`;
+  semanticContainer.appendChild(card);
+});
+
+// Generate CSS output
+const cssLines = [
+  '<span class="comment">/* Design System — Paper — Color Tokens */</span>',
+  '',
+  ':root {',
+  '  <span class="comment">/* Ink Scale — Text & Borders */</span>',
+];
+palettes.ink.forEach(c => {
+  cssLines.push(`  <span class="prop">--ink-${c.label}</span>: <span class="val">${c.hex}</span>;`);
+});
+cssLines.push('');
+cssLines.push('  <span class="comment">/* Paper Scale — Backgrounds */</span>');
+palettes.paper.forEach(c => {
+  cssLines.push(`  <span class="prop">--paper-${c.label}</span>: <span class="val">${c.hex}</span>;`);
+});
+cssLines.push('');
+cssLines.push('  <span class="comment">/* Accent Ink */</span>');
+cssLines.push('  <span class="prop">--ink-blue</span>:  <span class="val">#4a6d8c</span>;');
+cssLines.push('  <span class="prop">--ink-green</span>: <span class="val">#4a7c5c</span>;');
+cssLines.push('  <span class="prop">--ink-amber</span>: <span class="val">#8c6d3f</span>;');
+cssLines.push('  <span class="prop">--ink-red</span>:   <span class="val">#8c4a4a</span>;');
+cssLines.push('');
+cssLines.push('  <span class="comment">/* Wash */</span>');
+cssLines.push('  <span class="prop">--wash-blue</span>:  <span class="val">#eef2f7</span>;');
+cssLines.push('  <span class="prop">--wash-green</span>: <span class="val">#edf4ef</span>;');
+cssLines.push('  <span class="prop">--wash-amber</span>: <span class="val">#f5f1ea</span>;');
+cssLines.push('  <span class="prop">--wash-red</span>:   <span class="val">#f5eded</span>;');
+cssLines.push('}');
+document.getElementById('codeOutput').innerHTML = cssLines.join('\n');
+
+// Copy
+function copyColor(hex) {
+  navigator.clipboard.writeText(hex);
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1200);
+}
+</script>
+</body>
+</html>
