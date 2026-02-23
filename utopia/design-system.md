@@ -1006,12 +1006,132 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 
 ### 11.3 Mobile App (iOS)
 
-- iOS Human Interface Guidelines を優先し、トークンで色・タイポを上書き
-- タッチターゲット: 最小 44×44pt
-- Spacing: `space-4`（12px）を最小パディング
+#### 基本方針
+
+- iOS Human Interface Guidelines / Glaze ガイドラインを優先し、トークンで色・タイポを上書き
+- `Glaze` は iOS ネイティブの `.glass` modifier と対応させて実装
 - SF Pro を基本フォントとし、カラートークンのみ本システムから適用
 - Dynamic Type をサポートし、Type Scale は参考値として扱う
-- キャンバステクスチャはパフォーマンスを考慮し、背景色のみでフォールバック
+- テクスチャ・マテリアルはパフォーマンスを考慮し、背景色のみでフォールバックする
+
+#### Layout & Touch Targets
+
+**Touch Target Size**:
+- 最小: 44×44pt（HIG 必須）
+- 推奨: 48×48pt（よりタップしやすい）
+- アイコンボタンは視覚サイズが小さくてもタッチ領域を44pt確保する
+
+**Spacing**:
+- 最小パディング: `space-4`（12px）
+- コンテンツ間マージン: `space-5`（16px）
+- セクション間マージン: `space-7`（32px）
+
+**Safe Area** — 全コンテンツを Safe Area 内に配置する。背景のみ Safe Area を無視して画面全体に広げる:
+```swift
+ZStack {
+  backgroundView.ignoresSafeArea()
+  contentView.padding(.horizontal, 16)
+}
+```
+
+#### Navigation Patterns
+
+**Tab Bar** — アプリのプライマリナビゲーション:
+- タブ数: 3～5個（推奨4個）
+- 選択状態: `accent-default` カラー + 太字アイコン
+- バッジ表示: 通知数を `.badge()` modifier で表示
+- 常時表示: コンテンツスクロールで隠さない
+
+**Navigation Bar** — 階層的ナビゲーション:
+- Large Title 使用: トップレベル画面のみ `.navigationBarTitleDisplayMode(.large)`
+- 戻るボタン: 自動生成される `< 前の画面` を使用（カスタマイズ不要）
+- トレイリングボタン: 最大2個まで（3個以上は `...` メニューに集約）
+
+**Modal / Sheet** — 一時的なコンテキスト:
+- `.sheet()` 使用: 軽量なタスク（フォーム入力、詳細表示）
+- `.fullScreenCover()` 使用: 没入型タスク（カメラ、画像編集）
+- スワイプ解除: デフォルト有効、破壊的アクションがある場合のみ `.interactiveDismissDisabled()` で無効化
+
+**Alert / Action Sheet** — 確認・選択ダイアログ:
+- 破壊的アクション: `.destructive` で赤表示（例: "削除"、"ログアウト"）
+- キャンセルボタン: 常に下部に配置（Action Sheet）、右側に配置（Alert）
+- デフォルトアクション: `.default` でシステム推奨スタイル
+
+#### Interaction & Feedback
+
+**Response Time** — タップから100ms以内に視覚フィードバックを提供する:
+```swift
+Button("送信") { /* ... */ }
+  .buttonStyle(.borderedProminent)  // 即座に押下状態を表示
+```
+
+**Haptics** — 適切な触覚フィードバックで操作感を向上させる:
+- 成功アクション: `UIImpactFeedbackGenerator(style: .light).impactOccurred()`
+- 通常操作: `.medium`
+- 重要操作: `.heavy`
+- エラー: `UINotificationFeedbackGenerator().notificationOccurred(.error)`
+
+**Loading Indicators**:
+- 不定期間: `.progressView(style: .circular)` （くるくる回るインジケータ）
+- 確定期間: `.progressView(value: progress)` （プログレスバー）
+- 全画面ローディング: 半透明オーバーレイ + `.progressView` 中央配置
+- インラインローディング: `.redacted(reason: .placeholder)` で骨組み表示
+
+#### Typography Mapping
+
+**SF Pro Font Selection** — iOS システムフォントの正しい使い分け:
+- SF Pro Text: 19pt以下のテキスト（本文・ラベル・キャプション）
+- SF Pro Display: 20pt以上のテキスト（見出し・タイトル）
+- SF Mono: コードブロック・固定幅が必要な場合（セクション 3 の `mono-*` トークンに対応）
+
+**Dynamic Type Mapping** — iOS の Dynamic Type サイズクラスとデザインシステムの Type Scale の対応:
+- Large (default): `body-md` (14px) を基準とする
+- xSmall～Small: `body-sm` (12px) 相当
+- xLarge～xxxLarge: `body-lg` (16px) ～ `heading-sm` (18px) 相当
+- 最小フォントサイズ: 11pt（copyright・法的表示のみ）
+
+**Line Height & Spacing** — iOS 標準の行送り:
+- 見出し: 1.1～1.3
+- 本文: 1.4～1.5（日本語混在時は 1.6～1.7 推奨）
+
+#### Component Mapping
+
+デザインシステムのコンポーネントと iOS ネイティブコンポーネントの対応:
+
+| Design System | iOS Component | Token Application |
+|---------------|---------------|-------------------|
+| Button (Primary) | `.buttonStyle(.borderedProminent)` | `bg`: `interactive-default`, `text`: `text-on-accent` |
+| Button (Secondary) | `.buttonStyle(.bordered)` | `border`: `border-strong`, `text`: `text-primary` |
+| Button (Ghost) | `.buttonStyle(.plain)` | `text`: `interactive-default` |
+| Card | `List` with `.listStyle(.insetGrouped)` | `bg`: `bg-surface-raised`, Impasto 適用 |
+| Input | `TextField` with `.textFieldStyle(.roundedBorder)` | `border`: `border-default`, `bg`: `bg-surface` |
+| Badge | `.badge()` modifier | `bg`: Status Colors（Success/Warning/Error） |
+| Modal | `.sheet()` / `.fullScreenCover()` | `bg`: `bg-page`, Glaze 適用（Hero 背景） |
+
+#### Motion & Animation
+
+**Spring Animation** — iOS 標準の spring アニメーションパラメータ:
+```swift
+// 標準（UI要素の表示/非表示）
+.spring(response: 0.3, dampingFraction: 0.8)
+
+// 軽快（小さな変化・インタラクティブ操作）
+.spring(response: 0.15, dampingFraction: 0.9)
+
+// ゆったり（大きな変化・画面遷移）
+.spring(response: 0.5, dampingFraction: 0.75)
+```
+
+**Transition Duration**:
+- シート表示: 0.3s（デフォルト）
+- アラート表示: 0.2s
+- リスト項目の挿入/削除: 0.25s
+- ページ遷移: 0.35s
+
+**Easing Curve**:
+- 標準: `.easeInOut`（SwiftUI default）
+- 進入: `.easeOut`
+- 退出: `.easeIn`
 
 ### 11.4 Presentation (pptx)
 

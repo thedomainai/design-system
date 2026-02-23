@@ -1,10 +1,13 @@
-# The Domain AI Company Design System
+# {{CONCEPT_NAME}} Design System
 
-The Domain AI Company のダークファーストデザインシステムです。
-Glassmorphism・Liquid Glass の 2 つのマテリアルを基盤に、漆黒の中に浮かぶ光と透明感で情報階層を表現します。
-Web Page / Web App / Mobile App / Visual Presentation の全アウトプットで統一的に使用します。
+{{CONCEPT_TAGLINE}}
+{{CONCEPT_DESCRIPTION}}
 
 ## 1. Design Principles
+
+<!-- GUIDE: 5つの原則を定義してください。1つ目はコンセプトの軸（Dark-First, Paper-First 等）、
+     2つ目は美的方針、3つ目はマテリアルの2軸、4つ目はシステムの一貫性、5つ目はプラットフォーム適応性。
+     既存コンセプトの比較は GUIDE.md「Design Principles の設計」セクションを参照。 -->
 
 | # | 原則 | 説明 |
 |---|------|------|
@@ -17,11 +20,17 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 
 ## 2. Color System
 
+<!-- GUIDE-CHOICE: 以下のいずれかのカラー構成を選択してください。
+     Pattern A: 4色系統（Primary + Secondary + Accent + Neutral） — digital/utopia 型
+     Pattern B: 2軸（Ink + Paper） + Accent — paper 型
+     いずれの場合も各スケールは 50〜950 の 11段階で定義します。
+     GUIDE-REF: GUIDE.md「Color System の設計」セクション参照。 -->
+
 ### 2.1 Color Palette
 
 カラー定義の原本は `viewers/color-palette.html` を参照してください。
 
-#### Primary — Steel Blue
+#### Primary — {{PRIMARY_NAME}}
 
 知性・テクノロジーを表現するメインカラーです。
 
@@ -32,14 +41,14 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 | `primary-200` | `#b8c5e3` | サブテキスト（ライト） |
 | `primary-300` | `#8fa5d4` | アイコン・装飾（ライト） |
 | `primary-400` | `#6b84c0` | インタラクティブ hover |
-| `primary-500` | `#5068a4` | **インタラクティブ default** |
+| `primary-500` | `{{PRIMARY_BASE_HEX}}` | **インタラクティブ default** |
 | `primary-600` | `#445076` | フォーカスリング・押下時 |
 | `primary-700` | `#363f60` | 濃いアクセント |
 | `primary-800` | `#292f47` | カード背景（ダーク） |
 | `primary-900` | `#1c2035` | セクション背景（ダーク） |
 | `primary-950` | `#0f1220` | 最深背景 |
 
-#### Secondary — Silver
+#### Secondary — {{SECONDARY_NAME}}
 
 テキスト・補助要素に使用するニュートラルブルーです。
 
@@ -57,7 +66,7 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 | `secondary-900` | `#2b2f40` | ボーダー強調（ダーク） |
 | `secondary-950` | `#1a1d2a` | 深いサーフェス |
 
-#### Accent — Violet Smoke
+#### Accent — {{ACCENT_NAME}}
 
 グロウエフェクト・ハイライトに使用するバイオレット系カラーです。`#36304f` をベースに色相 252° で構成しています。
 
@@ -75,7 +84,7 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 | `glow-900` | `#241e3a` | オーバーレイ |
 | `glow-950` | `#140e24` | 最深アクセント |
 
-#### Neutral — Black Scale
+#### Neutral — {{NEUTRAL_NAME}}
 
 背景・テキスト・ボーダーを構成するピュアブラックベーススケールです。
 
@@ -101,15 +110,15 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 
 | Semantic Token | Maps To | Hex | 用途 |
 |----------------|---------|-----|------|
-| `bg-page` | neutral-0 | `#000000` | ページ全体の背景 |
+| `bg-page` | neutral-0 | `{{BG_BASE}}` | ページ全体の背景 |
 | `bg-surface` | neutral-100 | `#0a0a0c` | カード・パネル背景 |
 | `bg-surface-raised` | neutral-200 | `#141418` | 浮上サーフェス（モーダル等） |
 | `border-default` | neutral-300 | `#1e1e24` | 通常のボーダー |
 | `border-hover` | neutral-400 | `#2a2a32` | ホバー時のボーダー |
-| `text-primary` | neutral-950 | `#e8e8ec` | 本文テキスト |
+| `text-primary` | neutral-950 | `{{TEXT_PRIMARY_HEX}}` | 本文テキスト |
 | `text-secondary` | neutral-700 | `#7e7e8c` | 補助テキスト |
 | `text-muted` | neutral-500 | `#3d3d48` | 非活性・ヒントテキスト |
-| `interactive` | primary-500 | `#5068a4` | ボタン・リンク |
+| `interactive` | primary-500 | `{{PRIMARY_BASE_HEX}}` | ボタン・リンク |
 | `interactive-hover` | primary-400 | `#6b84c0` | ホバー状態 |
 | `focus-ring` | primary-600 | `#445076` | フォーカスインジケーター |
 | `glow-effect` | glow-400 | `#8e7cb4` | グロウエフェクト |
@@ -128,7 +137,7 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 | `text-primary` | neutral-200 | `#141418` | 本文テキスト |
 | `text-secondary` | neutral-600 | `#5a5a68` | 補助テキスト |
 | `text-muted` | neutral-700 | `#7e7e8c` | 非活性・ヒントテキスト |
-| `interactive` | primary-500 | `#5068a4` | ボタン・リンク |
+| `interactive` | primary-500 | `{{PRIMARY_BASE_HEX}}` | ボタン・リンク |
 | `interactive-hover` | primary-600 | `#445076` | ホバー状態 |
 | `focus-ring` | primary-400 | `#6b84c0` | フォーカスインジケーター |
 | `glow-effect` | glow-300 | `#ad9cce` | グロウエフェクト |
@@ -151,16 +160,21 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 
 ## 3. Typography
 
+<!-- GUIDE: フォント選定基準: Display/Heading用はコンセプトの世界観を体現するフォント、
+     Body用は可読性の高いフォント、Mono用はコード・数値用。
+     Type Scale は 12〜14トークンを定義してください。
+     GUIDE-REF: GUIDE.md「Typography の設計」セクション参照。 -->
+
 ### 3.1 Font Family
 
 | Role | Font | Fallback | 用途 |
 |------|------|----------|------|
-| **Sans** | DM Sans | -apple-system, sans-serif | 本文・UI全般 |
-| **Mono** | JetBrains Mono | SF Mono, monospace | コード・数値・トークン表示 |
+| **Sans** | {{FONT_DISPLAY}} / {{FONT_BODY}} | -apple-system, sans-serif | 本文・UI全般 |
+| **Mono** | {{FONT_MONO}} | SF Mono, monospace | コード・数値・トークン表示 |
 
 ```
---font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
---font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+--font-sans: '{{FONT_SANS}}', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+--font-mono: '{{FONT_MONO}}', 'SF Mono', 'Fira Code', monospace;
 ```
 
 ### 3.2 Type Scale
@@ -300,6 +314,10 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 
 ## 7. Material System
 
+<!-- GUIDE: 2つのマテリアルを定義してください。静/動、罫線/影、厚塗り/薄塗り等、
+     対比する2つの表現軸を設定します。
+     GUIDE-REF: GUIDE.md「Material System の設計」セクション参照。 -->
+
 本デザインシステムの視覚表現を支える 2 つのマテリアルと、それらを補完するエフェクト群です。
 
 ### 7.1 Material Philosophy
@@ -308,8 +326,8 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 
 | Material | メタファー | 特性 | 主な用途 |
 |----------|-----------|------|----------|
-| **Glassmorphism** | 磨りガラス | 均一なブラー、柔らかい透過、静的な佇まい | カード、パネル、サイドバー、オーバーレイ |
-| **Liquid Glass** | 水面・液体 | コンテンツ追従ティンティング、スペキュラハイライト、有機的な揺らぎ | ナビゲーション、ヒーロー、インタラクティブサーフェス |
+| **{{MATERIAL_A_NAME}}** | 磨りガラス | 均一なブラー、柔らかい透過、静的な佇まい | カード、パネル、サイドバー、オーバーレイ |
+| **{{MATERIAL_B_NAME}}** | 水面・液体 | コンテンツ追従ティンティング、スペキュラハイライト、有機的な揺らぎ | ナビゲーション、ヒーロー、インタラクティブサーフェス |
 
 ```
 光の進化: Frost ─── Flow
@@ -539,7 +557,7 @@ Apple Liquid Glass にインスパイアされた動的マテリアルです。
 /* Glow Gradient — CTA・アクセント */
 --gradient-glow: linear-gradient(
   135deg,
-  #5068a4 0%,                      /* primary-500 */
+  {{PRIMARY_BASE_HEX}} 0%,                      /* primary-500 */
   #8e7cb4 50%,                     /* glow-400 */
   #cbc0e6 100%                     /* glow-200 */
 );
@@ -755,9 +773,9 @@ Liquid Glass では `inset` シャドウによるスペキュラ表現が主要�
   background-size: 280% auto;
   background-image: linear-gradient(
     325deg,
-    #5068a4 0%,       /* primary-500 */
+    {{PRIMARY_BASE_HEX}} 0%,       /* primary-500 */
     #798bb9 55%,      /* glow-400 */
-    #5068a4 90%       /* primary-500 */
+    {{PRIMARY_BASE_HEX}} 90%       /* primary-500 */
   );
   box-shadow:
     0px 0px 20px rgba(80, 104, 164, 0.5),
@@ -774,7 +792,7 @@ Liquid Glass では `inset` シャドウによるスペキュラ表現が主要�
   outline: none;
   box-shadow:
     0 0 0 3px #ffffff,
-    0 0 0 6px #5068a4;
+    0 0 0 6px {{PRIMARY_BASE_HEX}};
 }
 ```
 
@@ -818,7 +836,7 @@ Liquid Glass では `inset` シャドウによるスペキュラ表現が主要�
 }
 
 .btn-glow-line:hover {
-  color: #e8e8ec;      /* neutral-950 */
+  color: {{TEXT_PRIMARY_HEX}};      /* neutral-950 */
   transform: scale(1.1) translateY(-3px);
 }
 
@@ -838,7 +856,7 @@ Liquid Glass では `inset` シャドウによるスペキュラ表現が主要�
   min-width: 120px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  color: #e8e8ec;
+  color: {{TEXT_PRIMARY_HEX}};
   cursor: pointer;
   background: rgba(10, 10, 12, 0.5);
   backdrop-filter: blur(20px) saturate(1.4);
@@ -951,7 +969,7 @@ AI がウェブページ（LP・プロダクトページ等）を生成する際
 | ナビリンク | 14px | 400 | — | 0 | #7e7e8c → hover: #e8e8ec |
 | ロゴ | 20px | 600 | — | 0 | #e8e8ec |
 
-コード・数値には `'JetBrains Mono', monospace` を使用。
+コード・数値には `'{{FONT_MONO}}', monospace` を使用。
 
 テキストグラデーション（装飾用）:
 ```css
@@ -1014,12 +1032,12 @@ opacity: 0.5;
 ```css
 padding: 14px 28px; font-size: 16px; font-weight: 600; border-radius: 8px; color: #ffffff;
 background-size: 280% auto;
-background-image: linear-gradient(325deg, #5068a4 0%, #798bb9 55%, #5068a4 90%);
+background-image: linear-gradient(325deg, {{PRIMARY_BASE_HEX}} 0%, #798bb9 55%, {{PRIMARY_BASE_HEX}} 90%);
 box-shadow: 0 0 20px rgba(80,104,164,0.5), 0 5px 5px -1px rgba(68,80,118,0.25),
             inset 4px 4px 8px rgba(196,211,255,0.5), inset -4px -4px 8px rgba(54,63,96,0.35);
 transition: 0.8s;
 /* :hover */ background-position: right top; transform: translateY(-2px);
-/* :focus-visible */ box-shadow: 0 0 0 3px #fff, 0 0 0 6px #5068a4;
+/* :focus-visible */ box-shadow: 0 0 0 3px #fff, 0 0 0 6px {{PRIMARY_BASE_HEX}};
 ```
 
 ##### Secondary（Glow Line）— 補助アクション
@@ -1031,12 +1049,12 @@ transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
 /* ::before — 底辺グロウライン */
 width: 70%; height: 1px; bottom: 0; left: 15%;
 background: linear-gradient(90deg, transparent, #e8e8ec, transparent); opacity: 0.2;
-/* :hover */ color: #e8e8ec; transform: scale(1.05) translateY(-2px); /* ::before opacity: 1 */
+/* :hover */ color: {{TEXT_PRIMARY_HEX}}; transform: scale(1.05) translateY(-2px); /* ::before opacity: 1 */
 ```
 
 ##### Ghost（Liquid Hover）— 最小限
 ```css
-padding: 14px 28px; border-radius: 12px; color: #e8e8ec;
+padding: 14px 28px; border-radius: 12px; color: {{TEXT_PRIMARY_HEX}};
 background: rgba(10,10,12,0.5); backdrop-filter: blur(20px) saturate(1.4);
 border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
 /* ::before — スペキュラスライド */
@@ -1070,11 +1088,11 @@ height: 22px; padding: 0 8px; font-size: 11px; font-weight: 500; border-radius: 
 #### 入力フィールド
 
 ```css
-height: 40px; padding: 0 12px; font-size: 14px; color: #e8e8ec;
+height: 40px; padding: 0 12px; font-size: 14px; color: {{TEXT_PRIMARY_HEX}};
 background: #0a0a0c; border: 1px solid #1e1e24; border-radius: 8px;
 /* ::placeholder */ color: #3d3d48;
 /* :hover */ border-color: #2a2a32;
-/* :focus */ border-color: #5068a4; box-shadow: 0 0 0 2px rgba(68,80,118,0.6), 0 0 12px rgba(80,104,164,0.3);
+/* :focus */ border-color: {{PRIMARY_BASE_HEX}}; box-shadow: 0 0 0 2px rgba(68,80,118,0.6), 0 0 12px rgba(80,104,164,0.3);
 ```
 
 #### アニメーション
@@ -1156,8 +1174,8 @@ background: #0a0a0c; border: 1px solid #1e1e24; border-radius: 8px;
 
 #### 基本方針
 
-- iOS Human Interface Guidelines / Liquid Glass ガイドラインを優先し、トークンで色・タイポを上書き
-- `Liquid Glass` は iOS ネイティブの `.glass` modifier と対応させて実装
+- iOS Human Interface Guidelines / {{MATERIAL_B_NAME}} ガイドラインを優先し、トークンで色・タイポを上書き
+- `{{MATERIAL_B_NAME}}` は iOS ネイティブの `.glass` modifier と対応させて実装
 - SF Pro を基本フォントとし、カラートークンのみ本システムから適用
 - Dynamic Type をサポートし、Type Scale は参考値として扱う
 - テクスチャ・マテリアルはパフォーマンスを考慮し、背景色のみでフォールバックする
@@ -1251,10 +1269,10 @@ Button("送信") { /* ... */ }
 | Button (Primary) | `.buttonStyle(.borderedProminent)` | `bg`: `interactive-default`, `text`: `text-on-accent` |
 | Button (Secondary) | `.buttonStyle(.bordered)` | `border`: `border-strong`, `text`: `text-primary` |
 | Button (Ghost) | `.buttonStyle(.plain)` | `text`: `interactive-default` |
-| Card | `List` with `.listStyle(.insetGrouped)` | `bg`: `bg-surface-raised`, Glassmorphism 適用 |
+| Card | `List` with `.listStyle(.insetGrouped)` | `bg`: `bg-surface-raised`, Material A 適用 |
 | Input | `TextField` with `.textFieldStyle(.roundedBorder)` | `border`: `border-default`, `bg`: `bg-surface` |
 | Badge | `.badge()` modifier | `bg`: Status Colors（Success/Warning/Error） |
-| Modal | `.sheet()` / `.fullScreenCover()` | `bg`: `bg-page`, Liquid Glass 適用（Hero 背景） |
+| Modal | `.sheet()` / `.fullScreenCover()` | `bg`: `bg-page`, Material B 適用（Hero 背景） |
 
 #### Motion & Animation
 
@@ -1312,7 +1330,7 @@ AI がスライドデッキ（pptx）を生成する際に従うルールセッ�
 | 連絡先 | 16px | 500 | 1.5 | 0 |
 | URL (mono) | 14px | 500 | 1.5 | 0 |
 | スライド番号 (mono) | 11px | 600 | 1.0 | 0.5px |
-| copyright (mono) | 10px | 500 | 1.0 | 0 |
+| copyright (mono) | {{PPTX_MIN_FONT_SIZE}} | 500 | 1.0 | 0 |
 
 テキストグラデーション:
 ```css
@@ -1342,9 +1360,17 @@ background: linear-gradient(90deg, #e8e8ec 0%, #8f99b8 100%);
 #### レイアウト
 
 ##### スライド共通
+
 ```css
-.slide { width: 1920px; height: 1080px; padding: 64px 80px; }
+.slide { width: 1920px; height: 1080px; padding: {{PPTX_PADDING}}; }
+/* → content width: {{PPTX_CONTENT_WIDTH}}, content height: 952px */
 ```
+
+| コンポーネント | left (px/inch) | top (px/inch) | width (px/inch) | height |
+|---|---|---|---|---|
+| Header | {{PPTX_HEADER_LEFT}} / 0.56" | {{PPTX_HEADER_TOP}} / 0.44" | {{PPTX_CONTENT_WIDTH}} / 12.22" | 160-200 |
+| Body | {{PPTX_HEADER_LEFT}} / 0.56" | header下端 + 40 | {{PPTX_CONTENT_WIDTH}} / 12.22" | auto |
+| Footer | {{PPTX_HEADER_LEFT}} / 0.56" | {{PPTX_FOOTER_TOP}} / 7.17" | {{PPTX_CONTENT_WIDTH}} / 12.22" | 48 / 0.33" |
 
 ##### スライドコンポーネント
 
@@ -1358,42 +1384,14 @@ background: linear-gradient(90deg, #e8e8ec 0%, #8f99b8 100%);
 | title | スライド見出し | 44px / 400 / letter-spacing: -1px |
 | main message | メインメッセージ・要点 | 20px / 500 |
 
-Grid（pptx 座標）:
-
-| プロパティ | px | inch |
-|-----------|-----|------|
-| left | 80 | 0.56" |
-| top | 64 | 0.44" |
-| width | 1760 | 12.22" |
-| height（agenda + title） | 160 | 1.11" |
-| height（+ main message） | 200 | 1.39" |
-
 **Body** — メインコンテンツ領域。カード・テキスト・図表等を配置する。
-
-Grid（pptx 座標）:
-
-| プロパティ | px | inch |
-|-----------|-----|------|
-| left | 80 | 0.56" |
-| top | header 下端 + 40 | header 下端 + 0.28" |
-| width | 1760 | 12.22" |
-| height | footer 上端まで（auto） | — |
 
 **Footer** — スライド下部の固定領域。
 
 | サブ要素 | 内容 | タイポグラフィ | 配置 |
 |---------|------|--------------|------|
 | page number | スライド番号 | 11px / 600 / mono / letter-spacing: 0.5px | 右寄せ |
-| copyright | 著作権表示 | 10px / 500 / mono | 左寄せ |
-
-Grid（pptx 座標）:
-
-| プロパティ | px | inch |
-|-----------|-----|------|
-| left | 80 | 0.56" |
-| top | 1032 | 7.17" |
-| width | 1760 | 12.22" |
-| height | 48 | 0.33" |
+| copyright | 著作権表示 | {{PPTX_MIN_FONT_SIZE}} / 500 / mono | 左寄せ |
 
 #### スライドパターン
 
@@ -1420,13 +1418,13 @@ Grid（pptx 座標）:
 #### 箇条書き
 ```css
 li { font-size: 20px; color: #a5a5b0; line-height: 1.6; padding-left: 24px; }
-li::before { width: 8px; height: 8px; border-radius: 50%; background: #5068a4; }
+li::before { width: 8px; height: 8px; border-radius: 50%; background: {{PRIMARY_BASE_HEX}}; }
 ```
 
 #### コードブロック
 ```css
 background: #0a0a0c; border: 1px solid #1e1e24; border-radius: 8px;
-padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7; color: #a5a5b0;
+padding: 32px; font-family: '{{FONT_MONO}}'; font-size: 16px; line-height: 1.7; color: #a5a5b0;
 ```
 
 #### 表（テーブル）
@@ -1557,7 +1555,7 @@ text-transform: uppercase; color: #7e7e8c;
 ##### ボトム装飾ライン
 ```css
 position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-background: linear-gradient(90deg, transparent 0%, #5068a4 30%, #8e7cb4 50%, #5068a4 70%, transparent 100%);
+background: linear-gradient(90deg, transparent 0%, {{PRIMARY_BASE_HEX}} 30%, #8e7cb4 50%, {{PRIMARY_BASE_HEX}} 70%, transparent 100%);
 ```
 
 ##### テキストグラデーション（装飾用）
@@ -1830,3 +1828,19 @@ UIコンポーネントの仕様をここで定義します。すべてのコン
 | Row Border Bottom | `stroke-hairline` solid neutral-200 |
 | Row Hover | background → neutral-100 |
 | Mono Values | `mono-md` を使用（数値・コード） |
+
+
+## 14. CSS Custom Properties Reference
+
+<!-- GUIDE: このセクションはオプションです。CSS カスタムプロパティの一覧を記載する場合に使用してください。
+     paper の例を参照: paper/design-system.md の「CSS Custom Properties Reference」セクション。 -->
+
+（オプション内容）
+
+
+## 15. Dependencies
+
+<!-- GUIDE: このセクションはオプションです。外部ライブラリ・フォントの依存関係を記載する場合に使用してください。
+     paper の例を参照: paper/design-system.md の「Dependencies」セクション。 -->
+
+（オプション内容）
