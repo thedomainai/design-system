@@ -2,12 +2,12 @@
 
 ## 1. Design Principles
 
-紙とインクで成立する Editorial / Magazine-inspired design。情報階層はセリフ体とサンセリフ体の対比、ウェイトとサイズの段階、余白の量と質で表現する。色は黒インクを主軸に、意味のある場面でのみ淡い色付きインクを添える。方眼紙のグリッド背景が「紙上の分析ノート」という世界観を演出する。
+紙とインクで成立する Editorial / Magazine-inspired design。情報階層はセリフ体とサンセリフ体の対比、ウェイトとサイズの段階、余白の量と質で表現する。色は黒インクを主軸に、意味のある場面では標準的な彩度のインクを使い、即座の識別を確保する。方眼紙のグリッド背景が「紙上の分析ノート」という世界観を演出する。
 
 | # | Principle | 説明 |
 |---|-----------|------|
 | 1 | Paper-First | 紙とインクだけで成立するデザイン |
-| 2 | Restrained Color | 黒インクが主役。色付きインクは意味のある場面で控えめに添える |
+| 2 | Restrained Color | Slate（青みを帯びたグレー）が UI クロムの主役。コンテンツテキストは純粋な黒インク。色付きインクはステータス・インタラクション・データの場面で鮮やかに使い、即座の識別を確保する |
 | 3 | Typographic Hierarchy | セリフ × サンセリフの対比で構造を表現 |
 | 4 | Generous Whitespace | 余白の量と質で読みやすさと格調を生む |
 | 5 | Ink Economy | すべての要素に「インクを使う価値があるか」を問う |
@@ -16,7 +16,7 @@
 
 ### 2.1 Ink Scale
 
-テキスト・ボーダー・アイコン
+コンテンツテキスト・アイコン用のピュアグレースケール。UI クロム（ボーダー・補助テキスト）には Slate Scale（2.2）を使用する。
 
 | Token | Hex | Usage |
 |-------|-----|-------|
@@ -24,15 +24,27 @@
 | `ink-900` | `#1a1a1a` | 本文テキスト |
 | `ink-800` | `#2d2d2d` | 強調テキスト |
 | `ink-700` | `#404040` | アクティブ要素・フォーカスリング |
-| `ink-600` | `#525252` | セカンダリテキスト |
-| `ink-500` | `#6b6b6b` | キャプション |
-| `ink-400` | `#8a8a8a` | プレースホルダ |
+| `ink-600` | `#525252` | 本文内補足 |
+| `ink-500` | `#6b6b6b` | 本文内キャプション |
+| `ink-400` | `#8a8a8a` | 本文内プレースホルダ |
 | `ink-300` | `#a3a3a3` | 非活性テキスト |
-| `ink-200` | `#c4c4c4` | 薄いボーダー |
-| `ink-100` | `#e0e0e0` | セパレーター |
-| `ink-50` | `#f0f0f0` | 微細な区切り線 |
+| `ink-200` | `#c4c4c4` | コンテンツ内セパレーター |
+| `ink-100` | `#e0e0e0` | 微細な区切り線 |
+| `ink-50` | `#f0f0f0` | 最小区切り線 |
 
-### 2.2 Paper Scale
+### 2.2 Slate Scale
+
+UI クロム（ボーダー・補助テキスト・グリッド線）用のスケール。青みを帯びたグレーがデジタル画面での視認性と快適さを向上させる。コンテンツテキストには Ink Scale（2.1）を使用する。
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `slate-500` | `#64748b` | セカンダリテキスト・補助情報 |
+| `slate-400` | `#94a3b8` | ミュートテキスト・ヒント |
+| `slate-300` | `#cbd5e1` | 強調ボーダー |
+| `slate-200` | `#e2e8f0` | ボーダー default・グリッド線 |
+| `slate-100` | `#f1f5f9` | ホバー背景 |
+
+### 2.3 Paper Scale
 
 背景・サーフェス
 
@@ -45,29 +57,29 @@
 | `paper-aged` | `#e8e7e3` | ホバー・アクティブ背景 |
 | `paper-shadow` | `#dddcd8` | 影の表現・押下状態 |
 
-### 2.3 Accent Ink
+### 2.4 Accent Ink
 
-紙に落とした色付きインクの滲みのような、控えめなアクセントカラー。彩度を落とし、温かみのあるトーンで Paper Scale と調和させる。
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `ink-blue` | `#4a6d8c` | リンク・アクティブ状態・選択・フォーカス |
-| `ink-green` | `#4a7c5c` | 成功・利益・完了 |
-| `ink-amber` | `#8c6d3f` | 注意・ハイライト・ROI |
-| `ink-red` | `#8c4a4a` | エラー・危険・削除 |
-
-### 2.4 Wash
+ステータス・インタラクション・データ可視化で即座の識別を確保するカラー。主軸は黒インクだが、意味のある場面では標準的な彩度のインクを使用する。装飾目的では使用しない。
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `wash-blue` | `#eef2f7` | 選択状態・アクティブ背景 |
-| `wash-green` | `#edf4ef` | 成功背景・完了表示 |
-| `wash-amber` | `#f5f1ea` | 注意背景・ハイライト |
-| `wash-red` | `#f5eded` | エラー背景・警告 |
+| `ink-blue` | `#2563eb` | リンク・アクティブ状態・選択・フォーカス |
+| `ink-green` | `#16a34a` | 成功・利益・完了 |
+| `ink-amber` | `#d97706` | 注意・ハイライト・ROI |
+| `ink-red` | `#dc2626` | エラー・危険・削除 |
+
+### 2.5 Wash
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `wash-blue` | `#dbeafe` | 選択状態・アクティブ背景 |
+| `wash-green` | `#dcfce7` | 成功背景・完了表示 |
+| `wash-amber` | `#fef3c7` | 注意背景・ハイライト |
+| `wash-red` | `#fee2e2` | エラー背景・警告 |
 
 使用ルール: 色付きインクは意味を伴う場面（ステータス・インタラクション・データ可視化）にのみ使用する。装飾目的では使用しない。主軸はあくまで黒インク（Ink Scale）。
 
-### 2.5 Semantic Tokens
+### 2.6 Semantic Tokens
 
 | Token | Maps To | Usage |
 |-------|---------|-------|
@@ -75,19 +87,19 @@
 | `bg-surface` | paper-cream `#faf9f7` | カード・パネル背景 |
 | `bg-surface-raised` | paper-white `#fdfdfc` | モーダル・浮上パネル |
 | `bg-recessed` | paper-warm `#f5f4f0` | インプット背景 |
-| `border-default` | ink-100 `#e0e0e0` | 通常のボーダー |
-| `border-strong` | ink-200 `#c4c4c4` | 強調ボーダー |
+| `border-default` | slate-200 `#e2e8f0` | 通常のボーダー・カード枠 |
+| `border-strong` | slate-300 `#cbd5e1` | 強調ボーダー |
 | `border-heavy` | ink-1000 `#000000` | ヘッダー下線・重要な区切り |
 | `text-primary` | ink-900 `#1a1a1a` | 本文テキスト |
 | `text-heading` | ink-1000 `#000000` | 見出し |
-| `text-secondary` | ink-600 `#525252` | 補助テキスト |
-| `text-muted` | ink-400 `#8a8a8a` | ヒントテキスト |
-| `text-caption` | ink-500 `#6b6b6b` | キャプション・注釈 |
-| `interactive` | ink-blue `#4a6d8c` | リンク・選択状態 |
+| `text-secondary` | slate-500 `#64748b` | 補助テキスト・UI ラベル |
+| `text-muted` | slate-400 `#94a3b8` | ヒントテキスト・メタデータ |
+| `text-caption` | slate-500 `#64748b` | キャプション・注釈 |
+| `interactive` | ink-blue `#2563eb` | リンク・選択状態 |
 | `interactive-hover` | ink-900 `#1a1a1a` | ホバー状態 |
-| `focus-ring` | ink-blue `#4a6d8c` | フォーカスインジケーター |
+| `focus-ring` | ink-blue `#2563eb` | フォーカスインジケーター |
 
-### 2.6 Status Colors
+### 2.7 Status Colors
 
 テキストラベル・記号で状態を伝えつつ、淡い色付きインクで即座の識別を補助する。
 
@@ -178,7 +190,7 @@ DX投資による全社レベルの利益インパクト                      �
     ──────────  (2px bottom-border on active)
   Main Content (max-w: 1120px, padding: 48px+, section-gap: 64px)
     Section 1–N
-  Footer (max-w: 1120px, border-top: ink-100)
+  Footer (max-w: 1120px, border-top: border-default)
     [Left: Copyright]                        [Right: Confidentiality]
 ```
 
@@ -226,9 +238,9 @@ DX投資による全社レベルの利益インパクト                      �
 ### 6.3 Separators
 
 ```css
---separator: 1px solid var(--ink-100);
+--separator: 1px solid var(--border-default);   /* slate-200 */
 --separator-strong: 1px solid var(--ink-1000);
---separator-dashed: 1px dashed var(--ink-200);
+--separator-dashed: 1px dashed var(--border-strong); /* slate-300 */
 
 .separator-double { border-top: 3px double var(--ink-1000); }
 .rule-editorial  { border-bottom: 2px solid var(--ink-1000); padding-bottom: var(--space-3); }
@@ -240,12 +252,14 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
 
 ### 7.1 Material Philosophy
 
-`border` と `box-shadow` は同一要素に併用しない。輪郭の定義手段を 1 つに絞ることで、Flat Paper（罫線）と Layered Paper（影）の視覚的差異を明確にする。
+`border` と `box-shadow` は静的な表示状態では同一要素に併用しない。輪郭の定義手段を 1 つに絞ることで、Flat Paper（罫線）と Layered Paper（影）の視覚的差異を明確にする。
 
-| マテリアル | 輪郭の定義 | 禁止 |
+| マテリアル | 輪郭の定義 | 禁止（静的状態） |
 |---|---|---|
 | Flat Paper | `border` | `box-shadow` |
 | Layered Paper | `box-shadow` | `border` |
+
+**例外**: ホバー・選択などのインタラクティブ状態では、Flat Paper に一時的な `box-shadow` を追加できる（選択リング: `box-shadow: 0 0 0 2px rgba(37,99,235,0.2)`）。
 
 ### 7.2 Flat Paper
 
@@ -253,15 +267,15 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
 
 ```css
 .paper-flat {
-  background: var(--paper-cream);    /* #faf9f7 */
-  border: 1px solid var(--ink-100);  /* #e0e0e0 */
+  background: var(--paper-cream);         /* #faf9f7 */
+  border: 1px solid var(--border-default); /* slate-200 #e2e8f0 */
   border-radius: 0;
 }
-.paper-flat:hover { border-color: var(--ink-900); }
+.paper-flat:hover { border-color: var(--ink-blue); }
 
 .paper-recessed {
-  background: var(--paper-warm);     /* #f5f4f0 — インプット・埋め込み領域 */
-  border: 1px solid var(--ink-100);
+  background: var(--paper-warm);          /* #f5f4f0 — インプット・埋め込み領域 */
+  border: 1px solid var(--border-default);
   border-radius: 0;
 }
 ```
@@ -311,11 +325,11 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-/* Grid Paper — 方眼紙 */
+/* Grid Paper — 方眼紙（Slate 200 の青みがかった罫線） */
 .grid-paper {
   background-image:
-    linear-gradient(var(--ink-100) 1px, transparent 1px),
-    linear-gradient(90deg, var(--ink-100) 1px, transparent 1px);
+    linear-gradient(var(--slate-200) 1px, transparent 1px),
+    linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
   background-size: 40px 40px;
   opacity: 0.3;
 }
@@ -724,7 +738,8 @@ li.sm { font-size: 16px; }
 | Radius | `radius-none` (0px) |
 | Padding | `space-5` – `space-6` |
 
-- **Hover** (clickable): `border-color: var(--ink-900)`, `translateY(-2px)`, `shadow-md`
+- **Hover** (clickable): `border-color: var(--ink-blue)`, `translateY(-2px)`, `box-shadow: var(--shadow-md)`（インタラクティブ状態のみ border + shadow 併用許容）
+- **Selected**: `border-color: var(--ink-blue)`, `box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2)`（選択リング）
 - Variants: `.paper-flat`（罫線のみ）/ `.paper-layered`（フラット影）/ `.paper-elevated`（自然影）
 
 ### 13.2 Button
@@ -771,7 +786,7 @@ Radius: 全サイズ `radius-md` (4px)
 | Font | `body-md`, Sans |
 | Placeholder | `text-muted` (ink-400) |
 
-- **Hover**: `border-color: var(--ink-200)`
+- **Hover**: `border-color: var(--border-strong)`
 - **Focus**: `border-color: var(--ink-blue)`, `outline: 2px solid var(--ink-blue)`, `outline-offset: 2px`
 - **Error**: `border-color: var(--ink-red)`, `border-width: 2px`, エラーメッセージを `ink-red` で表示
 - **Disabled**: `background: paper-kraft`, `opacity: 0.5`
@@ -781,7 +796,7 @@ Radius: 全サイズ `radius-md` (4px)
 ```css
 padding: 0 8px; height: 22px; border-radius: 2px;
 font-size: 0.6875rem; font-weight: 600; text-transform: uppercase;
-background: var(--paper-warm); color: var(--ink-900); border: 1px solid var(--ink-200);
+background: var(--paper-warm); color: var(--ink-900); border: 1px solid var(--border-strong);
 ```
 
 | Status | Label | Background | Text | Border |
@@ -795,7 +810,7 @@ background: var(--paper-warm); color: var(--ink-900); border: 1px solid var(--in
 | Property | Value |
 |----------|-------|
 | Background | `paper-white` |
-| Border | `stroke-sm` solid `ink-200` |
+| Border | `stroke-sm` solid `border-default` |
 | Shadow | `shadow-lg` or 多層フラット影 |
 | Max Width | `container-sm` (640px) |
 | Padding | `space-6` – `space-7` |
@@ -847,14 +862,14 @@ border-bottom: 1px solid var(--border-default);
 | Header | `label-md`, bold, uppercase, `text-secondary` |
 | Header Border | `stroke-sm` solid `ink-900` |
 | Cell | `body-md`, Sans, padding `space-5` |
-| Row Border | `stroke-hairline` solid `ink-100` |
+| Row Border | `stroke-hairline` solid `border-default` |
 | Row Hover | `background: paper-warm` |
 | Mono Values | `mono-md`（数値・コード） |
 
 ### 13.10 Progress Bar
 
 ```css
-/* Track */  height: 4px; background: var(--ink-100); border-radius: 2px;
+/* Track */  height: 4px; background: var(--border-default); border-radius: 2px;  /* slate-200 */
 /* Fill */   background: var(--ink-900); border-radius: 2px; transition: width 0.5s ease-out;
 ```
 
@@ -875,7 +890,7 @@ Card の拡張。中央揃え、`padding: space-6`。
 |----------|-------|
 | Toggle | `body-md`, semibold, `paper-warm` bg, `radius-none` |
 | Arrow | `▶` (0.7rem)、展開時 `rotate(90deg)`, transition 0.2s |
-| Tree Line | `border-left: 2px solid ink-100`, `margin-left: 12px`, `padding-left: 20px` |
+| Tree Line | `border-left: 2px solid var(--border-default)`, `margin-left: 12px`, `padding-left: 20px` |
 | Content | `max-height: 0` → `.open` で `max-height: 2000px`, transition 0.3s ease-out |
 
 ### 13.13 Interaction Patterns
@@ -909,32 +924,36 @@ Card の拡張。中央揃え、`padding: space-6`。
   --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
 
-  /* Ink Scale */
+  /* Ink Scale — コンテンツテキスト用ピュアグレー */
   --ink-1000: #000000;  --ink-900: #1a1a1a;  --ink-800: #2d2d2d;
   --ink-700: #404040;   --ink-600: #525252;   --ink-500: #6b6b6b;
   --ink-400: #8a8a8a;   --ink-300: #a3a3a3;   --ink-200: #c4c4c4;
   --ink-100: #e0e0e0;   --ink-50:  #f0f0f0;
+
+  /* Slate Scale — UI クロム用（ボーダー・補助テキスト）青みがかったグレー */
+  --slate-500: #64748b;  --slate-400: #94a3b8;
+  --slate-300: #cbd5e1;  --slate-200: #e2e8f0;  --slate-100: #f1f5f9;
 
   /* Paper Scale */
   --paper-white: #fdfdfc;  --paper-cream: #faf9f7;  --paper-warm:   #f5f4f0;
   --paper-kraft: #eeedea;  --paper-aged:  #e8e7e3;  --paper-shadow: #dddcd8;
 
   /* Accent Ink */
-  --ink-blue: #4a6d8c;    --ink-green: #4a7c5c;
-  --ink-amber: #8c6d3f;   --ink-red: #8c4a4a;
+  --ink-blue: #2563eb;    --ink-green: #16a34a;
+  --ink-amber: #d97706;   --ink-red: #dc2626;
 
   /* Accent Wash (backgrounds) */
-  --wash-blue: #eef2f7;   --wash-green: #edf4ef;
-  --wash-amber: #f5f1ea;  --wash-red: #f5eded;
+  --wash-blue: #dbeafe;   --wash-green: #dcfce7;
+  --wash-amber: #fef3c7;  --wash-red: #fee2e2;
 
   /* Semantic */
   --bg-page: var(--paper-white);         --bg-surface: var(--paper-cream);
   --bg-surface-raised: var(--paper-white); --bg-recessed: var(--paper-warm);
-  --border-default: var(--ink-100);      --border-strong: var(--ink-200);
+  --border-default: var(--slate-200);    --border-strong: var(--slate-300);
   --border-heavy: var(--ink-1000);
   --text-primary: var(--ink-900);        --text-heading: var(--ink-1000);
-  --text-secondary: var(--ink-600);      --text-muted: var(--ink-400);
-  --text-caption: var(--ink-500);
+  --text-secondary: var(--slate-500);    --text-muted: var(--slate-400);
+  --text-caption: var(--slate-500);
 
   /* Spacing */
   --space-0: 0px;   --space-1: 2px;   --space-2: 4px;   --space-3: 8px;
@@ -955,9 +974,9 @@ Card の拡張。中央揃え、`padding: space-6`。
   --duration-normal: 200ms;  --duration-slow: 300ms;
 
   /* Lines */
-  --separator: 1px solid var(--ink-100);
+  --separator: 1px solid var(--border-default);      /* slate-200 */
   --separator-strong: 1px solid var(--ink-1000);
-  --separator-dashed: 1px dashed var(--ink-200);
+  --separator-dashed: 1px dashed var(--border-strong); /* slate-300 */
 }
 ```
 
