@@ -994,6 +994,8 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 - 料金表の推奨プランには `.impasto-gilded` を適用し、他プランは `.glaze` で差別化
 - タイポグラフィは Serif 体の `display-xl`〜`display-md` をヒーローに使用
 - セクション区切りには `--line-ornament` を使用
+- セクション見出し（`.section-header`）の横幅はコンテナ幅（1200px）に統一する。内部の `p` のみ行長制御のため `max-width: 720px; margin: 0 auto` を適用（単一列レイアウトでセクション間の幅が揃う）
+- ヒーローサブタイトル等の本文テキストも `max-width: 720px; margin: 0 auto` で行長を統一する
 
 ### 11.2 Web App
 

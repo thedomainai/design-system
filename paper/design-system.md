@@ -366,10 +366,16 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
 
 | Platform | 要点 |
 |----------|------|
-| **Web Page / LP** | ヒーロー `display-xl` light + italic。ヘッダー直下に `border-heavy`。セクション間 `space-9`+。CTA は `btn-primary`。背景にグリッドパターン |
+| **Web Page / LP** | 下記「セクション 11.1（Web Page / LP）」に展開 |
 | **Web App** | サーフェス階層: `bg-page` → `bg-surface` → `bg-surface-raised`。サイドバー `paper-kraft`。ヘッダー `backdrop-filter: blur(8px)`。本文 `body-md`、密度の高いUIは `body-sm` |
 | **Mobile (iOS)** | 下記「セクション 11.3（Mobile App (iOS)）」に展開 |
 | **Presentation** | 下記「セクション 11.4（Presentation (pptx)）」に展開 |
+
+### 11.1 Web Page / LP
+
+- ヒーロー `display-xl` light + italic。ヘッダー直下に `border-heavy`。セクション間 `space-9`+。CTA は `btn-primary`。背景にグリッドパターン
+- セクション見出し（`.section-header`）の横幅はコンテナ幅（1120px）に統一する。内部の `p` のみ行長制御のため `max-width: 720px; margin: 0 auto` を適用（単一列レイアウトでセクション間の幅が揃う）
+- ヒーローサブタイトル等の本文テキストも `max-width: 720px; margin: 0 auto` で行長を統一する
 
 ### 11.3 Mobile App (iOS)
 
