@@ -530,8 +530,7 @@ nav {
    ============================================================ */
 .section-header {
   text-align: center;
-  max-width: 700px;
-  margin: 0 auto 64px;
+  margin: 0 auto 64px;   /* 横幅はコンテナ幅（1200px）に統一 */
 }
 
 .section-header .label {
@@ -546,6 +545,9 @@ nav {
   font-size: 18px;
   color: #7e7e8c;
   line-height: 1.6;
+  max-width: 720px;        /* 長文の可読性確保（行長制御）*/
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ============================================================

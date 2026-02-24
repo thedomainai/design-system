@@ -977,7 +977,7 @@ section { padding: 96px 0; }
 
 - カードグリッド: `display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;`
 - 2列グリッド: `repeat(2, 1fr); gap: 32px;`
-- セクション見出し: text-align center, max-width 700px, margin 0 auto 64px
+- セクション見出し: text-align center, margin 0 auto 64px（横幅はコンテナ幅 1200px に統一。内部の `p` のみ可読性のため max-width 720px を適用）
 - セクション区切り線:
 ```css
 height: 1px;
