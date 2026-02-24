@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* ─── Ink Scale ─── */
+    /* ─── Ink Scale — コンテンツテキスト用ピュアグレー ─── */
     --ink-1000: #000000;
     --ink-900:  #1a1a1a;
     --ink-800:  #2d2d2d;
@@ -20,6 +20,13 @@
     --ink-100:  #e0e0e0;
     --ink-50:   #f0f0f0;
 
+    /* ─── Slate Scale — UI クロム用（ボーダー・補助テキスト）─── */
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+
     /* ─── Paper Scale ─── */
     --paper-white:  #fdfdfc;
     --paper-cream:  #faf9f7;
@@ -29,16 +36,20 @@
     --paper-shadow: #dddcd8;
 
     /* ─── Accent Ink ─── */
-    --ink-blue:  #4a6d8c;
-    --ink-green: #4a7c5c;
-    --ink-amber: #8c6d3f;
-    --ink-red:   #8c4a4a;
+    --ink-blue:  #2563eb;
+    --ink-green: #16a34a;
+    --ink-amber: #d97706;
+    --ink-red:   #dc2626;
 
     /* ─── Wash ─── */
-    --wash-blue:  #eef2f7;
-    --wash-green: #edf4ef;
-    --wash-amber: #f5f1ea;
-    --wash-red:   #f5eded;
+    --wash-blue:  #dbeafe;
+    --wash-green: #dcfce7;
+    --wash-amber: #fef3c7;
+    --wash-red:   #fee2e2;
+
+    /* ─── Semantic ─── */
+    --border-default: var(--slate-200);
+    --border-strong:  var(--slate-300);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -66,7 +77,7 @@
   }
   .header p {
     font-size: 14px;
-    color: #525252;
+    color: #64748b;
     font-weight: 400;
   }
 
@@ -78,7 +89,7 @@
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #525252;
+    color: #64748b;
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -88,7 +99,7 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: #e0e0e0;
+    background: #e2e8f0;
   }
 
   .swatches {
@@ -96,7 +107,7 @@
     gap: 2px;
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e2e8f0;
   }
   .swatch {
     flex: 1;
@@ -137,7 +148,7 @@
     gap: 16px;
   }
   .accent-card {
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     overflow: hidden;
   }
@@ -147,7 +158,7 @@
     letter-spacing: 1.5px;
     text-transform: uppercase;
     padding: 12px 16px 8px;
-    color: #525252;
+    color: #64748b;
     background: #faf9f7;
   }
   .accent-swatches {
@@ -173,7 +184,7 @@
   /* CSS Variables export */
   .code-block {
     background: #faf9f7;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 24px;
     margin-top: 48px;
@@ -186,8 +197,8 @@
     color: #1a1a1a;
   }
   .code-block .comment { color: #6b6b6b; }
-  .code-block .prop { color: #4a6d8c; }
-  .code-block .val { color: #8c6d3f; }
+  .code-block .prop { color: #2563eb; }
+  .code-block .val { color: #d97706; }
 
   /* Semantic tokens section */
   .semantic-section {
@@ -200,7 +211,7 @@
   }
   .semantic-card {
     background: #faf9f7;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 16px;
     display: flex;
@@ -212,7 +223,7 @@
     height: 36px;
     border-radius: 6px;
     flex-shrink: 0;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e2e8f0;
   }
   .semantic-info {
     flex: 1;
@@ -260,8 +271,14 @@
 
 <!-- Ink Scale -->
 <div class="palette-section">
-  <h2>Ink Scale — Text & Borders</h2>
+  <h2>Ink Scale — Content Text</h2>
   <div class="swatches" id="ink"></div>
+</div>
+
+<!-- Slate Scale -->
+<div class="palette-section">
+  <h2>Slate Scale — UI Chrome</h2>
+  <div class="swatches" id="slate"></div>
 </div>
 
 <!-- Paper Scale -->
@@ -277,52 +294,52 @@
     <div class="accent-card">
       <h3>Blue</h3>
       <div class="accent-swatches">
-        <div class="accent-swatch light-text" style="background:#4a6d8c" onclick="copyColor('#4a6d8c')">
+        <div class="accent-swatch light-text" style="background:#2563eb" onclick="copyColor('#2563eb')">
           <span class="swatch-label">ink</span>
-          <span class="swatch-hex">#4a6d8c</span>
+          <span class="swatch-hex">#2563eb</span>
         </div>
-        <div class="accent-swatch dark-text" style="background:#eef2f7" onclick="copyColor('#eef2f7')">
+        <div class="accent-swatch dark-text" style="background:#dbeafe" onclick="copyColor('#dbeafe')">
           <span class="swatch-label">wash</span>
-          <span class="swatch-hex">#eef2f7</span>
+          <span class="swatch-hex">#dbeafe</span>
         </div>
       </div>
     </div>
     <div class="accent-card">
       <h3>Green</h3>
       <div class="accent-swatches">
-        <div class="accent-swatch light-text" style="background:#4a7c5c" onclick="copyColor('#4a7c5c')">
+        <div class="accent-swatch light-text" style="background:#16a34a" onclick="copyColor('#16a34a')">
           <span class="swatch-label">ink</span>
-          <span class="swatch-hex">#4a7c5c</span>
+          <span class="swatch-hex">#16a34a</span>
         </div>
-        <div class="accent-swatch dark-text" style="background:#edf4ef" onclick="copyColor('#edf4ef')">
+        <div class="accent-swatch dark-text" style="background:#dcfce7" onclick="copyColor('#dcfce7')">
           <span class="swatch-label">wash</span>
-          <span class="swatch-hex">#edf4ef</span>
+          <span class="swatch-hex">#dcfce7</span>
         </div>
       </div>
     </div>
     <div class="accent-card">
       <h3>Amber</h3>
       <div class="accent-swatches">
-        <div class="accent-swatch light-text" style="background:#8c6d3f" onclick="copyColor('#8c6d3f')">
+        <div class="accent-swatch light-text" style="background:#d97706" onclick="copyColor('#d97706')">
           <span class="swatch-label">ink</span>
-          <span class="swatch-hex">#8c6d3f</span>
+          <span class="swatch-hex">#d97706</span>
         </div>
-        <div class="accent-swatch dark-text" style="background:#f5f1ea" onclick="copyColor('#f5f1ea')">
+        <div class="accent-swatch dark-text" style="background:#fef3c7" onclick="copyColor('#fef3c7')">
           <span class="swatch-label">wash</span>
-          <span class="swatch-hex">#f5f1ea</span>
+          <span class="swatch-hex">#fef3c7</span>
         </div>
       </div>
     </div>
     <div class="accent-card">
       <h3>Red</h3>
       <div class="accent-swatches">
-        <div class="accent-swatch light-text" style="background:#8c4a4a" onclick="copyColor('#8c4a4a')">
+        <div class="accent-swatch light-text" style="background:#dc2626" onclick="copyColor('#dc2626')">
           <span class="swatch-label">ink</span>
-          <span class="swatch-hex">#8c4a4a</span>
+          <span class="swatch-hex">#dc2626</span>
         </div>
-        <div class="accent-swatch dark-text" style="background:#f5eded" onclick="copyColor('#f5eded')">
+        <div class="accent-swatch dark-text" style="background:#fee2e2" onclick="copyColor('#fee2e2')">
           <span class="swatch-label">wash</span>
-          <span class="swatch-hex">#f5eded</span>
+          <span class="swatch-hex">#fee2e2</span>
         </div>
       </div>
     </div>
@@ -357,6 +374,13 @@ const palettes = {
     { label: '100',  hex: '#e0e0e0', dark: true },
     { label: '50',   hex: '#f0f0f0', dark: true },
   ],
+  slate: [
+    { label: '500', hex: '#64748b', dark: false },
+    { label: '400', hex: '#94a3b8', dark: true  },
+    { label: '300', hex: '#cbd5e1', dark: true  },
+    { label: '200', hex: '#e2e8f0', dark: true  },
+    { label: '100', hex: '#f1f5f9', dark: true  },
+  ],
   paper: [
     { label: 'white',  hex: '#fdfdfc', dark: true },
     { label: 'cream',  hex: '#faf9f7', dark: true },
@@ -371,15 +395,15 @@ const semanticTokens = [
   { name: 'Background', color: '#fdfdfc', detail: 'paper-white' },
   { name: 'Surface', color: '#faf9f7', detail: 'paper-cream' },
   { name: 'Surface Raised', color: '#fdfdfc', detail: 'paper-white' },
-  { name: 'Border Default', color: '#e0e0e0', detail: 'ink-100' },
-  { name: 'Border Strong', color: '#c4c4c4', detail: 'ink-200' },
+  { name: 'Border Default', color: '#e2e8f0', detail: 'slate-200' },
+  { name: 'Border Strong', color: '#cbd5e1', detail: 'slate-300' },
   { name: 'Border Heavy', color: '#000000', detail: 'ink-1000' },
   { name: 'Text Primary', color: '#1a1a1a', detail: 'ink-900' },
   { name: 'Text Heading', color: '#000000', detail: 'ink-1000' },
-  { name: 'Text Secondary', color: '#525252', detail: 'ink-600' },
-  { name: 'Text Muted', color: '#8a8a8a', detail: 'ink-400' },
-  { name: 'Text Caption', color: '#6b6b6b', detail: 'ink-500' },
-  { name: 'Interactive', color: '#4a6d8c', detail: 'ink-blue' },
+  { name: 'Text Secondary', color: '#64748b', detail: 'slate-500' },
+  { name: 'Text Muted', color: '#94a3b8', detail: 'slate-400' },
+  { name: 'Text Caption', color: '#64748b', detail: 'slate-500' },
+  { name: 'Interactive', color: '#2563eb', detail: 'ink-blue' },
 ];
 
 // Render palettes
@@ -414,10 +438,15 @@ const cssLines = [
   '<span class="comment">/* Design System — Paper — Color Tokens */</span>',
   '',
   ':root {',
-  '  <span class="comment">/* Ink Scale — Text & Borders */</span>',
+  '  <span class="comment">/* Ink Scale — Content Text */</span>',
 ];
 palettes.ink.forEach(c => {
   cssLines.push(`  <span class="prop">--ink-${c.label}</span>: <span class="val">${c.hex}</span>;`);
+});
+cssLines.push('');
+cssLines.push('  <span class="comment">/* Slate Scale — UI Chrome */</span>');
+palettes.slate.forEach(c => {
+  cssLines.push(`  <span class="prop">--slate-${c.label}</span>: <span class="val">${c.hex}</span>;`);
 });
 cssLines.push('');
 cssLines.push('  <span class="comment">/* Paper Scale — Backgrounds */</span>');
@@ -426,16 +455,23 @@ palettes.paper.forEach(c => {
 });
 cssLines.push('');
 cssLines.push('  <span class="comment">/* Accent Ink */</span>');
-cssLines.push('  <span class="prop">--ink-blue</span>:  <span class="val">#4a6d8c</span>;');
-cssLines.push('  <span class="prop">--ink-green</span>: <span class="val">#4a7c5c</span>;');
-cssLines.push('  <span class="prop">--ink-amber</span>: <span class="val">#8c6d3f</span>;');
-cssLines.push('  <span class="prop">--ink-red</span>:   <span class="val">#8c4a4a</span>;');
+cssLines.push('  <span class="prop">--ink-blue</span>:  <span class="val">#2563eb</span>;');
+cssLines.push('  <span class="prop">--ink-green</span>: <span class="val">#16a34a</span>;');
+cssLines.push('  <span class="prop">--ink-amber</span>: <span class="val">#d97706</span>;');
+cssLines.push('  <span class="prop">--ink-red</span>:   <span class="val">#dc2626</span>;');
 cssLines.push('');
 cssLines.push('  <span class="comment">/* Wash */</span>');
-cssLines.push('  <span class="prop">--wash-blue</span>:  <span class="val">#eef2f7</span>;');
-cssLines.push('  <span class="prop">--wash-green</span>: <span class="val">#edf4ef</span>;');
-cssLines.push('  <span class="prop">--wash-amber</span>: <span class="val">#f5f1ea</span>;');
-cssLines.push('  <span class="prop">--wash-red</span>:   <span class="val">#f5eded</span>;');
+cssLines.push('  <span class="prop">--wash-blue</span>:  <span class="val">#dbeafe</span>;');
+cssLines.push('  <span class="prop">--wash-green</span>: <span class="val">#dcfce7</span>;');
+cssLines.push('  <span class="prop">--wash-amber</span>: <span class="val">#fef3c7</span>;');
+cssLines.push('  <span class="prop">--wash-red</span>:   <span class="val">#fee2e2</span>;');
+cssLines.push('');
+cssLines.push('  <span class="comment">/* Semantic */</span>');
+cssLines.push('  <span class="prop">--border-default</span>: <span class="val">var(--slate-200)</span>;');
+cssLines.push('  <span class="prop">--border-strong</span>:  <span class="val">var(--slate-300)</span>;');
+cssLines.push('  <span class="prop">--text-secondary</span>: <span class="val">var(--slate-500)</span>;');
+cssLines.push('  <span class="prop">--text-muted</span>:     <span class="val">var(--slate-400)</span>;');
+cssLines.push('  <span class="prop">--text-caption</span>:   <span class="val">var(--slate-500)</span>;');
 cssLines.push('}');
 document.getElementById('codeOutput').innerHTML = cssLines.join('\n');
 
