@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Remotion output
+out/
+.cache/
+
+# OS
+.DS_Store
+
+# Environment
+.env
+.env.*

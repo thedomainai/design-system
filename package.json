@@ -1,0 +1,34 @@
+{
+  "name": "thedomainai-design-system",
+  "version": "1.0.0",
+  "description": "A multi-theme design system for theDomainAI brand, covering digital, paper, and utopia aesthetics.",
+  "main": "index.js",
+  "scripts": {
+    "studio": "remotion studio remotion/index.ts",
+    "render": "remotion render remotion/index.ts",
+    "preview": "remotion studio remotion/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thedomainai/design-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/thedomainai/design-system/issues"
+  },
+  "homepage": "https://github.com/thedomainai/design-system#readme",
+  "dependencies": {
+    "@remotion/cli": "^4.0.428",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.428"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
+  }
+}
