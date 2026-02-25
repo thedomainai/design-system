@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web UI Design System — Paper — The Domain AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Ink Scale */
+    --ink-1000: #000000;  --ink-900: #1a1a1a;   --ink-800: #2d2d2d;
+    --ink-700: #404040;   --ink-600: #525252;   --ink-500: #6b6b6b;
+    --ink-400: #8a8a8a;   --ink-300: #a3a3a3;   --ink-200: #c4c4c4;
+    --ink-100: #e0e0e0;   --ink-50: #f0f0f0;
+    /* Slate Scale */
+    --slate-500: #64748b; --slate-400: #94a3b8; --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0; --slate-100: #f1f5f9;
+    /* Paper Scale */
+    --paper-white: #fdfdfc; --paper-cream: #faf9f7; --paper-warm: #f5f4f0;
+    --paper-kraft: #eeedea; --paper-aged: #e8e7e3; --paper-shadow: #dddcd8;
+    /* Accent Ink */
+    --ink-blue: #2563eb; --ink-green: #16a34a; --ink-amber: #d97706; --ink-red: #dc2626;
+    /* Wash */
+    --wash-blue: #dbeafe; --wash-green: #dcfce7; --wash-amber: #fef3c7; --wash-red: #fee2e2;
+    /* Semantic */
+    --bg-page: var(--paper-white);
+    --bg-surface: var(--paper-cream);
+    --bg-surface-raised: var(--paper-white);
+    --border-default: var(--slate-200);
+    --border-strong: var(--slate-300);
+    --border-heavy: var(--ink-1000);
+    --text-primary: var(--ink-900);
+    --text-heading: var(--ink-1000);
+    --text-secondary: var(--slate-500);
+    --text-muted: var(--slate-400);
+    --interactive: var(--ink-blue);
+    /* Fonts */
+    --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --sidebar-width: 260px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+  body { font-family: var(--font-sans); background: var(--bg-page); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh;
+    background: var(--paper-kraft);
+    border-right: 1px solid var(--border-default);
+    padding: 32px 0; overflow-y: auto; z-index: 100;
+    transition: transform .3s cubic-bezier(0.25,0.1,0.25,1);
+  }
+  .sidebar-header { padding: 0 24px 24px; border-bottom: 2px solid var(--border-heavy); margin-bottom: 16px; }
+  .sidebar-header h1 { font-size: 15px; font-weight: 700; color: var(--text-heading); letter-spacing: -0.3px; }
+  .sidebar-header p { font-size: 11px; color: var(--text-secondary); margin-top: 4px; font-weight: 400; }
+  .nav-group { padding: 0 12px; }
+  .nav-group a {
+    display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+    font-size: 13px; font-weight: 400; color: var(--text-secondary);
+    text-decoration: none; border-radius: 4px;
+    transition: all .15s ease; margin-bottom: 2px;
+  }
+  .nav-group a:hover { color: var(--text-primary); background: var(--paper-aged); }
+  .nav-group a.active { color: var(--text-heading); background: var(--paper-aged); font-weight: 600; }
+  .nav-group a .nav-num { font-family: var(--font-mono); font-size: 10px; color: var(--ink-300); width: 20px; text-align: right; flex-shrink: 0; }
+  .nav-group a.active .nav-num { color: var(--ink-blue); }
+
+  /* ── Main ── */
+  .main { margin-left: var(--sidebar-width); min-height: 100vh; }
+  .hero {
+    padding: 80px 64px 64px;
+    background-color: var(--paper-white);
+    background-image: linear-gradient(var(--slate-200) 1px, transparent 1px), linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+    background-size: 40px 40px;
+    border-bottom: 2px solid var(--border-heavy);
+  }
+  .hero h1 { font-size: 36px; font-weight: 300; letter-spacing: -1px; color: var(--text-heading); margin-bottom: 8px; }
+  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 600px; }
+  .content { padding: 0 64px 96px; }
+
+  /* ── Section ── */
+  .section { padding-top: 64px; }
+  .section-title { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+  .section-title h2 { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-secondary); white-space: nowrap; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border-default); }
+
+  /* ── Code Block ── */
+  .code-block {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 6px; padding: 20px; margin-bottom: 24px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--ink-700); line-height: 1.7; overflow-x: auto;
+  }
+
+  /* ── Palette Groups ── */
+  .palette-group { margin-bottom: 32px; }
+  .palette-label { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+  .swatches { display: flex; gap: 2px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-default); margin-bottom: 16px; }
+  .swatch { flex: 1; min-height: 80px; padding: 8px 10px; display: flex; flex-direction: column; justify-content: flex-end; cursor: pointer; transition: transform .15s ease; position: relative; }
+  .swatch:hover { transform: scaleY(1.08); z-index: 1; }
+  .swatch-label { font-family: var(--font-mono); font-size: 10px; font-weight: 500; }
+  .swatch-hex { font-family: var(--font-mono); font-size: 9px; opacity: .65; margin-top: 1px; }
+  .swatch.dark .swatch-label, .swatch.dark .swatch-hex { color: var(--ink-900); }
+  .swatch.light .swatch-label, .swatch.light .swatch-hex { color: var(--paper-white); }
+
+  /* ── Semantic Token Table ── */
+  .role-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .role-table th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); padding: 0 16px 12px; border-bottom: 1px solid var(--border-strong); }
+  .role-table td { padding: 12px 16px; border-bottom: 1px solid var(--border-default); vertical-align: middle; font-size: 13px; color: var(--text-primary); }
+  .role-dot { width: 24px; height: 24px; border-radius: 4px; display: inline-block; vertical-align: middle; margin-right: 8px; border: 1px solid var(--border-default); }
+
+  /* ── Typography Table ── */
+  .type-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .type-table th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); padding: 0 16px 12px; border-bottom: 1px solid var(--border-strong); }
+  .type-table td { padding: 16px; border-bottom: 1px solid var(--border-default); vertical-align: middle; font-size: 12px; color: var(--text-secondary); }
+  .type-table td:first-child { font-family: var(--font-mono); color: var(--ink-blue); font-size: 11px; }
+
+  /* ── Material Cards ── */
+  .material-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 32px; }
+  .material-card { border-radius: 6px; padding: 24px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between; }
+  .material-name { font-size: 15px; font-weight: 600; color: var(--text-heading); margin-bottom: 4px; }
+  .material-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+  .material-code { font-family: var(--font-mono); font-size: 10px; color: var(--ink-600); background: rgba(0,0,0,0.04); padding: 10px; border-radius: 4px; line-height: 1.6; white-space: pre-wrap; border: 1px solid var(--border-default); }
+
+  .card-flat    { background: var(--paper-white); border: 1px solid var(--border-default); }
+  .card-raised  { background: var(--paper-white); border: 1px solid var(--border-default); box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04); }
+  .card-grid {
+    background-color: var(--paper-white);
+    background-image: linear-gradient(var(--slate-200) 1px, transparent 1px), linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+    background-size: 40px 40px;
+    border: 1px solid var(--border-default);
+  }
+  .card-surface { background: var(--paper-cream); border: 1px solid var(--border-default); }
+
+  /* ── Layout Demo ── */
+  .layout-demo { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: 6px; padding: 32px; margin-bottom: 24px; }
+  .layout-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 16px; }
+  .grid-demo-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-demo-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 16px; }
+  .grid-item { background: var(--paper-white); border: 1px solid var(--border-default); border-radius: 4px; height: 80px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); }
+
+  /* ── Buttons ── */
+  .button-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 32px; }
+  .button-demo-card {
+    background: var(--bg-surface); border: 1px solid var(--border-default);
+    border-radius: 6px; padding: 32px;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .button-demo-title { font-size: 14px; font-weight: 600; color: var(--text-heading); }
+  .button-demo-desc { font-size: 12px; color: var(--text-secondary); text-align: center; max-width: 260px; margin-bottom: 8px; }
+
+  .btn-primary {
+    padding: 12px 24px; font-family: var(--font-sans); font-size: 15px; font-weight: 600;
+    border-radius: 6px; color: #ffffff; border: none; cursor: pointer;
+    background: var(--ink-blue);
+    transition: all 0.2s ease;
+  }
+  .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+  .btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--paper-white), 0 0 0 4px var(--ink-blue); }
+
+  .btn-secondary {
+    padding: 12px 24px; font-family: var(--font-sans); font-size: 15px; font-weight: 600;
+    border-radius: 6px; color: var(--text-primary);
+    background: var(--paper-white); border: 1px solid var(--border-strong); cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-secondary:hover { background: var(--slate-100); border-color: var(--ink-400); transform: translateY(-1px); }
+  .btn-secondary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--paper-white), 0 0 0 4px var(--ink-blue); }
+
+  .btn-ghost {
+    padding: 12px 24px; font-family: var(--font-sans); font-size: 15px; font-weight: 600;
+    border-radius: 6px; color: var(--ink-blue);
+    background: transparent; border: 1px solid transparent; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-ghost:hover { background: var(--wash-blue); border-color: var(--border-default); }
+
+  /* ── Card Demo ── */
+  .demo-card {
+    background: var(--paper-white); border: 1px solid var(--border-default);
+    border-radius: 8px; padding: 32px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    max-width: 400px; margin-bottom: 32px;
+  }
+  .demo-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .card-icon {
+    width: 44px; height: 44px; border-radius: 6px;
+    background: var(--wash-blue); color: var(--ink-blue);
+    border: 1px solid var(--border-default);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px; font-size: 18px;
+  }
+  .card-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; letter-spacing: -0.2px; }
+  .card-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* ── Badges ── */
+  .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .badge { height: 22px; padding: 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; border-radius: 4px; display: inline-flex; align-items: center; border: 1px solid transparent; }
+  .badge-default { background: var(--slate-100); color: var(--text-secondary); border-color: var(--border-default); }
+  .badge-success { background: var(--wash-green); color: #15803d; border-color: #bbf7d0; }
+  .badge-warning { background: var(--wash-amber); color: #b45309; border-color: #fde68a; }
+  .badge-error   { background: var(--wash-red);   color: #b91c1c; border-color: #fecaca; }
+  .badge-info    { background: var(--wash-blue);  color: #1d4ed8; border-color: #bfdbfe; }
+
+  /* ── Input Fields ── */
+  .input-demo-group { margin-bottom: 32px; max-width: 400px; }
+  .input-demo-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; display: block; font-weight: 600; }
+  .input-demo {
+    width: 100%; height: 40px; padding: 0 12px;
+    font-size: 14px; color: var(--text-primary);
+    background: var(--paper-white); border: 1px solid var(--border-default);
+    border-radius: 6px; font-family: var(--font-sans); outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease; margin-bottom: 12px;
+  }
+  .input-demo::placeholder { color: var(--text-muted); }
+  .input-demo:hover { border-color: var(--border-strong); }
+  .input-demo:focus { border-color: var(--ink-blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+  /* ── Animation Cards ── */
+  .anim-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .anim-card { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: 6px; padding: 20px; text-align: center; cursor: pointer; }
+  .anim-demo { width: 64px; height: 40px; background: var(--ink-blue); border-radius: 6px; margin: 0 auto 12px; }
+  .anim-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .anim-desc { font-size: 11px; color: var(--text-secondary); }
+  .anim-card:hover .anim-demo { animation-duration: 0.8s; animation-iteration-count: 1; }
+  .anim-card:hover .fadeInUp-demo { animation-name: fadeInUp; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive Table ── */
+  .responsive-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .responsive-table th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); padding: 0 16px 12px; border-bottom: 1px solid var(--border-strong); }
+  .responsive-table td { padding: 12px 16px; border-bottom: 1px solid var(--border-default); font-size: 13px; color: var(--text-primary); }
+
+  /* ── Structure Code ── */
+  .structure-code { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: 6px; padding: 24px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-700); line-height: 1.8; overflow-x: auto; margin-bottom: 32px; }
+
+  /* ── Rule List ── */
+  .rule-list { list-style: none; margin-bottom: 32px; }
+  .rule-list li { font-size: 14px; color: var(--text-primary); padding: 12px 16px; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: 4px; margin-bottom: 8px; line-height: 1.6; }
+  .rule-list li::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--ink-red); border-radius: 50%; margin-right: 12px; vertical-align: middle; }
+
+  /* ── Toast ── */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink-900); color: var(--paper-white); padding: 8px 20px; border-radius: 6px; font-size: 12px; font-family: var(--font-mono); opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 9999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── Menu Button ── */
+  .menu-btn { display: none; position: fixed; top: 16px; left: 16px; z-index: 200; width: 40px; height: 40px; background: var(--paper-white); border: 1px solid var(--border-default); border-radius: 6px; cursor: pointer; align-items: center; justify-content: center; }
+  .menu-btn span { display: block; width: 18px; height: 2px; background: var(--ink-900); border-radius: 1px; transition: all .2s ease; }
+  .menu-btn span+span { margin-top: 4px; }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 90; }
+
+  @media(max-width:1023px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .hero { padding: 64px 32px 48px; }
+    .content { padding: 0 32px 64px; }
+    .menu-btn { display: flex; }
+    .overlay.open { display: block; }
+    .grid-demo-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media(max-width:639px) {
+    .hero h1 { font-size: 24px; }
+    .hero { padding: 64px 16px 48px; }
+    .content { padding: 0 16px 64px; }
+    .grid-demo-3, .grid-demo-2 { grid-template-columns: 1fr; }
+    .swatches { flex-wrap: wrap; }
+    .swatch { min-width: calc(25% - 2px); min-height: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Menu Button -->
+<button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>Web UI — Paper</h1>
+    <p>Visual Reference</p>
+  </div>
+  <div class="nav-group">
+    <a href="#base"><span class="nav-num">01</span>基本設定</a>
+    <a href="#colors"><span class="nav-num">02</span>カラーパレット</a>
+    <a href="#color-usage"><span class="nav-num">03</span>カラーの使い分け</a>
+    <a href="#typography"><span class="nav-num">04</span>タイポグラフィ</a>
+    <a href="#material"><span class="nav-num">05</span>マテリアル</a>
+    <a href="#layout"><span class="nav-num">06</span>レイアウト</a>
+    <a href="#buttons"><span class="nav-num">07</span>ボタン</a>
+    <a href="#cards"><span class="nav-num">08</span>カード</a>
+    <a href="#badges"><span class="nav-num">09</span>バッジ</a>
+    <a href="#inputs"><span class="nav-num">10</span>入力フィールド</a>
+    <a href="#animation"><span class="nav-num">11</span>アニメーション</a>
+    <a href="#responsive"><span class="nav-num">12</span>レスポンシブ</a>
+    <a href="#structure"><span class="nav-num">13</span>ページ構造</a>
+    <a href="#forbidden"><span class="nav-num">14</span>禁止事項</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Web UI Design System — Paper</h1>
+    <p>AI がウェブページ（LP・プロダクトページ等）を生成する際に従うルールセットのビジュアルリファレンスです。Web App コンテキストでは Instrument Sans（sans-serif）のみ使用します。</p>
+  </div>
+
+  <div class="content">
+
+    <!-- 01 — 基本設定 -->
+    <section id="base" class="section">
+      <div class="section-title">
+        <h2>01 — 基本設定</h2>
+      </div>
+      <div class="code-block">&lt;link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"&gt;</div>
+      <div class="code-block">body {
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #1a1a1a;           /* ink-900 */
+  background: #fdfdfc;      /* paper-white */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Web App コンテキスト: sans-serif のみ（Crimson Pro 不使用） */</div>
+    </section>
+
+    <!-- 02 — カラーパレット -->
+    <section id="colors" class="section">
+      <div class="section-title">
+        <h2>02 — カラーパレット</h2>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Ink Scale — Content Text（ピュアグレー）</div>
+        <div class="swatches">
+          <div class="swatch light" style="background:#000000;" onclick="copyColor('#000000')"><div class="swatch-label">1000</div><div class="swatch-hex">#000000</div></div>
+          <div class="swatch light" style="background:#1a1a1a;" onclick="copyColor('#1a1a1a')"><div class="swatch-label">900</div><div class="swatch-hex">#1a1a1a</div></div>
+          <div class="swatch light" style="background:#2d2d2d;" onclick="copyColor('#2d2d2d')"><div class="swatch-label">800</div><div class="swatch-hex">#2d2d2d</div></div>
+          <div class="swatch light" style="background:#404040;" onclick="copyColor('#404040')"><div class="swatch-label">700</div><div class="swatch-hex">#404040</div></div>
+          <div class="swatch light" style="background:#525252;" onclick="copyColor('#525252')"><div class="swatch-label">600</div><div class="swatch-hex">#525252</div></div>
+          <div class="swatch light" style="background:#6b6b6b;" onclick="copyColor('#6b6b6b')"><div class="swatch-label">500</div><div class="swatch-hex">#6b6b6b</div></div>
+          <div class="swatch dark" style="background:#8a8a8a;" onclick="copyColor('#8a8a8a')"><div class="swatch-label">400</div><div class="swatch-hex">#8a8a8a</div></div>
+          <div class="swatch dark" style="background:#a3a3a3;" onclick="copyColor('#a3a3a3')"><div class="swatch-label">300</div><div class="swatch-hex">#a3a3a3</div></div>
+          <div class="swatch dark" style="background:#c4c4c4;" onclick="copyColor('#c4c4c4')"><div class="swatch-label">200</div><div class="swatch-hex">#c4c4c4</div></div>
+          <div class="swatch dark" style="background:#e0e0e0;" onclick="copyColor('#e0e0e0')"><div class="swatch-label">100</div><div class="swatch-hex">#e0e0e0</div></div>
+          <div class="swatch dark" style="background:#f0f0f0;" onclick="copyColor('#f0f0f0')"><div class="swatch-label">50</div><div class="swatch-hex">#f0f0f0</div></div>
+        </div>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Slate Scale — UI Chrome（ブルーグレー）</div>
+        <div class="swatches">
+          <div class="swatch light" style="background:#64748b;" onclick="copyColor('#64748b')"><div class="swatch-label">500</div><div class="swatch-hex">#64748b</div></div>
+          <div class="swatch dark" style="background:#94a3b8;" onclick="copyColor('#94a3b8')"><div class="swatch-label">400</div><div class="swatch-hex">#94a3b8</div></div>
+          <div class="swatch dark" style="background:#cbd5e1;" onclick="copyColor('#cbd5e1')"><div class="swatch-label">300</div><div class="swatch-hex">#cbd5e1</div></div>
+          <div class="swatch dark" style="background:#e2e8f0;" onclick="copyColor('#e2e8f0')"><div class="swatch-label">200</div><div class="swatch-hex">#e2e8f0</div></div>
+          <div class="swatch dark" style="background:#f1f5f9;" onclick="copyColor('#f1f5f9')"><div class="swatch-label">100</div><div class="swatch-hex">#f1f5f9</div></div>
+        </div>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Paper Scale — Backgrounds（温かみのある白）</div>
+        <div class="swatches">
+          <div class="swatch dark" style="background:#fdfdfc;" onclick="copyColor('#fdfdfc')"><div class="swatch-label">white</div><div class="swatch-hex">#fdfdfc</div></div>
+          <div class="swatch dark" style="background:#faf9f7;" onclick="copyColor('#faf9f7')"><div class="swatch-label">cream</div><div class="swatch-hex">#faf9f7</div></div>
+          <div class="swatch dark" style="background:#f5f4f0;" onclick="copyColor('#f5f4f0')"><div class="swatch-label">warm</div><div class="swatch-hex">#f5f4f0</div></div>
+          <div class="swatch dark" style="background:#eeedea;" onclick="copyColor('#eeedea')"><div class="swatch-label">kraft</div><div class="swatch-hex">#eeedea</div></div>
+          <div class="swatch dark" style="background:#e8e7e3;" onclick="copyColor('#e8e7e3')"><div class="swatch-label">aged</div><div class="swatch-hex">#e8e7e3</div></div>
+          <div class="swatch dark" style="background:#dddcd8;" onclick="copyColor('#dddcd8')"><div class="swatch-label">shadow</div><div class="swatch-hex">#dddcd8</div></div>
+        </div>
+      </div>
+
+      <div class="palette-group">
+        <div class="palette-label">Accent Ink + Wash</div>
+        <div class="swatches" style="border-radius:6px;">
+          <div class="swatch light" style="background:#2563eb;" onclick="copyColor('#2563eb')"><div class="swatch-label">ink-blue</div><div class="swatch-hex">#2563eb</div></div>
+          <div class="swatch dark" style="background:#dbeafe;" onclick="copyColor('#dbeafe')"><div class="swatch-label">wash-blue</div><div class="swatch-hex">#dbeafe</div></div>
+          <div class="swatch light" style="background:#16a34a;" onclick="copyColor('#16a34a')"><div class="swatch-label">ink-green</div><div class="swatch-hex">#16a34a</div></div>
+          <div class="swatch dark" style="background:#dcfce7;" onclick="copyColor('#dcfce7')"><div class="swatch-label">wash-green</div><div class="swatch-hex">#dcfce7</div></div>
+          <div class="swatch light" style="background:#d97706;" onclick="copyColor('#d97706')"><div class="swatch-label">ink-amber</div><div class="swatch-hex">#d97706</div></div>
+          <div class="swatch dark" style="background:#fef3c7;" onclick="copyColor('#fef3c7')"><div class="swatch-label">wash-amber</div><div class="swatch-hex">#fef3c7</div></div>
+          <div class="swatch light" style="background:#dc2626;" onclick="copyColor('#dc2626')"><div class="swatch-label">ink-red</div><div class="swatch-hex">#dc2626</div></div>
+          <div class="swatch dark" style="background:#fee2e2;" onclick="copyColor('#fee2e2')"><div class="swatch-label">wash-red</div><div class="swatch-hex">#fee2e2</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 — カラーの使い分け -->
+    <section id="color-usage" class="section">
+      <div class="section-title">
+        <h2>03 — カラーの使い分け</h2>
+      </div>
+      <table class="role-table">
+        <thead><tr><th>役割</th><th>トークン</th><th>値</th></tr></thead>
+        <tbody>
+          <tr><td><span class="role-dot" style="background:#fdfdfc;"></span>ページ背景</td><td>paper-white</td><td>#fdfdfc</td></tr>
+          <tr><td><span class="role-dot" style="background:#faf9f7;"></span>サーフェス（パネル背景）</td><td>paper-cream</td><td>#faf9f7</td></tr>
+          <tr><td><span class="role-dot" style="background:#eeedea;"></span>サイドバー背景</td><td>paper-kraft</td><td>#eeedea</td></tr>
+          <tr><td><span class="role-dot" style="background:#e2e8f0;"></span>ボーダー通常</td><td>slate-200</td><td>#e2e8f0</td></tr>
+          <tr><td><span class="role-dot" style="background:#cbd5e1;"></span>ボーダー強調</td><td>slate-300</td><td>#cbd5e1</td></tr>
+          <tr><td><span class="role-dot" style="background:#000000;"></span>ボーダー重（ヘッダー下線等）</td><td>ink-1000</td><td>#000000</td></tr>
+          <tr><td><span class="role-dot" style="background:#000000;"></span>見出し（h1〜h3）</td><td>ink-1000</td><td>#000000</td></tr>
+          <tr><td><span class="role-dot" style="background:#1a1a1a;"></span>テキスト primary（本文）</td><td>ink-900</td><td>#1a1a1a</td></tr>
+          <tr><td><span class="role-dot" style="background:#64748b;"></span>テキスト secondary（補助）</td><td>slate-500</td><td>#64748b</td></tr>
+          <tr><td><span class="role-dot" style="background:#94a3b8;"></span>テキスト muted（非活性・ヒント）</td><td>slate-400</td><td>#94a3b8</td></tr>
+          <tr><td><span class="role-dot" style="background:#2563eb;"></span>インタラクティブ・ラベル色</td><td>ink-blue</td><td>#2563eb</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 04 — タイポグラフィ -->
+    <section id="typography" class="section">
+      <div class="section-title">
+        <h2>04 — タイポグラフィ</h2>
+      </div>
+
+      <p style="font-size:13px; color:var(--text-secondary); margin-bottom:24px; padding:12px 16px; background:var(--wash-blue); border:1px solid #bfdbfe; border-radius:6px; color:#1d4ed8;">
+        ⚠ Web App コンテキストでは Instrument Sans（sans-serif）のみ使用。Crimson Pro（serif）は Web Page / LP・pptx でのみ使用可能。
+      </p>
+
+      <table class="type-table">
+        <thead>
+          <tr><th>トークン</th><th>プレビュー</th><th>スペック</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>display-xl</td>
+            <td><span style="font-size:36px; font-weight:300; line-height:1.1; letter-spacing:-1.5px; color:#000000;">Hero Title</span></td>
+            <td>56px / 300 / 1.1 / -1.5px / ink-1000</td>
+          </tr>
+          <tr>
+            <td>display-lg</td>
+            <td><span style="font-size:30px; font-weight:300; line-height:1.15; letter-spacing:-1px; color:#000000;">Section Heading</span></td>
+            <td>44px / 300 / 1.15 / -1px / ink-1000</td>
+          </tr>
+          <tr>
+            <td>display-md</td>
+            <td><span style="font-size:26px; font-weight:400; line-height:1.2; letter-spacing:-0.5px; color:#000000;">Page Title</span></td>
+            <td>36px / 400 / 1.2 / -0.5px / ink-1000</td>
+          </tr>
+          <tr>
+            <td>heading-lg</td>
+            <td><span style="font-size:22px; font-weight:600; line-height:1.3; letter-spacing:-0.3px; color:#000000;">Card Title Large</span></td>
+            <td>28px / 600 / 1.3 / -0.3px / ink-1000</td>
+          </tr>
+          <tr>
+            <td>heading-md</td>
+            <td><span style="font-size:18px; font-weight:600; line-height:1.35; letter-spacing:-0.2px; color:#1a1a1a;">Subsection Heading</span></td>
+            <td>22px / 600 / 1.35 / -0.2px / ink-900</td>
+          </tr>
+          <tr>
+            <td>heading-sm</td>
+            <td><span style="font-size:16px; font-weight:600; line-height:1.4; color:#1a1a1a;">Small Heading</span></td>
+            <td>18px / 600 / 1.4 / 0 / ink-900</td>
+          </tr>
+          <tr>
+            <td>body-lg</td>
+            <td><span style="font-size:16px; font-weight:400; line-height:1.7; color:#1a1a1a;">Body text large</span></td>
+            <td>16px / 400 / 1.7 / 0 / ink-900</td>
+          </tr>
+          <tr>
+            <td>body-md</td>
+            <td><span style="font-size:14px; font-weight:400; line-height:1.6; color:#1a1a1a;">Body text standard — 本文の基準</span></td>
+            <td>14px / 400 / 1.6 / 0 / ink-900</td>
+          </tr>
+          <tr>
+            <td>body-sm</td>
+            <td><span style="font-size:12px; font-weight:400; line-height:1.5; letter-spacing:0.1px; color:#64748b;">Caption or annotation text</span></td>
+            <td>12px / 400 / 1.5 / 0.1px / slate-500</td>
+          </tr>
+          <tr>
+            <td>label</td>
+            <td><span style="font-size:13px; font-weight:700; letter-spacing:2px; color:#2563eb; text-transform:uppercase;">SECTION LABEL</span></td>
+            <td>13px / 700 / 2px / uppercase / ink-blue</td>
+          </tr>
+          <tr>
+            <td>サブタイトル</td>
+            <td><span style="font-size:20px; font-weight:400; line-height:1.6; color:#64748b;">Hero subtitle text</span></td>
+            <td>20px / 400 / 1.6 / 0 / slate-500</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 05 — マテリアル -->
+    <section id="material" class="section">
+      <div class="section-title">
+        <h2>05 — マテリアル（Paper System）</h2>
+      </div>
+
+      <div class="material-grid">
+        <div class="material-card card-flat">
+          <div>
+            <div class="material-name">Flat Paper</div>
+            <div class="material-desc">カード・パネル（shadow なし）</div>
+          </div>
+          <div class="material-code">background: var(--paper-white);    /* #fdfdfc */
+border: 1px solid var(--border-default); /* slate-200 */
+border-radius: 8px;</div>
+        </div>
+
+        <div class="material-card card-raised">
+          <div>
+            <div class="material-name">Raised Paper</div>
+            <div class="material-desc">浮かせたカード（hover 時）</div>
+          </div>
+          <div class="material-code">background: var(--paper-white);
+border: 1px solid var(--border-default);
+border-radius: 8px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.06),
+            0 2px 8px rgba(0,0,0,0.04);</div>
+        </div>
+
+        <div class="material-card card-grid">
+          <div>
+            <div class="material-name">Grid Paper</div>
+            <div class="material-desc">ヒーロー・セクション背景</div>
+          </div>
+          <div class="material-code">background-color: var(--paper-white);
+background-image:
+  linear-gradient(var(--slate-200) 1px, transparent 1px),
+  linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+background-size: 40px 40px;</div>
+        </div>
+
+        <div class="material-card card-surface">
+          <div>
+            <div class="material-name">Surface</div>
+            <div class="material-desc">セクション交互背景・サイドバー内容</div>
+          </div>
+          <div class="material-code">background: var(--paper-cream);    /* #faf9f7 */
+border: 1px solid var(--border-default);
+border-radius: 8px;</div>
+        </div>
+      </div>
+
+      <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px; padding:12px 16px; background:var(--bg-surface); border:1px solid var(--border-default); border-radius:6px;">
+        原則: ボーダーと box-shadow は排他的（同時使用禁止）。ただしインタラクティブ状態（hover/focus）でのみ両立可。
+      </p>
+    </section>
+
+    <!-- 06 — レイアウト -->
+    <section id="layout" class="section">
+      <div class="section-title">
+        <h2>06 — レイアウト</h2>
+      </div>
+
+      <div class="code-block">.container { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+section { padding: 96px 0; }
+
+/* セクション見出しブロック: 横幅はコンテナ幅（1120px）に統一 */
+.section-header { text-align: center; margin: 0 auto 64px; }
+.section-header p { max-width: 720px; margin: 0 auto; }  /* 行長制御 */</div>
+
+      <div class="layout-demo">
+        <div class="layout-label">カードグリッド（3列）</div>
+        <div class="grid-demo-3">
+          <div class="grid-item">Card 1</div>
+          <div class="grid-item">Card 2</div>
+          <div class="grid-item">Card 3</div>
+        </div>
+      </div>
+
+      <div class="layout-demo">
+        <div class="layout-label">2列グリッド</div>
+        <div class="grid-demo-2">
+          <div class="grid-item">Column 1</div>
+          <div class="grid-item">Column 2</div>
+        </div>
+      </div>
+
+      <div class="palette-label" style="margin-top:24px;">セクション区切り線（border-default）</div>
+      <div style="height:1px; background:var(--border-default); margin:16px 0;"></div>
+
+      <div class="code-block" style="margin-top:24px;">/* ヘッダー */
+header {
+  position: fixed; top: 0; width: 100%; z-index: 1000;
+  background: rgba(253,253,252,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border-heavy);   /* ink-1000 */
+}
+
+/* ヒーロー（Grid Paper 背景） */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 68px;
+  background-color: var(--paper-white);
+  background-image:
+    linear-gradient(var(--slate-200) 1px, transparent 1px),
+    linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+  background-size: 40px 40px;
+}</div>
+    </section>
+
+    <!-- 07 — ボタン -->
+    <section id="buttons" class="section">
+      <div class="section-title">
+        <h2>07 — ボタン</h2>
+      </div>
+
+      <div class="button-grid">
+        <div class="button-demo-card">
+          <div class="button-demo-title">Primary — Ink Blue</div>
+          <div class="button-demo-desc">主要 CTA ボタン</div>
+          <button class="btn-primary">Get Started</button>
+        </div>
+
+        <div class="button-demo-card">
+          <div class="button-demo-title">Secondary — Bordered</div>
+          <div class="button-demo-desc">補助アクション</div>
+          <button class="btn-secondary">Learn More</button>
+        </div>
+
+        <div class="button-demo-card">
+          <div class="button-demo-title">Ghost — Text Link Style</div>
+          <div class="button-demo-desc">最小限のアクション</div>
+          <button class="btn-ghost">Documentation →</button>
+        </div>
+      </div>
+
+      <div class="code-block">/* Primary */
+background: #2563eb;   hover: #1d4ed8 + translateY(-1px) + shadow
+focus-visible: 0 0 0 2px paper-white, 0 0 0 4px ink-blue
+
+/* Secondary */
+background: paper-white;  border: 1px solid slate-300;
+hover: background slate-100, border ink-400
+
+/* Ghost */
+color: ink-blue;  background: transparent;  border: transparent;
+hover: background wash-blue, border border-default</div>
+    </section>
+
+    <!-- 08 — カード -->
+    <section id="cards" class="section">
+      <div class="section-title">
+        <h2>08 — カード</h2>
+      </div>
+
+      <div class="demo-card">
+        <div class="card-icon">✦</div>
+        <div class="card-title">Card Title</div>
+        <div class="card-text">Flat Paper マテリアルを使用したカードです。hover で translateY(-2px) + shadow が付きます。アイコン領域は 44×44px、border-radius 6px です。</div>
+      </div>
+
+      <div class="code-block">background: var(--paper-white);
+border: 1px solid var(--border-default);   /* slate-200 */
+border-radius: 8px;
+padding: 32px;
+
+/* :hover */
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+/* Selected */
+outline: 2px solid var(--ink-blue);
+outline-offset: 2px;</div>
+    </section>
+
+    <!-- 09 — バッジ -->
+    <section id="badges" class="section">
+      <div class="section-title">
+        <h2>09 — バッジ</h2>
+      </div>
+
+      <div class="badge-row">
+        <span class="badge badge-default">Default</span>
+        <span class="badge badge-success">Success</span>
+        <span class="badge badge-warning">Warning</span>
+        <span class="badge badge-error">Error</span>
+        <span class="badge badge-info">Info</span>
+      </div>
+
+      <div class="code-block">height: 22px;  padding: 0 8px;  font-size: 11px;  font-weight: 600;
+letter-spacing: 0.3px;  border-radius: 4px;  border: 1px solid transparent;
+
+/* default  */ background: slate-100;  color: slate-500;     border: border-default;
+/* success  */ background: #dcfce7;    color: #15803d;        border: #bbf7d0;
+/* warning  */ background: #fef3c7;    color: #b45309;        border: #fde68a;
+/* error    */ background: #fee2e2;    color: #b91c1c;        border: #fecaca;
+/* info     */ background: #dbeafe;    color: #1d4ed8;        border: #bfdbfe;</div>
+    </section>
+
+    <!-- 10 — 入力フィールド -->
+    <section id="inputs" class="section">
+      <div class="section-title">
+        <h2>10 — 入力フィールド</h2>
+      </div>
+
+      <div class="input-demo-group">
+        <label class="input-demo-label">デフォルト状態</label>
+        <input type="text" class="input-demo" placeholder="Placeholder text">
+      </div>
+
+      <div class="input-demo-group">
+        <label class="input-demo-label">ホバー時（カーソルを重ねる）</label>
+        <input type="text" class="input-demo" placeholder="Hover to see effect">
+      </div>
+
+      <div class="input-demo-group">
+        <label class="input-demo-label">フォーカス時（クリックする）</label>
+        <input type="text" class="input-demo" placeholder="Click to focus">
+      </div>
+
+      <div class="code-block">height: 40px;  padding: 0 12px;  font-size: 14px;
+color: ink-900;  background: paper-white;
+border: 1px solid var(--border-default);   /* slate-200 */
+border-radius: 6px;
+
+/* ::placeholder */ color: slate-400;
+/* :hover  */ border-color: slate-300;
+/* :focus  */ border-color: ink-blue;
+              box-shadow: 0 0 0 3px rgba(37,99,235,0.1);</div>
+    </section>
+
+    <!-- 11 — アニメーション -->
+    <section id="animation" class="section">
+      <div class="section-title">
+        <h2>11 — アニメーション</h2>
+      </div>
+
+      <div class="anim-grid">
+        <div class="anim-card">
+          <div class="anim-demo fadeInUp-demo"></div>
+          <div class="anim-name">fadeInUp</div>
+          <div class="anim-desc">カーソルを重ねると再生</div>
+        </div>
+        <div class="anim-card">
+          <div class="anim-demo" style="background:var(--paper-kraft); border:1px solid var(--border-default);"></div>
+          <div class="anim-name">card hover lift</div>
+          <div class="anim-desc">translateY(-2px) + shadow</div>
+        </div>
+      </div>
+
+      <div class="code-block">@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* カード hover */
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+/* 基本方針: 控えめなアニメーション。duration 0.15s〜0.25s、easing ease/ease-out */</div>
+    </section>
+
+    <!-- 12 — レスポンシブ -->
+    <section id="responsive" class="section">
+      <div class="section-title">
+        <h2>12 — レスポンシブ</h2>
+      </div>
+
+      <table class="responsive-table">
+        <thead>
+          <tr><th>ブレークポイント</th><th>変更</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>max-width: 1023px</td>
+            <td>グリッド→2列、ヒーロー min-height auto、display-xl 40px / display-lg 32px / display-md 28px、section padding 64px</td>
+          </tr>
+          <tr>
+            <td>max-width: 639px</td>
+            <td>グリッド→1列、container padding 16px、display-xl 32px / display-lg 26px / display-md 22px、ナビ非表示、section padding 48px</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 13 — ページ構造 -->
+    <section id="structure" class="section">
+      <div class="section-title">
+        <h2>13 — ページ構造（HTML）</h2>
+      </div>
+
+      <div class="structure-code">&lt;header&gt;  &lt;!-- backdrop-filter blur(8px) + border-bottom: 2px solid ink-1000 --&gt;
+  &lt;nav&gt;
+    &lt;a class="logo"&gt;...&lt;/a&gt;
+    &lt;div class="nav-links"&gt;&lt;a&gt;...&lt;/a&gt; ... &lt;/div&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;section class="hero"&gt;  &lt;!-- Grid Paper 背景 (40px grid, slate-200) --&gt;
+  &lt;div class="container"&gt;
+    &lt;div class="hero-content"&gt;
+      &lt;span class="label"&gt;LABEL&lt;/span&gt;
+      &lt;h1 class="display-xl"&gt;...&lt;/h1&gt;
+      &lt;p class="hero-subtitle"&gt;...&lt;/p&gt;  &lt;!-- max-width: 720px --&gt;
+      &lt;div class="hero-cta"&gt;
+        &lt;a class="btn btn-primary"&gt;...&lt;/a&gt;
+        &lt;a class="btn btn-secondary"&gt;...&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;div class="section-separator"&gt;&lt;/div&gt;  &lt;!-- height:1px; bg:slate-200 --&gt;
+
+&lt;section&gt;  &lt;!-- 交互に bg-surface (paper-cream) を適用 --&gt;
+  &lt;div class="container"&gt;
+    &lt;div class="section-header"&gt;  &lt;!-- text-align:center; max-width:none --&gt;
+      &lt;span class="label"&gt;LABEL&lt;/span&gt;
+      &lt;h2 class="display-md"&gt;...&lt;/h2&gt;
+      &lt;p&gt;...&lt;/p&gt;  &lt;!-- max-width: 720px; margin: 0 auto --&gt;
+    &lt;/div&gt;
+    &lt;div class="grid-3"&gt;
+      &lt;div class="card"&gt;...&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;footer&gt;  &lt;!-- bg: paper-cream; border-top: border-default --&gt;
+  &lt;div class="container"&gt;...&lt;/div&gt;
+&lt;/footer&gt;</div>
+    </section>
+
+    <!-- 14 — 禁止事項 -->
+    <section id="forbidden" class="section">
+      <div class="section-title">
+        <h2>14 — 禁止事項</h2>
+      </div>
+
+      <ul class="rule-list">
+        <li>Web App / Mobile コンテキストで Crimson Pro（serif）を使わない</li>
+        <li>font-weight: 800 以上は使わない（最大 700）</li>
+        <li>見出しに ink-900 より薄い色を使わない（見出しは ink-1000）</li>
+        <li>ボーダーと box-shadow を同一要素に同時使用しない（インタラクティブ状態は例外）</li>
+        <li>純白 #ffffff を使わない（代わりに paper-white #fdfdfc を使う）</li>
+        <li>backdrop-filter をカード・パネルに使わない（ヘッダーのみ）</li>
+        <li>border-radius を 12px より大きくしない（8px 標準）</li>
+        <li>!important は使わない</li>
+        <li>セクション間余白を 64px 未満にしない</li>
+        <li>カード padding を 24px 未満にしない</li>
+      </ul>
+    </section>
+
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// Active nav link
+const navLinks = document.querySelectorAll('.nav-group a');
+const sections = document.querySelectorAll('section[id]');
+
+function updateActiveLink() {
+  let current = '';
+  sections.forEach(section => {
+    if (scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+}
+
+window.addEventListener('scroll', updateActiveLink);
+updateActiveLink();
+
+function copyColor(color) {
+  navigator.clipboard.writeText(color).then(() => {
+    const toast = document.getElementById('toast');
+    toast.textContent = 'Copied: ' + color;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  });
+}
+</script>
+
+</body>
+</html>
