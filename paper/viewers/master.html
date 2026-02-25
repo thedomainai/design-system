@@ -25,6 +25,7 @@
     --wash-blue:#dbeafe;--wash-green:#dcfce7;--wash-amber:#fef3c7;--wash-red:#fee2e2;
     /* Semantic */
     --border-default:var(--slate-200);--border-strong:var(--slate-300);--border-heavy:var(--ink-1000);
+    --grid-line:var(--slate-100);
     --text-secondary:var(--slate-500);--text-muted:var(--slate-400);
     /* Fonts */
     --font-serif:'Crimson Pro',Georgia,'Times New Roman',serif;
@@ -52,10 +53,9 @@
   body::before{
     content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background-image:
-      linear-gradient(var(--slate-200) 1px,transparent 1px),
-      linear-gradient(90deg,var(--slate-200) 1px,transparent 1px);
+      linear-gradient(var(--grid-line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
     background-size:40px 40px;
-    opacity:0.3;
   }
 
   .card-base{background:var(--paper-cream);border:1px solid var(--slate-200);padding:20px;transition:border-color .15s ease;}

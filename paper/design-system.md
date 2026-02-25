@@ -325,13 +325,12 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-/* Grid Paper — 方眼紙（Slate 200 の青みがかった罫線） */
+/* Grid Paper — 方眼紙（grid-line = slate-100 の淡い罫線） */
 .grid-paper {
   background-image:
-    linear-gradient(var(--slate-200) 1px, transparent 1px),
-    linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
-  opacity: 0.3;
 }
 ```
 
@@ -951,6 +950,7 @@ Card の拡張。中央揃え、`padding: space-6`。
   --bg-surface-raised: var(--paper-white); --bg-recessed: var(--paper-warm);
   --border-default: var(--slate-200);    --border-strong: var(--slate-300);
   --border-heavy: var(--ink-1000);
+  --grid-line: var(--slate-100);         /* グリッド罫線（border-default より淡い） */
   --text-primary: var(--ink-900);        --text-heading: var(--ink-1000);
   --text-secondary: var(--slate-500);    --text-muted: var(--slate-400);
   --text-caption: var(--slate-500);

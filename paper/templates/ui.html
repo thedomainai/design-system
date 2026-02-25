@@ -63,6 +63,7 @@
   --border-default:    var(--slate-200);
   --border-strong:     var(--slate-300);
   --border-heavy:      var(--ink-1000);
+  --grid-line:         var(--slate-100);
   --text-primary:      var(--ink-900);
   --text-heading:      var(--ink-1000);
   --text-secondary:    var(--slate-500);
@@ -220,8 +221,8 @@ body {
 .grid-paper {
   background-color: var(--paper-white);
   background-image:
-    linear-gradient(var(--slate-200) 1px, transparent 1px),
-    linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -308,7 +309,7 @@ nav {
 }
 
 /* ============================================================
-   HERO — Grid Paper 背景（40px grid, slate-200）
+   HERO — Grid Paper 背景（40px grid, grid-line = slate-100）
    ============================================================ */
 .hero {
   min-height: 100vh;
@@ -319,8 +320,8 @@ nav {
   padding-top: 68px;     /* ヘッダー分 */
   background-color: var(--paper-white);
   background-image:
-    linear-gradient(var(--slate-200) 1px, transparent 1px),
-    linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -608,7 +609,7 @@ footer {
 
 <!-- ============================================================
      HERO
-     Grid Paper 背景（40px grid, slate-200）
+     Grid Paper 背景（40px grid, grid-line = slate-100）
      タイトル: display-xl (56px / weight 300 / ink-1000)
      サブタイトル: 20px / weight 400 / slate-500
      ============================================================ -->
