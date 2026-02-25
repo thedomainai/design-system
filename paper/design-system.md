@@ -120,6 +120,8 @@ UI クロム（ボーダー・補助テキスト・グリッド線）用のス�
 | Sans | Instrument Sans | -apple-system, 'Segoe UI', sans-serif | 本文・UI全般 |
 | Mono | JetBrains Mono | 'SF Mono', 'Fira Code', monospace | コード・数値 |
 
+> **Web App / Mobile App コンテキスト**: `--font-sans`（Instrument Sans）のみ使用。Crimson Pro（Serif）は不使用。
+
 ### 3.2 Type Scale
 
 | Token | Size | Weight | Line Height | Letter Spacing | Font | Usage |
@@ -140,6 +142,8 @@ UI クロム（ボーダー・補助テキスト・グリッド線）用のス�
 | `mono-sm` | 11px / 0.6875rem | 400 | 1.5 | 0 | Mono | インラインコード |
 
 Font Weight: `300` (light) = display 見出し・メトリクス数値 / `400` (regular) = 本文 / `600` (semibold) = heading・ラベル・ボタン / `700` (bold) = セクションラベル・uppercase / `400 italic` = 引用・装飾アクセント
+
+> **Web App / Mobile App コンテキスト**: Font 列が `Serif` のトークン（`display-*`・`heading-*`）は、すべて `--font-sans`（Instrument Sans）で代替する。サイズ・ウェイト・行間・字間はそのまま維持する。
 
 ### 3.3 Typographic Patterns
 
