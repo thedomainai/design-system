@@ -408,6 +408,9 @@
   @keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
   @keyframes liquidRipple{0%{transform:scale(0.95);opacity:0.6}50%{transform:scale(1.02);opacity:1}100%{transform:scale(1);opacity:1}}
   @keyframes specularSlide{0%{background-position:-100% 0}100%{background-position:200% 0}}
+  @keyframes specularSweep{0%{background-position:-200% 0;opacity:0}10%{opacity:1}90%{opacity:1}100%{background-position:200% 0;opacity:0}}
+  @keyframes glassEdgeShine{0%,100%{opacity:0.5}50%{opacity:1}}
+  @keyframes liquidFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-5px)}}
 </style>
 </head>
 <body>
@@ -597,6 +600,19 @@
 
       <h3 class="h-section h-section--flush">Shadows</h3>
       <div class="shadow-grid" id="shadowGrid"></div>
+
+      <div class="theme-dark-only">
+        <h3 class="h-section h-section--flush">Compact Variants &amp; Utilities</h3>
+        <p class="section-desc" style="margin-bottom:16px;"><span class="i18n-ja">Pill・Input・Nav Item などコンパクトなコンポーネント向けバリアントと、屈折・エッジシーンのユーティリティクラスです。</span><span class="i18n-en">Compact variants for pill, input, and nav items, plus refraction and edge sheen utilities.</span></p>
+        <div class="grid-auto effects-grid" id="compactVariantsGrid" style="margin-bottom:16px;"></div>
+        <div style="margin-top:8px;padding:12px 16px;background:rgba(80,104,164,0.06);border:1px solid rgba(107,132,192,0.15);border-radius:8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--primary-400);margin-bottom:8px;"><span class="i18n-ja">エフェクトユーティリティ</span><span class="i18n-en">Effect Utilities</span></div>
+          <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--neutral-700);line-height:1.8;">
+            <span><code style="font-family:var(--font-mono);color:var(--primary-300);">.liquid-glass-refraction</code> <span class="i18n-ja">— ::after に backdrop-filter: hue-rotate(8deg) で色収差を演出</span><span class="i18n-en">— ::after applies hue-rotate(8deg) for chromatic aberration</span></span>
+            <span><code style="font-family:var(--font-mono);color:var(--primary-300);">.liquid-glass-edge-sheen</code> <span class="i18n-ja">— ::after に左右・上縁ハイライト帯を追加</span><span class="i18n-en">— ::after adds left, right, and top edge highlights</span></span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- 08 Elevation -->
@@ -1131,6 +1147,11 @@ const animPatterns = [
   {name:'Liquid Ripple',desc:'Liquid Glass の波紋',desc_en:'Liquid Glass ripple',anim:'liquidRipple 0.6s ease-out forwards'},
   {name:'Specular Slide',desc:'スペキュラ光の移動',desc_en:'Specular light slide',anim:'specularSlide 2s linear infinite',
    extraStyle:'background:linear-gradient(90deg,transparent 30%,rgba(255,255,255,0.08) 50%,transparent 70%);background-size:200% 100%;'},
+  {name:'Specular Sweep',desc:'ホバー時スペキュラ一閃',desc_en:'Specular flash on hover',anim:'specularSweep 0.8s ease-out forwards',
+   extraStyle:'background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.12) 50%,transparent 100%);background-size:200% 100%;'},
+  {name:'Glass Edge Shine',desc:'エッジ輝き（呼吸）',desc_en:'Edge highlight breathing',anim:'glassEdgeShine 2.5s ease-in-out infinite',
+   extraStyle:'box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 1px 0 0 rgba(255,255,255,0.06),inset -1px 0 0 rgba(255,255,255,0.06);'},
+  {name:'Liquid Float',desc:'浮遊感の縦揺れ',desc_en:'Gentle vertical float',anim:'liquidFloat 4s ease-in-out infinite'},
 ];
 
 const iconProps = [
@@ -1352,6 +1373,15 @@ const liquidGlassEffects = [
   {name:'Liquid Glass Subtle',desc:'ツールチップ・ポップオーバー用',desc_en:'For tooltip / popover',
    style:'position:relative;background:rgba(10,10,12,0.5);backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 0.5px 0 rgba(255,255,255,0.1),0 4px 16px rgba(0,0,0,0.3);',
    code:'backdrop-filter: blur(30px)\n  saturate(1.6);\nborder: 1px solid\n  rgba(255,255,255,0.08);'},
+  {name:'Liquid Glass Pill',desc:'バッジ・タグ・チップ',desc_en:'Badge / tag / chip',
+   style:'position:relative;display:inline-flex;align-items:center;background:linear-gradient(135deg,rgba(80,104,164,0.12) 0%,rgba(142,124,180,0.08) 50%,rgba(80,104,164,0.12) 100%);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(255,255,255,0.14);border-radius:9999px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.18),inset 0 -1px 0 rgba(0,0,0,0.08),0 2px 8px rgba(0,0,0,0.2);overflow:hidden;',
+   code:'backdrop-filter: blur(20px) saturate(1.6);\nborder-radius: 9999px;\nbox-shadow: inset 0 1px 0\n  rgba(255,255,255,0.18);'},
+  {name:'Liquid Glass Input',desc:'フォーム入力フィールド',desc_en:'Form input field',
+   style:'background:rgba(10,10,12,0.4);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border:1px solid rgba(255,255,255,0.08);border-radius:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06),inset 0 2px 4px rgba(0,0,0,0.15);',
+   code:'backdrop-filter: blur(20px) saturate(1.4);\nborder: 1px solid rgba(255,255,255,0.08);\nbox-shadow: inset 0 2px 4px\n  rgba(0,0,0,0.15);'},
+  {name:'Liquid Glass Nav Item',desc:'サイドバー・タブ ナビアイテム（active）',desc_en:'Sidebar / tab nav item (active)',
+   style:'position:relative;background:linear-gradient(135deg,rgba(80,104,164,0.16) 0%,rgba(142,124,180,0.1) 100%);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(107,132,192,0.2);border-radius:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 4px 12px rgba(0,0,0,0.2);',
+   code:'.active { backdrop-filter: blur(20px)\n  saturate(1.6);\nborder: 1px solid\n  rgba(107,132,192,0.2); }'},
 ];
 renderEffectCards(document.getElementById('liquidGlassGrid'), liquidGlassEffects, { bg: darkBg, radius: '16px' });
 
@@ -1363,8 +1393,28 @@ const liquidGlassLightEffects = [
   {name:'Liquid Glass Light Deep',desc:'ライトモード・ヘッダー',desc_en:'Light mode header',
    style:'position:relative;background:linear-gradient(180deg,rgba(255,255,255,0.7) 0%,rgba(238,240,245,0.5) 100%);backdrop-filter:blur(60px) saturate(1.8) brightness(1.1);-webkit-backdrop-filter:blur(60px) saturate(1.8) brightness(1.1);border:1px solid rgba(255,255,255,0.8);box-shadow:inset 0 1px 0 rgba(255,255,255,0.9),0 12px 40px rgba(80,104,164,0.08);',
    code:'backdrop-filter: blur(60px) saturate(1.8)\n  brightness(1.1);\nborder: 1px solid\n  rgba(255,255,255,0.8);'},
+  {name:'Liquid Glass Light Pill',desc:'ライトモード バッジ・タグ',desc_en:'Light mode badge / tag',
+   style:'position:relative;display:inline-flex;align-items:center;background:linear-gradient(135deg,rgba(255,255,255,0.6) 0%,rgba(238,240,245,0.4) 50%,rgba(255,255,255,0.6) 100%);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,0.7);border-radius:9999px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.8),0 2px 8px rgba(80,104,164,0.08);overflow:hidden;',
+   code:'backdrop-filter: blur(20px) saturate(1.5);\nborder-radius: 9999px;\nborder: 1px solid\n  rgba(255,255,255,0.7);'},
+  {name:'Liquid Glass Light Input',desc:'ライトモード 入力フィールド',desc_en:'Light mode input field',
+   style:'background:rgba(255,255,255,0.5);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid rgba(255,255,255,0.6);border-radius:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.8),inset 0 2px 4px rgba(0,0,0,0.04),0 1px 3px rgba(80,104,164,0.06);',
+   code:'backdrop-filter: blur(20px) saturate(1.3);\nborder: 1px solid rgba(255,255,255,0.6);\nbox-shadow: inset 0 1px 0\n  rgba(255,255,255,0.8);'},
 ];
 renderEffectCards(document.getElementById('liquidGlassLightGrid'), liquidGlassLightEffects, { bg: lightBg, radius: '16px', light: true });
+
+// Compact Variants
+const compactVariants = [
+  {name:'Liquid Glass Pill',desc:'バッジ・タグ・チップ',desc_en:'Badge / tag / chip',
+   style:'position:relative;background:linear-gradient(135deg,rgba(80,104,164,0.12) 0%,rgba(142,124,180,0.08) 50%,rgba(80,104,164,0.12) 100%);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(255,255,255,0.14);border-radius:9999px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.18),inset 0 -1px 0 rgba(0,0,0,0.08),0 2px 8px rgba(0,0,0,0.2);overflow:hidden;',
+   code:'.liquid-glass-pill\nbackdrop-filter: blur(20px) saturate(1.6);\nborder-radius: 9999px;\nbox-shadow: inset 0 1px 0\n  rgba(255,255,255,0.18);'},
+  {name:'Liquid Glass Input',desc:'フォーム入力フィールド',desc_en:'Form input field',
+   style:'background:rgba(10,10,12,0.4);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border:1px solid rgba(255,255,255,0.08);border-radius:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06),inset 0 2px 4px rgba(0,0,0,0.15);',
+   code:'.liquid-glass-input\nbackdrop-filter: blur(20px) saturate(1.4);\nborder: 1px solid rgba(255,255,255,0.08);\nbox-shadow: inset 0 2px 4px\n  rgba(0,0,0,0.15);'},
+  {name:'Liquid Glass Nav Item',desc:'ナビアイテム（active）',desc_en:'Nav item (active state)',
+   style:'position:relative;background:linear-gradient(135deg,rgba(80,104,164,0.16) 0%,rgba(142,124,180,0.1) 100%);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border:1px solid rgba(107,132,192,0.2);border-radius:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 4px 12px rgba(0,0,0,0.2);',
+   code:'.liquid-glass-nav-item.active\nbackdrop-filter: blur(20px) saturate(1.6);\nborder: 1px solid\n  rgba(107,132,192,0.2);'},
+];
+renderEffectCards(document.getElementById('compactVariantsGrid'), compactVariants, { bg: darkBg, radius: '12px' });
 
 // Gradients Dark / Light
 renderEffectCards(document.getElementById('gradientGrid'), gradients);

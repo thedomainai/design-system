@@ -89,6 +89,10 @@
   .card-tinted { background: rgba(15, 18, 32, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(107, 132, 192, 0.15); }
   .card-liquid { position: relative; background: linear-gradient(135deg, rgba(80,104,164,0.08) 0%, rgba(142,124,180,0.05) 50%, rgba(80,104,164,0.08) 100%); backdrop-filter: blur(40px) saturate(1.8) brightness(1.1); -webkit-backdrop-filter: blur(40px) saturate(1.8) brightness(1.1); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.3); }
   .card-liquid::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 30%, transparent 50%); pointer-events: none; }
+  .card-pill { position: relative; background: linear-gradient(135deg, rgba(80,104,164,0.12) 0%, rgba(142,124,180,0.08) 50%, rgba(80,104,164,0.12) 100%); backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6); border: 1px solid rgba(255,255,255,0.14); border-radius: 9999px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.2); overflow: hidden; }
+  .card-pill::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 50%); pointer-events: none; }
+  .card-input { background: rgba(10,10,12,0.4); backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 2px 4px rgba(0,0,0,0.15); }
+  .card-nav { position: relative; background: linear-gradient(135deg, rgba(80,104,164,0.16) 0%, rgba(142,124,180,0.1) 100%); backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6); border: 1px solid rgba(107,132,192,0.2); border-radius: 8px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(0,0,0,0.2); }
 
   /* ── Layout Demo ── */
   .layout-demo { background: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
@@ -616,6 +620,40 @@ border: 1px solid rgba(255, 255, 255, 0.12);
 box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
   inset 0 -1px 0 rgba(0,0,0,0.1),
   0 8px 32px rgba(0,0,0,0.3);</div>
+        </div>
+
+        <div class="material-card card-pill" style="min-height:100px; justify-content:center; padding:20px 24px;">
+          <div>
+            <div class="material-name">Liquid Glass Pill</div>
+            <div class="material-desc">バッジ・タグ・チップ</div>
+          </div>
+          <div class="material-code">backdrop-filter: blur(20px) saturate(1.6);
+border-radius: 9999px;
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.18),
+  inset 0 -1px 0 rgba(0,0,0,0.08);</div>
+        </div>
+
+        <div class="material-card card-input">
+          <div>
+            <div class="material-name">Liquid Glass Input</div>
+            <div class="material-desc">フォーム入力フィールド</div>
+          </div>
+          <div class="material-code">backdrop-filter: blur(20px) saturate(1.4);
+border: 1px solid rgba(255, 255, 255, 0.08);
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.06),
+  inset 0 2px 4px rgba(0,0,0,0.15);</div>
+        </div>
+
+        <div class="material-card card-nav">
+          <div>
+            <div class="material-name">Liquid Glass Nav Item</div>
+            <div class="material-desc">サイドバー・タブ ナビアイテム（active）</div>
+          </div>
+          <div class="material-code">/* active state */
+backdrop-filter: blur(20px) saturate(1.6);
+border: 1px solid rgba(107, 132, 192, 0.2);
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
+  0 4px 12px rgba(0,0,0,0.2);</div>
         </div>
       </div>
     </section>
