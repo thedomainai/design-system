@@ -418,12 +418,17 @@
     <section class="section" id="typography">
       <div class="section-header"><h2>02 &mdash; Typography</h2></div>
       <div class="section-desc"><span class="i18n-ja">Crimson Pro（見出し・セリフ）と Instrument Sans（本文・UI）の 2 書体構成です。対比によるリズムが Paper テーマの中核です。</span><span class="i18n-en">Two typefaces: Crimson Pro (headings, serif) and Instrument Sans (body, UI). The contrast between them is the core rhythm of the Paper theme.</span></div>
+      <div style="margin-bottom:24px;padding:12px 16px;background:var(--wash-blue);border:1px solid #bfdbfe;border-radius:4px;font-size:13px;color:#1d4ed8;">
+        <span class="i18n-ja">⚠ <strong>Web App / Mobile App コンテキスト</strong>: Crimson Pro（Serif）は不使用。<code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">display-*</code> / <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">heading-*</code> は --font-sans（Instrument Sans）で代替する。</span>
+        <span class="i18n-en">⚠ <strong>Web App / Mobile App context</strong>: Crimson Pro (Serif) is not used. <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">display-*</code> / <code style="background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">heading-*</code> tokens fall back to --font-sans (Instrument Sans).</span>
+      </div>
 
       <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
         <div class="card-base" style="flex:1;min-width:200px;background:transparent;">
           <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:8px;">Serif</div>
           <div style="font-family:var(--font-serif);font-size:28px;font-weight:300;color:var(--ink-1000);">Crimson Pro</div>
           <div style="font-size:13px;color:var(--ink-500);margin-top:4px;"><span class="i18n-ja">見出し・タイトル・引用・数値</span><span class="i18n-en">Headings, titles, quotes, numbers</span></div>
+          <div style="margin-top:8px;font-size:11px;font-weight:700;color:#2563eb;letter-spacing:0.3px;"><span class="i18n-ja">⚠ Web App / Mobile App では不使用</span><span class="i18n-en">⚠ Not used in Web App / Mobile App</span></div>
         </div>
         <div class="card-base" style="flex:1;min-width:200px;background:transparent;">
           <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:8px;">Sans</div>
@@ -1108,8 +1113,9 @@ typeScale.forEach(s => {
   const ff = s.font === 'mono' ? 'var(--font-mono)' : s.font === 'serif' ? 'var(--font-serif)' : 'var(--font-sans)';
   const tx = s.transform ? `text-transform:${s.transform};` : '';
   const previewSize = Math.min(parseInt(s.size), 36);
+  const webAppBadge = s.font === 'serif' ? `<br><span style="font-size:10px;font-weight:700;color:#2563eb;letter-spacing:0.3px;">Web App: Sans</span>` : '';
   thtml += `<tr>
-    <td><span class="type-token">${s.token}</span><br><span class="type-meta">${s.usage} (${s.font})</span></td>
+    <td><span class="type-token">${s.token}</span><br><span class="type-meta">${s.usage} (${s.font})</span>${webAppBadge}</td>
     <td><span style="font-family:${ff};font-size:${previewSize}px;font-weight:${s.weight};letter-spacing:${s.ls};color:var(--ink-1000);${tx}">The quick brown fox</span></td>
     <td><span class="type-meta">${s.size}<br>${s.rem}</span></td>
     <td><span class="type-meta">${s.weight}</span></td>
