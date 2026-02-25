@@ -537,6 +537,315 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 }
 ```
 
+### 7.3.1 Lucido — 動的グレーズ（光沢 × 透明）
+
+油絵の仕上げ工程で塗るヴェルニス（varnish）にインスパイアされた動的マテリアルです。
+Glaze を基盤に、ウルトラマリンとゴールドのティンティング・スペキュラハイライトを重ね、絵画の表面が光を受けて輝くような生きた透明感を生み出します。
+
+#### 設計原則
+
+| 原則 | 詳細 |
+|------|------|
+| **背景依存性** | ゴールドグラデーション・Mesh Gradient など動きのある背景の上で真価を発揮する。無地の暗背景には使わない |
+| **使用量の制御** | 画面内の Lucido 要素は最大 2〜3 個。すべて Lucido にすると装飾過多になる |
+| **レイヤー構成** | ベース（backdrop-filter）→ ゴールドスペキュラ（::before）→ 屈折（::after / refraction） の順で重ねる |
+| **アニメーションの節度** | `specularSweep` はユーザー操作（hover/click）にのみ発火させる。自動ループには `lucidoFloat` を使う |
+| **パフォーマンス** | モバイルでは `blur` を 20px 以下に抑えるか `@supports` でフォールバックを用意する |
+
+#### バリアント早見表
+
+| クラス | blur | 用途 |
+|--------|------|------|
+| `.lucido` | 40px | カード・パネル（標準） |
+| `.lucido-deep` | 56px | ヘッダー・ナビゲーション |
+| `.lucido-subtle` | 28px | ツールチップ・ポップオーバー |
+| `.lucido-pill` | 20px | バッジ・タグ・チップ |
+| `.lucido-input` | 20px | フォーム入力 |
+| `.lucido-nav-item` | 16px | サイドバー・タブ ナビアイテム |
+| `.lucido-refraction` | +2px hue-rotate | 屈折エフェクト（::after で重ねる） |
+| `.lucido-edge-sheen` | — | 側縁ゴールドハイライト（::after で重ねる） |
+
+```css
+/* ─── Dark Mode ─── */
+
+/* Lucido — Base */
+.lucido {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(61, 79, 158, 0.08) 0%,      /* primary-500 ultramarine */
+    rgba(204, 160, 68, 0.04) 50%,    /* gold-400 */
+    rgba(61, 79, 158, 0.08) 100%
+  );
+  backdrop-filter: blur(40px) saturate(1.7) brightness(1.08);
+  -webkit-backdrop-filter: blur(40px) saturate(1.7) brightness(1.08);
+  border: 1px solid rgba(236, 229, 216, 0.1);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(238, 214, 160, 0.12),   /* gold specular top */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 8px 32px rgba(12, 10, 8, 0.35);
+}
+
+/* Lucido — Specular Highlight Overlay */
+.lucido::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(238, 214, 160, 0.08) 0%,    /* gold specular overlay */
+    rgba(255, 255, 255, 0.02) 30%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* Lucido — Deep (ヘッダー・ナビゲーション用) */
+.lucido-deep {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(17, 22, 48, 0.45) 0%,       /* primary-900 ultramarine */
+    rgba(44, 39, 32, 0.25) 50%,      /* neutral-300 warm */
+    rgba(17, 22, 48, 0.45) 100%
+  );
+  backdrop-filter: blur(56px) saturate(1.9) brightness(0.96);
+  -webkit-backdrop-filter: blur(56px) saturate(1.9) brightness(0.96);
+  border: 1px solid rgba(204, 160, 68, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(238, 214, 160, 0.07),
+    0 16px 48px rgba(12, 10, 8, 0.45);
+}
+
+/* Lucido — Subtle (ツールチップ・ポップオーバー用) */
+.lucido-subtle {
+  position: relative;
+  background: rgba(24, 21, 15, 0.55);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid rgba(236, 229, 216, 0.07);
+  box-shadow:
+    inset 0 0.5px 0 rgba(238, 214, 160, 0.1),
+    0 4px 16px rgba(12, 10, 8, 0.3);
+}
+
+/* ─── Compact Variants ─── */
+
+/* Lucido — Pill (タグ・バッジ・チップ) */
+.lucido-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(61, 79, 158, 0.1) 0%,
+    rgba(204, 160, 68, 0.06) 50%,
+    rgba(61, 79, 158, 0.1) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(236, 229, 216, 0.12);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 0 rgba(238, 214, 160, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(12, 10, 8, 0.2);
+  overflow: hidden;
+}
+
+.lucido-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(238, 214, 160, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Lucido — Input / Form Element */
+.lucido-input {
+  background: rgba(24, 21, 15, 0.45);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid rgba(236, 229, 216, 0.07);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(238, 214, 160, 0.05),
+    inset 0 2px 4px rgba(0, 0, 0, 0.18);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lucido-input:focus {
+  border-color: rgba(204, 160, 68, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(238, 214, 160, 0.08),
+    inset 0 2px 4px rgba(0, 0, 0, 0.12),
+    0 0 0 2px rgba(204, 160, 68, 0.18),
+    0 0 16px rgba(204, 160, 68, 0.08);
+}
+
+/* Lucido — Nav Item (サイドバー・タブ ナビゲーション) */
+.lucido-nav-item {
+  position: relative;
+  background: transparent;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.lucido-nav-item:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(61, 79, 158, 0.08) 0%,
+    rgba(204, 160, 68, 0.04) 100%
+  );
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border-color: rgba(236, 229, 216, 0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(238, 214, 160, 0.08),
+    0 2px 8px rgba(12, 10, 8, 0.15);
+}
+
+.lucido-nav-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(61, 79, 158, 0.14) 0%,
+    rgba(204, 160, 68, 0.08) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-color: rgba(204, 160, 68, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(238, 214, 160, 0.12),
+    0 4px 12px rgba(12, 10, 8, 0.2);
+}
+
+/* ─── Effect Utilities ─── */
+
+/* Refraction Layer — 光の屈折・色収差（ウルトラマリン × ゴールド） */
+/* Usage: .lucido-refraction クラスを追加して ::after で屈折オーバーレイを有効化 */
+.lucido-refraction::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(238, 214, 160, 0.03) 0%,
+    transparent 35%,
+    rgba(61, 79, 158, 0.02) 65%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  backdrop-filter: blur(2px) hue-rotate(6deg);
+  -webkit-backdrop-filter: blur(2px) hue-rotate(6deg);
+  pointer-events: none;
+}
+
+/* Edge Sheen — ゴールドの側縁光沢帯 */
+/* Usage: .lucido-edge-sheen クラスを追加（::after が不要なコンポーネントに） */
+.lucido-edge-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg,
+      rgba(238, 214, 160, 0.07) 0%,
+      transparent 15%,
+      transparent 85%,
+      rgba(238, 214, 160, 0.04) 100%),
+    linear-gradient(180deg,
+      rgba(238, 214, 160, 0.08) 0%,
+      transparent 30%);
+  pointer-events: none;
+}
+
+/* ─── Light Mode ─── */
+
+/* Lucido — Light */
+.lucido-light {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 218, 240, 0.3) 0%,     /* primary-100 */
+    rgba(248, 236, 208, 0.2) 50%,    /* gold-100 */
+    rgba(212, 218, 240, 0.3) 100%
+  );
+  backdrop-filter: blur(40px) saturate(1.5) brightness(1.12);
+  -webkit-backdrop-filter: blur(40px) saturate(1.5) brightness(1.12);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 8px 32px rgba(61, 79, 158, 0.08);
+}
+
+/* Lucido — Light Deep */
+.lucido-light-deep {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(250, 245, 237, 0.75) 0%,    /* neutral-1000 */
+    rgba(240, 232, 224, 0.55) 100%   /* secondary-100 */
+  );
+  backdrop-filter: blur(56px) saturate(1.7) brightness(1.08);
+  -webkit-backdrop-filter: blur(56px) saturate(1.7) brightness(1.08);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 12px 40px rgba(61, 79, 158, 0.07);
+}
+
+/* Lucido — Light Pill */
+.lucido-light-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(248, 236, 208, 0.3) 50%,    /* gold-100 tint */
+    rgba(255, 255, 255, 0.6) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 8px rgba(61, 79, 158, 0.07);
+  overflow: hidden;
+}
+
+/* Lucido — Light Input */
+.lucido-light-input {
+  background: rgba(250, 245, 237, 0.55);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 2px 4px rgba(42, 30, 20, 0.04),
+    0 1px 3px rgba(61, 79, 158, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lucido-light-input:focus {
+  border-color: rgba(204, 160, 68, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 2px 4px rgba(42, 30, 20, 0.02),
+    0 0 0 2px rgba(204, 160, 68, 0.14),
+    0 0 16px rgba(204, 160, 68, 0.06);
+}
+```
+
+```
+
 ### 7.4 Gradients
 
 ```css
@@ -972,6 +1281,40 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
     opacity: 1;
   }
 }
+
+/* Lucido Ripple — Lucido マテリアルの波紋 */
+@keyframes lucidoRipple {
+  0%   { transform: scale(0.95); opacity: 0.6; }
+  50%  { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Specular Sweep — ホバー時にゴールドスペキュラが左端から右端へ一閃 */
+@keyframes specularSweep {
+  0%   { background-position: -200% 0; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { background-position: 200% 0; opacity: 0; }
+}
+/* Usage: .lucido:hover::after {
+     animation: specularSweep 0.9s ease-out forwards;
+     background: linear-gradient(90deg, transparent 0%, rgba(238,214,160,0.1) 50%, transparent 100%);
+     background-size: 200% 100%;
+   } */
+
+/* Varnish Shine — エッジゴールドハイライトの呼吸 */
+@keyframes varnishShine {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+/* Usage: animation: varnishShine 3s ease-in-out infinite; */
+
+/* Lucido Float — 浮遊感のある縦揺れ（ヒーロー内カード・CTA に使用） */
+@keyframes lucidoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
+}
+/* Usage: animation: lucidoFloat 4s ease-in-out infinite; */
 ```
 
 ## 10. Iconography
@@ -1412,14 +1755,17 @@ padding: 32px; font-family: 'JetBrains Mono'; font-size: 16px; line-height: 1.7;
 
 | Component | Default | Accent | Light Mode |
 |-----------|---------|--------|------------|
-| Card | `.glaze` | `.impasto` | `.glaze-light-frosted` |
-| Header | `.impasto-subtle` | — | `.impasto-light` |
+| Card | `.glaze` | `.lucido` | `.glaze-light-frosted` |
+| Header | `.impasto-subtle` | `.lucido-deep` | `.lucido-light-deep` |
 | Sidebar | `.glaze-frosted` | — | `.glaze-light-frosted` |
+| Sidebar Nav Item | `.lucido-nav-item` | — | 同左 |
 | Button (Primary) | `.btn-impasto` | `.impasto-vermillion` | 同左 |
 | Button (Secondary) | `.btn-glaze` | — | 同左 |
+| Badge / Tag | `.lucido-pill` | — | `.lucido-light-pill` |
+| Input / Select | `.lucido-input` | — | `.lucido-light-input` |
 | Modal | `.glaze-frosted` | — | `.glaze-light-frosted` |
-| Tooltip | `.glaze` (small) | — | `.glaze-light` |
-| Pricing (Featured) | `.glaze` | `.impasto-gilded` | `.impasto-light-gilded` |
+| Tooltip | `.glaze` (small) | `.lucido-subtle` | `.glaze-light` |
+| Pricing (Featured) | `.glaze` | `.lucido-deep` | `.lucido-light-deep` |
 
 ### 12.3 ステータス表示
 
