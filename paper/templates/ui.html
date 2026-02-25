@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Domain AI — Paper Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   The Domain AI — Web UI Template (Paper)
+   Light-first design system. Paper / Ink / Slate materials.
+   Web App context: --font-sans (Instrument Sans) only.
+   ============================================================ */
+
+/* ── CSS Custom Properties ── */
+:root {
+  /* Ink Scale — Content Text */
+  --ink-1000: #000000;
+  --ink-900:  #1a1a1a;
+  --ink-800:  #2d2d2d;
+  --ink-700:  #404040;
+  --ink-600:  #525252;
+  --ink-500:  #6b6b6b;
+  --ink-400:  #8a8a8a;
+  --ink-300:  #a3a3a3;
+  --ink-200:  #c4c4c4;
+  --ink-100:  #e0e0e0;
+  --ink-50:   #f0f0f0;
+
+  /* Slate Scale — UI Chrome */
+  --slate-500: #64748b;
+  --slate-400: #94a3b8;
+  --slate-300: #cbd5e1;
+  --slate-200: #e2e8f0;
+  --slate-100: #f1f5f9;
+
+  /* Paper Scale — Backgrounds */
+  --paper-white:  #fdfdfc;
+  --paper-cream:  #faf9f7;
+  --paper-warm:   #f5f4f0;
+  --paper-kraft:  #eeedea;
+  --paper-aged:   #e8e7e3;
+  --paper-shadow: #dddcd8;
+
+  /* Accent Ink */
+  --ink-blue:  #2563eb;
+  --ink-green: #16a34a;
+  --ink-amber: #d97706;
+  --ink-red:   #dc2626;
+
+  /* Wash */
+  --wash-blue:  #dbeafe;
+  --wash-green: #dcfce7;
+  --wash-amber: #fef3c7;
+  --wash-red:   #fee2e2;
+
+  /* Semantic */
+  --bg-page:           var(--paper-white);
+  --bg-surface:        var(--paper-cream);
+  --bg-surface-raised: var(--paper-white);
+  --border-default:    var(--slate-200);
+  --border-strong:     var(--slate-300);
+  --border-heavy:      var(--ink-1000);
+  --text-primary:      var(--ink-900);
+  --text-heading:      var(--ink-1000);
+  --text-secondary:    var(--slate-500);
+  --text-muted:        var(--slate-400);
+  --text-caption:      var(--slate-500);
+  --interactive:       var(--ink-blue);
+  --separator:         1px solid var(--border-default);
+
+  /* Fonts — Web App context: sans-serif only */
+  --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* ── Body ── */
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-page);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   Web App context: sans-serif のみ使用（Crimson Pro 不使用）
+   サイズ・ウェイトは design-system.md セクション 3.2 に準拠
+   ============================================================ */
+
+/* display-xl: ヒーロー見出し */
+.display-xl {
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: var(--text-heading);
+}
+
+/* display-lg: セクション見出し */
+.display-lg {
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: var(--text-heading);
+}
+
+/* display-md: ページタイトル */
+.display-md {
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--text-heading);
+}
+
+/* heading-lg: カードタイトル */
+.heading-lg {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: var(--text-heading);
+}
+
+/* heading-md: サブセクション */
+.heading-md {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  color: var(--text-heading);
+}
+
+/* heading-sm: 小見出し */
+.heading-sm {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* body-lg: 本文（大） */
+.body-lg {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+/* body-md: 本文（基準） */
+.body-md {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* body-sm: 注釈・キャプション */
+.body-sm {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.1px;
+  color: var(--text-caption);
+}
+
+/* label: セクションラベル (uppercase) */
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-blue);
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+/* mono: コード・数値 */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+/* テキストカラーユーティリティ */
+.text-secondary { color: var(--text-secondary); }
+.text-muted     { color: var(--text-muted); }
+
+/* ============================================================
+   MATERIALS
+   ============================================================ */
+
+/* Flat Paper — カード・パネル（ボーダーのみ、影なし） */
+.flat-paper {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+}
+
+/* Raised Paper — 浮かせたカード（ボーダー + 影） */
+.raised-paper {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Grid Paper — グリッド罫線背景 */
+.grid-paper {
+  background-color: var(--paper-white);
+  background-image:
+    linear-gradient(var(--slate-200) 1px, transparent 1px),
+    linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+section {
+  padding: 96px 0;
+  position: relative;
+}
+
+.section-separator {
+  height: 1px;
+  background: var(--border-default);
+}
+
+/* カード 3列グリッド */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* カード 2列グリッド */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+/* ============================================================
+   HEADER — 固定ヘッダー
+   backdrop-filter blur(8px) + border-bottom border-heavy
+   ============================================================ */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(253, 253, 252, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border-heavy);
+}
+
+nav {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-heading);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.15s ease;
+}
+.nav-links a:hover {
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   HERO — Grid Paper 背景（40px grid, slate-200）
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 68px;     /* ヘッダー分 */
+  background-color: var(--paper-white);
+  background-image:
+    linear-gradient(var(--slate-200) 1px, transparent 1px),
+    linear-gradient(90deg, var(--slate-200) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 24px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  margin-top: 40px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ============================================================
+   CARDS — Flat Paper カード
+   ============================================================ */
+.card {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 32px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  background: var(--wash-blue);
+  color: var(--ink-blue);
+  border: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  letter-spacing: -0.2px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   BUTTONS — 3 Variants
+   ============================================================ */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  letter-spacing: -0.1px;
+}
+
+/* Primary: Ink Blue */
+.btn-primary {
+  color: #ffffff;
+  background: var(--ink-blue);
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--paper-white), 0 0 0 4px var(--ink-blue);
+}
+
+/* Secondary: Bordered */
+.btn-secondary {
+  color: var(--text-primary);
+  background: var(--paper-white);
+  border: 1px solid var(--border-strong);
+}
+.btn-secondary:hover {
+  background: var(--slate-100);
+  border-color: var(--ink-400);
+  transform: translateY(-1px);
+}
+.btn-secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--paper-white), 0 0 0 4px var(--ink-blue);
+}
+
+/* Ghost: Text Link Style */
+.btn-ghost {
+  color: var(--ink-blue);
+  background: transparent;
+  border: 1px solid transparent;
+}
+.btn-ghost:hover {
+  background: var(--wash-blue);
+  border-color: var(--border-default);
+}
+
+/* ============================================================
+   SECTION HEADER — セクション見出しパターン
+   横幅はコンテナ幅（1120px）に統一。
+   内部の p のみ max-width: 720px で行長を制御。
+   ============================================================ */
+.section-header {
+  text-align: center;
+  margin: 0 auto 64px;
+}
+
+.section-header .label {
+  margin-bottom: 16px;
+}
+
+.section-header .display-lg,
+.section-header .display-md {
+  margin-bottom: 16px;
+}
+
+.section-header p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   BADGES — ステータス・タグ
+   ============================================================ */
+.badge {
+  display: inline-block;
+  height: 22px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0.3px;
+  border-radius: 4px;
+  background: var(--slate-100);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+}
+.badge-success { background: var(--wash-green); color: #15803d; border-color: #bbf7d0; }
+.badge-warning { background: var(--wash-amber); color: #b45309; border-color: #fde68a; }
+.badge-error   { background: var(--wash-red);   color: #b91c1c; border-color: #fecaca; }
+.badge-info    { background: var(--wash-blue);  color: #1d4ed8; border-color: #bfdbfe; }
+
+/* ============================================================
+   INPUT — フォーム入力
+   ============================================================ */
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--paper-white);
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input::placeholder {
+  color: var(--text-muted);
+}
+.input:hover {
+  border-color: var(--border-strong);
+}
+.input:focus {
+  border-color: var(--ink-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  border-top: 1px solid var(--border-default);
+  padding: 48px 0;
+  background: var(--bg-surface);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-text {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.footer-links a:hover {
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1023px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .hero { min-height: auto; padding: 120px 0 80px; }
+  .display-xl { font-size: 40px; letter-spacing: -1px; }
+  .display-lg { font-size: 32px; }
+  .display-md { font-size: 28px; }
+  section { padding: 64px 0; }
+}
+
+@media (max-width: 639px) {
+  .container { padding: 0 16px; }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .display-xl { font-size: 32px; letter-spacing: -0.5px; }
+  .display-lg { font-size: 26px; letter-spacing: -0.3px; }
+  .display-md { font-size: 22px; }
+  .hero-cta { flex-direction: column; }
+  .nav-links { display: none; }
+  .footer-content { flex-direction: column; gap: 16px; text-align: center; }
+  section { padding: 48px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     固定ヘッダー。backdrop-filter blur(8px)。
+     border-bottom: 2px solid var(--border-heavy)
+     ============================================================ -->
+<header>
+  <nav>
+    <a href="#" class="logo">The Domain AI</a>
+    <div class="nav-links">
+      <a href="#principles">Principles</a>
+      <a href="#materials">Materials</a>
+      <a href="#components">Components</a>
+      <a href="#" class="btn btn-primary" style="padding: 8px 18px; font-size: 14px;">Get Started</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ============================================================
+     HERO
+     Grid Paper 背景（40px grid, slate-200）
+     タイトル: display-xl (56px / weight 300 / ink-1000)
+     サブタイトル: 20px / weight 400 / slate-500
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="label">DESIGN SYSTEM V2.0</span>
+      <h1 class="display-xl">Paper-First Design System<br>for The Domain AI</h1>
+      <p class="hero-subtitle">
+        紙とインクのメタファーを軸に、グリッドの秩序とインクの濃淡で情報の階層を表現します。
+      </p>
+      <div class="hero-cta">
+        <a href="#components" class="btn btn-primary">View Components</a>
+        <a href="#specification" class="btn btn-secondary">Read Specification</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-separator"></div>
+
+<!-- ============================================================
+     SECTION A — 5 つの Design Principles
+     display-md + label + grid-3 cards
+     カードアイコン: wash-blue 背景 + ink-blue テキスト
+     ============================================================ -->
+<section id="principles">
+  <div class="container">
+    <div class="section-header">
+      <span class="label">DESIGN PRINCIPLES</span>
+      <h2 class="display-md">5 つの原則が、すべてのデザイン判断を導く</h2>
+      <p>一貫性のあるデザインを実現するための基本原則です。</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon">✦</div>
+        <h3 class="card-title">Paper-First</h3>
+        <p class="card-text">紙の白さと余白を基調に、インクの濃淡とボーダーで情報の階層を表現する</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">◻</div>
+        <h3 class="card-title">Minimal & Editorial</h3>
+        <p class="card-text">余白とグリッドの秩序で視線を誘導し、コンテンツそのものに集中させる</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">≡</div>
+        <h3 class="card-title">Grid Structure</h3>
+        <p class="card-text">40px グリッドと一貫したスペーシングトークンが、すべての要素を整列させる</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">◎</div>
+        <h3 class="card-title">Systematic Tokens</h3>
+        <p class="card-text">すべての値はトークンから導出し、マジックナンバーを排除する</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⬡</div>
+        <h3 class="card-title">Platform Adaptive</h3>
+        <p class="card-text">共通トークンを持ちつつ、Web App / Mobile ではサンセリフに限定する</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-separator"></div>
+
+<!-- ============================================================
+     SECTION B — How It Works (3 Steps)
+     bg-surface (paper-cream) 背景
+     装飾番号: 64px / weight 300 / ink-blue / opacity 0.2
+     ============================================================ -->
+<section id="materials" style="background: var(--bg-surface);">
+  <div class="container">
+    <div class="section-header">
+      <span class="label">HOW IT WORKS</span>
+      <h2 class="display-md">トークンからコンポーネントへ</h2>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size: 64px; font-weight: 300; color: var(--ink-blue); opacity: 0.2; line-height: 1; margin-bottom: 16px; font-variant-numeric: tabular-nums;">01</div>
+        <h3 class="card-title">Define Tokens</h3>
+        <p class="card-text">Ink Scale・Slate Scale・Paper Scale のカラートークンを定義する</p>
+      </div>
+
+      <div class="card">
+        <div style="font-size: 64px; font-weight: 300; color: var(--ink-blue); opacity: 0.2; line-height: 1; margin-bottom: 16px; font-variant-numeric: tabular-nums;">02</div>
+        <h3 class="card-title">Build Materials</h3>
+        <p class="card-text">Flat Paper・Grid Paper・Layered Paper の 3 つのマテリアルを構成する</p>
+      </div>
+
+      <div class="card">
+        <div style="font-size: 64px; font-weight: 300; color: var(--ink-blue); opacity: 0.2; line-height: 1; margin-bottom: 16px; font-variant-numeric: tabular-nums;">03</div>
+        <h3 class="card-title">Compose Components</h3>
+        <p class="card-text">トークンとマテリアルからコンポーネントを組み立てる</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-separator"></div>
+
+<!-- ============================================================
+     CTA SECTION — コンバージョン
+     ============================================================ -->
+<section id="components">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="display-md">デザインシステムを導入する</h2>
+      <p>すべてのプロダクトで一貫したブランド体験を提供します。</p>
+      <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: center;">
+        <a href="#" class="btn btn-primary">Get Started</a>
+        <a href="#" class="btn btn-ghost">Documentation →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     bg-surface (paper-cream) 背景
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <span class="footer-text">&copy; 2026 The Domain AI Company</span>
+      <div class="footer-links">
+        <a href="#">GitHub</a>
+        <a href="#">Documentation</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
