@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Paper Theme Colors */
+    /* ─── Ink Scale — コンテンツテキスト用ピュアグレー ─── */
     --ink-1000: #000000;
     --ink-900:  #1a1a1a;
     --ink-800:  #2d2d2d;
@@ -18,17 +18,38 @@
     --ink-300:  #a3a3a3;
     --ink-200:  #c4c4c4;
     --ink-100:  #e0e0e0;
+    --ink-50:   #f0f0f0;
+
+    /* ─── Slate Scale — UI クロム用（ボーダー・補助テキスト）─── */
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+
+    /* ─── Paper Scale ─── */
     --paper-white:  #fdfdfc;
     --paper-cream:  #faf9f7;
     --paper-warm:   #f5f4f0;
     --paper-kraft:  #eeedea;
     --paper-aged:   #e8e7e3;
-    --ink-blue:  #4a6d8c;
-    --ink-green: #4a7c5c;
-    --ink-amber: #8c6d3f;
-    --wash-blue:  #eef2f7;
-    --wash-green: #edf4ef;
-    --wash-amber: #f5f1ea;
+    --paper-shadow: #dddcd8;
+
+    /* ─── Accent Ink ─── */
+    --ink-blue:  #2563eb;
+    --ink-green: #16a34a;
+    --ink-amber: #d97706;
+    --ink-red:   #dc2626;
+
+    /* ─── Wash ─── */
+    --wash-blue:  #dbeafe;
+    --wash-green: #dcfce7;
+    --wash-amber: #fef3c7;
+    --wash-red:   #fee2e2;
+
+    /* ─── Semantic ─── */
+    --border-default: var(--slate-200);
+    --border-strong:  var(--slate-300);
 
     --font-serif: 'Crimson Pro', Georgia, serif;
     --font-sans: 'Instrument Sans', -apple-system, sans-serif;
@@ -60,7 +81,7 @@
   }
   .page-header p {
     font-size: 14px;
-    color: var(--ink-600);
+    color: var(--slate-500);
   }
 
   /* Content */
@@ -80,20 +101,20 @@
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--ink-600);
+    color: var(--slate-500);
     white-space: nowrap;
   }
   .section-header::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--ink-200);
+    background: var(--border-default);
   }
 
   /* Typography Preview */
   .type-preview {
     background: var(--paper-cream);
-    border: 1px solid var(--ink-100);
+    border: 1px solid var(--border-default);
     border-radius: 8px;
     padding: 32px;
     margin-bottom: 16px;
@@ -105,7 +126,7 @@
   .type-meta {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--ink-500);
+    color: var(--slate-500);
     margin-bottom: 8px;
   }
 
@@ -114,14 +135,14 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     background: var(--paper-white);
-    border: 1px solid var(--ink-200);
+    border: 1px solid var(--border-default);
     border-radius: 8px;
     padding: 50px 72px 80px;
     position: relative;
     margin-bottom: 24px;
     background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 39px, var(--ink-100) 39px, var(--ink-100) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, var(--ink-100) 39px, var(--ink-100) 40px);
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(226,232,240,0.3) 39px, rgba(226,232,240,0.3) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(226,232,240,0.3) 39px, rgba(226,232,240,0.3) 40px);
     background-size: 40px 40px;
     opacity: 1;
   }
@@ -148,7 +169,7 @@
     font-weight: 700;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: var(--ink-600);
+    color: var(--slate-500);
     margin-bottom: 8px;
   }
   .key-message {
@@ -174,26 +195,26 @@
   .footer-line {
     width: 100%;
     height: 1px;
-    background: var(--ink-100);
+    background: var(--border-default);
     margin-bottom: 18px;
   }
   .slide-number {
     text-align: right;
     font-size: 14px;
-    color: var(--ink-400);
+    color: var(--slate-400);
   }
 
   /* Card Samples */
   .card-flat {
     background: var(--paper-cream);
-    border: 1px solid var(--ink-200);
-    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    border-radius: 0;
     padding: 24px;
   }
   .card-layered {
     background: var(--paper-white);
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border-radius: 8px;
+    border-radius: 0;
     padding: 24px;
   }
   .card-title {
@@ -212,8 +233,8 @@
   /* Metric Card */
   .metric-card {
     background: var(--paper-cream);
-    border: 1px solid var(--ink-200);
-    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    border-radius: 0;
     padding: 32px;
     text-align: center;
   }
@@ -227,14 +248,14 @@
   }
   .metric-label {
     font-size: 18px;
-    color: var(--ink-400);
+    color: var(--slate-400);
   }
 
   /* Table */
   .table-container {
     background: var(--paper-cream);
-    border: 1px solid var(--ink-100);
-    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    border-radius: 0;
     padding: 24px;
   }
   table {
@@ -246,7 +267,7 @@
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--ink-600);
+    color: var(--slate-500);
     background: var(--paper-warm);
     padding: 10px 12px;
     text-align: left;
@@ -257,7 +278,7 @@
     color: var(--ink-900);
     padding: 10px 12px;
     line-height: 1.5;
-    border-bottom: 0.5px solid var(--ink-100);
+    border-bottom: 0.5px solid var(--border-default);
   }
   td.mono {
     font-family: var(--font-mono);
@@ -267,7 +288,7 @@
   /* Grid Reference */
   .grid-ref {
     background: var(--paper-cream);
-    border: 1px solid var(--ink-100);
+    border: 1px solid var(--border-default);
     border-radius: 8px;
     padding: 24px;
     font-family: var(--font-mono);
@@ -310,7 +331,7 @@
       <div class="type-sample">
         <div class="type-meta">本文（スライド基準） — Sans 18px / 400</div>
         <div style="font-family: var(--font-sans); font-size: 18px; font-weight: 400; line-height: 1.5; color: var(--ink-900);">
-          情報階層はセリフ体とサンセリフ体の対比、ウェイトとサイズの段階、余白の量と質で表現する。色は黒インクを主軸に、意味のある場面でのみ淡い色付きインクを添える。
+          情報階層はセリフ体とサンセリフ体の対比、ウェイトとサイズの段階、余白の量と質で表現する。色は黒インクを主軸に、意味のある場面でのみ鮮やかな色付きインクを添える。
         </div>
       </div>
       <div class="type-sample">
@@ -321,13 +342,13 @@
       </div>
       <div class="type-sample">
         <div class="type-meta">セクションラベル — Sans 16px / 700 / uppercase / tracking: 2.5px</div>
-        <div style="font-family: var(--font-sans); font-size: 16px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ink-600);">
+        <div style="font-family: var(--font-sans); font-size: 16px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--slate-500);">
           EXECUTIVE SUMMARY
         </div>
       </div>
       <div class="type-sample">
         <div class="type-meta">脚注・copyright — Sans 14px / 400（最小サイズ）</div>
-        <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--ink-500);">
+        <div style="font-family: var(--font-sans); font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--slate-500);">
           © 2026 The Domain AI Company. All rights reserved.
         </div>
       </div>
@@ -419,13 +440,13 @@
     <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--ink-900);">Flat Paper Card</h3>
     <div class="card-flat" style="margin-bottom: 32px;">
       <div class="card-title">カードタイトル — Serif 22px / 600</div>
-      <div class="card-body">カード本文 — Sans 16px / 400。背景 paper-cream、border 1px solid ink-200。</div>
+      <div class="card-body">カード本文 — Sans 16px / 400。背景 paper-cream、border 1px solid border-default（slate-200）。</div>
     </div>
 
     <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--ink-900);">Layered Paper Card</h3>
     <div class="card-layered" style="margin-bottom: 32px;">
       <div class="card-title">カードタイトル — Serif 22px / 600</div>
-      <div class="card-body">背景 paper-white、box-shadow あり。border と shadow は併用しない。</div>
+      <div class="card-body">背景 paper-white、box-shadow あり。border と shadow は通常は併用しない（hover/selected 状態は例外）。</div>
     </div>
 
     <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: var(--ink-900);">Table</h3>
@@ -475,7 +496,7 @@
           <span style="position: absolute; left: 0;">×</span> font-weight: 800 以上は使わない
         </li>
         <li style="font-size: 16px; color: var(--ink-900); line-height: 1.6; padding-left: 20px; margin-bottom: 8px; position: relative;">
-          <span style="position: absolute; left: 0;">×</span> border と box-shadow を同一要素に併用しない
+          <span style="position: absolute; left: 0;">×</span> border と box-shadow を同一要素に通常は併用しない（hover/selected 状態は可）
         </li>
         <li style="font-size: 16px; color: var(--ink-900); line-height: 1.6; padding-left: 20px; margin-bottom: 8px; position: relative;">
           <span style="position: absolute; left: 0;">×</span> 1スライドにカード 4枚 or 箇条書き 6項目が上限目安

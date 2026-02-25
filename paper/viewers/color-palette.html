@@ -438,7 +438,7 @@ const cssLines = [
   '<span class="comment">/* Design System — Paper — Color Tokens */</span>',
   '',
   ':root {',
-  '  <span class="comment">/* Ink Scale — Content Text */</span>',
+  '  <span class="comment">/* Ink Scale — Text & Borders */</span>',
 ];
 palettes.ink.forEach(c => {
   cssLines.push(`  <span class="prop">--ink-${c.label}</span>: <span class="val">${c.hex}</span>;`);
@@ -469,9 +469,6 @@ cssLines.push('');
 cssLines.push('  <span class="comment">/* Semantic */</span>');
 cssLines.push('  <span class="prop">--border-default</span>: <span class="val">var(--slate-200)</span>;');
 cssLines.push('  <span class="prop">--border-strong</span>:  <span class="val">var(--slate-300)</span>;');
-cssLines.push('  <span class="prop">--text-secondary</span>: <span class="val">var(--slate-500)</span>;');
-cssLines.push('  <span class="prop">--text-muted</span>:     <span class="val">var(--slate-400)</span>;');
-cssLines.push('  <span class="prop">--text-caption</span>:   <span class="val">var(--slate-500)</span>;');
 cssLines.push('}');
 document.getElementById('codeOutput').innerHTML = cssLines.join('\n');
 

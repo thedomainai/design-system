@@ -9,17 +9,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Ink Scale */
+    /* Ink Scale — コンテンツテキスト用ピュアグレー */
     --ink-1000:#000000;--ink-900:#1a1a1a;--ink-800:#2d2d2d;--ink-700:#404040;
     --ink-600:#525252;--ink-500:#6b6b6b;--ink-400:#8a8a8a;--ink-300:#a3a3a3;
     --ink-200:#c4c4c4;--ink-100:#e0e0e0;--ink-50:#f0f0f0;
+    /* Slate Scale — UI クロム用（ボーダー・補助テキスト）青みがかったグレー */
+    --slate-500:#64748b;--slate-400:#94a3b8;--slate-300:#cbd5e1;
+    --slate-200:#e2e8f0;--slate-100:#f1f5f9;
     /* Paper Scale */
     --paper-white:#fdfdfc;--paper-cream:#faf9f7;--paper-warm:#f5f4f0;
     --paper-kraft:#eeedea;--paper-aged:#e8e7e3;--paper-shadow:#dddcd8;
     /* Accent Ink */
-    --ink-blue:#4a6d8c;--ink-green:#4a7c5c;--ink-amber:#8c6d3f;--ink-red:#8c4a4a;
+    --ink-blue:#2563eb;--ink-green:#16a34a;--ink-amber:#d97706;--ink-red:#dc2626;
     /* Accent Wash */
-    --wash-blue:#eef2f7;--wash-green:#edf4ef;--wash-amber:#f5f1ea;--wash-red:#f5eded;
+    --wash-blue:#dbeafe;--wash-green:#dcfce7;--wash-amber:#fef3c7;--wash-red:#fee2e2;
+    /* Semantic */
+    --border-default:var(--slate-200);--border-strong:var(--slate-300);--border-heavy:var(--ink-1000);
+    --text-secondary:var(--slate-500);--text-muted:var(--slate-400);
     /* Fonts */
     --font-serif:'Crimson Pro',Georgia,'Times New Roman',serif;
     --font-sans:'Instrument Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -46,14 +52,14 @@
   body::before{
     content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background-image:
-      linear-gradient(var(--ink-100) 1px,transparent 1px),
-      linear-gradient(90deg,var(--ink-100) 1px,transparent 1px);
+      linear-gradient(var(--slate-200) 1px,transparent 1px),
+      linear-gradient(90deg,var(--slate-200) 1px,transparent 1px);
     background-size:40px 40px;
-    opacity:0.25;
+    opacity:0.3;
   }
 
-  .card-base{background:var(--paper-cream);border:1px solid var(--ink-100);padding:20px;transition:border-color .15s ease;}
-  .card-base:hover{border-color:var(--ink-900);}
+  .card-base{background:var(--paper-cream);border:1px solid var(--slate-200);padding:20px;transition:border-color .15s ease;}
+  .card-base:hover{border-color:var(--ink-blue);}
   .grid-auto{display:grid;gap:12px;}
   .h-section{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink-900);margin:32px 0 16px;}
   .h-section:first-child{margin-top:0;}
@@ -62,8 +68,8 @@
   .label-upper{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-500);margin-bottom:12px;}
 
   /* Sidebar */
-  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--paper-kraft);border-right:1px solid var(--ink-100);padding:32px 0;overflow-y:auto;z-index:100;transition:transform .3s ease;}
-  .sidebar-header{padding:0 24px 24px;border-bottom:1px solid var(--ink-100);margin-bottom:16px;}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--paper-kraft);border-right:1px solid var(--border-default);padding:32px 0;overflow-y:auto;z-index:100;transition:transform .3s ease;}
+  .sidebar-header{padding:0 24px 24px;border-bottom:1px solid var(--border-default);margin-bottom:16px;}
   .sidebar-header h1{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink-1000);letter-spacing:-0.3px;}
   .sidebar-header p{font-size:11px;color:var(--ink-500);margin-top:4px;font-weight:400;}
 
@@ -92,7 +98,7 @@
   .section{padding-top:64px;}
   .section-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
   .section-header h2{font-family:var(--font-serif);font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-500);white-space:nowrap;}
-  .section-header::after{content:'';flex:1;height:1px;background:var(--ink-100);}
+  .section-header::after{content:'';flex:1;height:1px;background:var(--slate-200);}
   .section-desc{font-size:14px;color:var(--ink-600);margin-bottom:24px;max-width:700px;}
 
   /* Principles */
@@ -130,7 +136,7 @@
   /* Typography */
   .type-table{width:100%;border-collapse:collapse;}
   .type-table th{text-align:left;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-500);padding:0 16px 12px;border-bottom:1px solid var(--ink-900);}
-  .type-table td{padding:16px;border-bottom:1px solid var(--ink-100);vertical-align:middle;}
+  .type-table td{padding:16px;border-bottom:1px solid var(--border-default);vertical-align:middle;}
   .type-token{font-family:var(--font-mono);font-size:12px;color:var(--ink-700);white-space:nowrap;}
   .type-meta{font-family:var(--font-mono);font-size:11px;color:var(--ink-500);}
 
@@ -149,7 +155,7 @@
   .bp-detail{font-size:12px;color:var(--ink-500);line-height:1.6;}
   .grid-demo{margin-top:24px;overflow:hidden;}
   .grid-cols{display:grid;gap:4px;}
-  .grid-col{background:var(--paper-warm);border:1px solid var(--ink-200);height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;color:var(--ink-500);}
+  .grid-col{background:var(--paper-warm);border:1px solid var(--border-strong);height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;color:var(--ink-500);}
 
   /* Radius */
   .radius-grid{display:flex;flex-wrap:wrap;gap:20px;align-items:end;}
@@ -175,7 +181,7 @@
   .material-demo-card{padding:24px;min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;}
   .material-name{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink-1000);margin-bottom:4px;}
   .material-desc{font-size:12px;color:var(--ink-600);}
-  .material-code{font-family:var(--font-mono);font-size:10px;color:var(--ink-500);margin-top:8px;padding:8px;background:var(--paper-warm);border:1px solid var(--ink-100);line-height:1.5;white-space:pre-wrap;position:relative;}
+  .material-code{font-family:var(--font-mono);font-size:10px;color:var(--ink-500);margin-top:8px;padding:8px;background:var(--paper-warm);border:1px solid var(--border-default);line-height:1.5;white-space:pre-wrap;position:relative;}
   .copy-btn{position:absolute;top:4px;right:4px;background:var(--ink-900);color:var(--paper-white);border:none;padding:2px 8px;font-family:var(--font-mono);font-size:9px;cursor:pointer;opacity:0;transition:opacity .15s ease;}
   .material-code:hover .copy-btn{opacity:1;}
 
@@ -191,7 +197,7 @@
 
   /* Elevation */
   .elevation-stack{display:flex;flex-direction:column;gap:0;position:relative;height:340px;max-width:500px;}
-  .elevation-layer{position:absolute;left:0;right:0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--ink-100);transition:transform .2s ease;}
+  .elevation-layer{position:absolute;left:0;right:0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border-default);transition:transform .2s ease;}
   .elevation-layer:hover{transform:translateX(8px);}
   .elevation-name{font-size:13px;font-weight:600;color:var(--ink-900);}
   .elevation-z{font-family:var(--font-mono);font-size:11px;color:var(--ink-500);}
@@ -210,18 +216,18 @@
   .hover-demo-desc{font-size:12px;color:var(--ink-500);text-align:center;max-width:260px;}
 
   /* Platform Tabs */
-  .tab-bar{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--ink-100);padding-bottom:0;}
+  .tab-bar{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--border-default);padding-bottom:0;}
   .tab-btn{background:none;border:none;color:var(--ink-500);font-family:var(--font-sans);font-size:13px;font-weight:400;padding:10px 16px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s ease;}
   .tab-btn:hover{color:var(--ink-900);}
   .tab-btn.active{color:var(--ink-1000);border-bottom-color:var(--ink-blue);font-weight:600;}
   .tab-content{display:none;}
   .tab-content.active{display:block;}
   .platform-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
-  .platform-list li{font-size:13px;color:var(--ink-700);padding:10px 14px;background:var(--paper-cream);border:1px solid var(--ink-100);line-height:1.5;}
+  .platform-list li{font-size:13px;color:var(--ink-700);padding:10px 14px;background:var(--paper-cream);border:1px solid var(--border-default);line-height:1.5;}
   .platform-list li::before{content:'';display:inline-block;width:6px;height:6px;background:var(--ink-900);margin-right:10px;vertical-align:middle;}
 
   /* Page Structure */
-  .ref-visual{background:var(--paper-cream);border:1px solid var(--ink-100);padding:32px;max-width:720px;}
+  .ref-visual{background:var(--paper-cream);border:1px solid var(--border-default);padding:32px;max-width:720px;}
   .ref-layer{padding:20px;position:relative;}
   .ref-label{font-family:var(--font-mono);font-size:10px;color:var(--ink-400);position:absolute;top:8px;right:12px;}
   .ref-inner-card{padding:16px;margin-top:12px;}
@@ -231,12 +237,12 @@
 
   /* Icon Table */
   .icon-table{width:100%;border-collapse:collapse;max-width:600px;}
-  .icon-table td{padding:12px 16px;border-bottom:1px solid var(--ink-100);font-size:13px;}
+  .icon-table td{padding:12px 16px;border-bottom:1px solid var(--border-default);font-size:13px;}
   .icon-table td:first-child{font-weight:600;color:var(--ink-700);width:140px;}
   .icon-table td:last-child{color:var(--ink-600);}
 
   /* Component Demos */
-  .demo-panel{background:var(--paper-cream);border:1px solid var(--ink-100);padding:32px;margin-bottom:16px;}
+  .demo-panel{background:var(--paper-cream);border:1px solid var(--border-default);padding:32px;margin-bottom:16px;}
   .demo-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-500);margin-bottom:16px;}
   .demo-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:24px;}
   .demo-row:last-child{margin-bottom:0;}
@@ -266,13 +272,13 @@
   .badge-demo--default{border:1px solid var(--ink-200);}
 
   /* Input */
-  .input-demo{width:100%;height:40px;padding:0 12px;background:var(--paper-warm);border:1px solid var(--ink-100);border-radius:0;color:var(--ink-900);font-family:var(--font-sans);font-size:14px;outline:none;transition:border-color .15s ease;}
+  .input-demo{width:100%;height:40px;padding:0 12px;background:var(--paper-warm);border:1px solid var(--border-default);border-radius:0;color:var(--ink-900);font-family:var(--font-sans);font-size:14px;outline:none;transition:border-color .15s ease;}
   .input-demo:focus{border-color:var(--ink-blue);outline:2px solid var(--ink-blue);outline-offset:2px;}
   .input-demo--error{border-color:var(--ink-red);border-width:2px;}
   .input-demo--disabled{background:var(--paper-kraft);opacity:0.5;cursor:not-allowed;}
 
   /* Modal */
-  .modal-demo-bg{position:relative;background:rgba(253,253,252,0.8);border:1px solid var(--ink-100);padding:48px;display:flex;justify-content:center;margin-bottom:16px;}
+  .modal-demo-bg{position:relative;background:rgba(253,253,252,0.8);border:1px solid var(--border-default);padding:48px;display:flex;justify-content:center;margin-bottom:16px;}
   .modal-demo-panel{background:var(--paper-white);border:none;padding:24px;width:100%;max-width:400px;box-shadow:4px 4px 0 var(--ink-100),8px 8px 0 var(--ink-50);}
   .modal-demo-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--ink-1000);margin-bottom:8px;}
   .modal-demo-body{font-size:14px;color:var(--ink-600);margin-bottom:20px;line-height:1.5;}
@@ -280,12 +286,12 @@
   /* Toast */
   .toast-demo{padding:8px 16px;font-size:12px;}
   .toast-demo--default{background:var(--ink-900);color:var(--paper-white);}
-  .toast-demo--alt{background:var(--paper-cream);color:var(--ink-900);border:1px solid var(--ink-100);}
+  .toast-demo--alt{background:var(--paper-cream);color:var(--ink-900);border:1px solid var(--border-default);}
 
   /* Table */
   .table-demo{width:100%;border-collapse:collapse;max-width:600px;}
   .table-demo th{text-align:left;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-500);padding:0 16px 12px;border-bottom:1px solid var(--ink-900);}
-  .table-demo td{padding:12px 16px;border-bottom:1px solid var(--ink-100);}
+  .table-demo td{padding:12px 16px;border-bottom:1px solid var(--border-default);}
   .table-demo td:first-child{font-family:var(--font-mono);font-size:13px;color:var(--ink-700);}
   .table-demo td:nth-child(2){font-family:var(--font-mono);font-size:13px;color:var(--ink-500);}
   .table-demo td:last-child{font-size:14px;color:var(--ink-700);}
@@ -293,7 +299,7 @@
   .table-demo tbody tr:hover{background:var(--paper-warm);}
 
   /* Progress Bar */
-  .progress-demo{height:4px;background:var(--ink-100);border-radius:2px;overflow:hidden;margin-bottom:4px;}
+  .progress-demo{height:4px;background:var(--border-default);border-radius:2px;overflow:hidden;margin-bottom:4px;}
   .progress-fill{height:100%;background:var(--ink-900);border-radius:2px;}
 
   /* Metric Card */
@@ -320,7 +326,7 @@
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
   /* Mobile */
-  .menu-btn{display:none;position:fixed;top:16px;left:16px;z-index:200;width:40px;height:40px;background:var(--paper-cream);border:1px solid var(--ink-100);cursor:pointer;align-items:center;justify-content:center;}
+  .menu-btn{display:none;position:fixed;top:16px;left:16px;z-index:200;width:40px;height:40px;background:var(--paper-cream);border:1px solid var(--border-default);cursor:pointer;align-items:center;justify-content:center;}
   .menu-btn span{display:block;width:18px;height:2px;background:var(--ink-900);transition:all .2s ease;}
   .menu-btn span+span{margin-top:4px;}
   .overlay{display:none;position:fixed;inset:0;background:rgba(253,253,252,.8);z-index:90;}
@@ -397,7 +403,7 @@
       <span>February 2026</span>
     </div>
     <h1>Paper Design <em>System</em></h1>
-    <p><span class="i18n-ja">紙とインクで成立する Editorial / Magazine-inspired design。情報階層はセリフ体とサンセリフ体の対比、ウェイトとサイズの段階、余白の量と質で表現する。色は黒インクを主軸に、意味のある場面でのみ淡い色付きインクを添えるデザインシステムです。</span><span class="i18n-en">Editorial / Magazine-inspired design built with paper and ink. Information hierarchy is expressed through serif/sans-serif contrast, weight and size gradation, and whitespace. Color is used sparingly — black ink as the lead, with muted colored inks only where they carry meaning.</span></p>
+    <p><span class="i18n-ja">紙とインクで成立する Editorial / Magazine-inspired design。情報階層はセリフ体とサンセリフ体の対比、ウェイトとサイズの段階、余白の量と質で表現する。黒インクを主軸に、ステータス・インタラクション・データの場面では標準的な彩度のインクで即座の識別を確保するデザインシステムです。</span><span class="i18n-en">Editorial / Magazine-inspired design built with paper and ink. Information hierarchy is expressed through serif/sans-serif contrast, weight and size gradation, and whitespace. Black ink is the lead; vibrant colored inks ensure instant recognition for status, interaction, and data visualization.</span></p>
   </div>
 
   <div class="content">
@@ -464,9 +470,9 @@
         <div class="ref-layer" style="background:var(--paper-white);border:2px solid var(--ink-1000);border-bottom-width:1px;">
           <span class="ref-label">Page Background &middot; paper-white</span>
           <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:12px;">#fdfdfc</div>
-          <div class="ref-layer" style="background:var(--paper-cream);border:1px solid var(--ink-100);">
+          <div class="ref-layer" style="background:var(--paper-cream);border:1px solid var(--border-default);">
             <span class="ref-label">Surface &middot; paper-cream</span>
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:16px;">#faf9f7 &middot; border: ink-100 #e0e0e0</div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:16px;">#faf9f7 &middot; border: border-default (slate-200) #e2e8f0</div>
             <div class="ref-text-line">
               <span class="ref-text-role">Heading</span>
               <span style="font-family:var(--font-serif);font-size:24px;font-weight:300;color:var(--ink-1000);">Display Heading</span>
@@ -479,7 +485,7 @@
               <span class="ref-text-role">Sub text</span>
               <span style="font-size:12px;color:var(--ink-600);">Secondary text in ink-600</span>
             </div>
-            <div class="ref-inner-card" style="background:var(--paper-white);border:1px solid var(--ink-100);margin-top:16px;">
+            <div class="ref-inner-card" style="background:var(--paper-white);border:1px solid var(--border-default);margin-top:16px;">
               <span class="ref-label">Raised &middot; paper-white</span>
               <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-bottom:12px;">#fdfdfc</div>
               <span class="ref-btn" style="background:var(--ink-900);color:var(--paper-white);border-radius:4px;">Primary Button</span>
@@ -525,7 +531,7 @@
 
       <h3 class="h-section h-section--flush">Material Overview</h3>
       <div class="material-overview">
-        <div class="material-overview-card" style="background:var(--paper-cream);border:1px solid var(--ink-100);">
+        <div class="material-overview-card" style="background:var(--paper-cream);border:1px solid var(--border-default);">
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-bottom:6px;">Flat</div>
           <div style="font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--ink-1000);margin-bottom:4px;">Flat Paper</div>
           <div style="font-size:12px;color:var(--ink-600);line-height:1.5;"><span class="i18n-ja">上質紙 — 影なし、罫線のみで区画、平面的。カード・パネル・テーブルに使用。</span><span class="i18n-en">Fine paper — no shadows, sectioned by rules only, flat. Used for cards, panels, and tables.</span></div>
@@ -581,8 +587,8 @@
           <button class="btn btn--md btn--ghost">Hover me</button>
         </div>
         <div class="hover-demo-card card-base">
-          <div class="hover-demo-name">Card — Border Strengthen</div>
-          <div class="hover-demo-desc"><span class="i18n-ja">ホバー時にボーダーが黒に変わり微浮上するパターン。</span><span class="i18n-en">Border turns black and card lifts slightly on hover.</span></div>
+          <div class="hover-demo-name">Card — Border to Blue</div>
+          <div class="hover-demo-desc"><span class="i18n-ja">ホバー時にボーダーが ink-blue に変わり微浮上するパターン。</span><span class="i18n-en">Border turns ink-blue and card lifts slightly on hover.</span></div>
           <div class="card-base" style="padding:16px;cursor:pointer;">
             <div style="font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--ink-1000);margin-bottom:4px;">Card Title</div>
             <div style="font-size:12px;color:var(--ink-600);">Hover to see border change</div>
@@ -594,7 +600,7 @@
     <!-- 10 Components -->
     <section class="section" id="components">
       <div class="section-header"><h2>10 &mdash; Components</h2></div>
-      <div class="section-desc"><span class="i18n-ja">全コンポーネントはデザイントークンから値を導出し、色を排したモノクロームで構成します。</span><span class="i18n-en">All components derive values from design tokens in monochrome.</span></div>
+      <div class="section-desc"><span class="i18n-ja">全コンポーネントはデザイントークンから値を導出します。黒インクを主軸に、ステータス・インタラクションには Accent Ink を使用します。</span><span class="i18n-en">All components derive values from design tokens. Black ink is the lead; Accent Ink is used for status and interaction.</span></div>
 
       <!-- Buttons -->
       <h3 class="h-section h-section--flush">Button</h3>
@@ -623,10 +629,10 @@
       <!-- Card -->
       <h3 class="h-section">Card</h3>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:16px;">
-        <div style="background:var(--paper-cream);border:1px solid var(--ink-100);padding:24px;">
+        <div style="background:var(--paper-cream);border:1px solid var(--border-default);padding:24px;">
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-bottom:6px;">Flat Paper</div>
           <div style="font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink-1000);margin-bottom:8px;">Flat Card</div>
-          <div style="font-size:13px;color:var(--ink-600);line-height:1.5;">paper-cream / border: ink-100 / radius: 0px</div>
+          <div style="font-size:13px;color:var(--ink-600);line-height:1.5;">paper-cream / border: border-default (slate-200) / radius: 0px</div>
         </div>
         <div style="background:var(--paper-white);padding:24px;box-shadow:2px 2px 0 var(--ink-50);">
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-bottom:6px;">Layered Paper</div>
@@ -788,30 +794,34 @@ function toggleSidebar() {
 /* Data */
 const principles = [
   { num:'01', title:'Paper-First', desc:'紙とインクだけで成立するデザイン。色に頼らず、書体・太さ・サイズ・余白で情報の重みを伝える', desc_en:'Design that works with paper and ink alone. Convey weight through type, size, and whitespace — not color' },
-  { num:'02', title:'Restrained Color', desc:'黒インクが主役。色付きインクは意味のある場面で控えめに添える', desc_en:'Black ink is the lead. Colored ink is sparingly added only where it carries meaning' },
+  { num:'02', title:'Restrained Color', desc:'黒インクが主役。色付きインクはステータス・インタラクション・データの場面で鮮やかに使い、即座の識別を確保する', desc_en:'Black ink is the lead. Colored ink is used vibrantly where it carries meaning — status, interaction, data — for instant recognition' },
   { num:'03', title:'Typographic Hierarchy', desc:'見出しのセリフ体と本文のサンセリフ体の対比、ウェイトとサイズの段階で構造を表現する', desc_en:'Structure through serif/sans-serif contrast and graduated weight and size' },
   { num:'04', title:'Generous Whitespace', desc:'紙面の余白は情報そのもの。余白の量と質で読みやすさと格調を生み出す', desc_en:'Whitespace is information itself. Readability and elegance emerge from its quantity and quality' },
   { num:'05', title:'Ink Economy', desc:'すべての要素に「本当にインクを使う価値があるか」を問う。装飾を排し、必要最小限の線と文字で構成する', desc_en:'Ask whether each element deserves ink. Strip decoration, compose with minimal lines and text' },
 ];
 
 const palettes = [
-  { name:'Ink', sub:'Black Scale', colors:[
+  { name:'Ink', sub:'Black Scale — コンテンツテキスト用', colors:[
     {l:'1000',h:'#000000',t:'dark'},{l:'900',h:'#1a1a1a',t:'dark'},{l:'800',h:'#2d2d2d',t:'dark'},
     {l:'700',h:'#404040',t:'dark'},{l:'600',h:'#525252',t:'dark'},{l:'500',h:'#6b6b6b',t:'dark'},
     {l:'400',h:'#8a8a8a',t:'dark'},{l:'300',h:'#a3a3a3',t:'light'},{l:'200',h:'#c4c4c4',t:'light'},
     {l:'100',h:'#e0e0e0',t:'light'},{l:'50',h:'#f0f0f0',t:'light'},
+  ]},
+  { name:'Slate', sub:'UI Chrome — ボーダー・補助テキスト用', colors:[
+    {l:'500',h:'#64748b',t:'dark'},{l:'400',h:'#94a3b8',t:'dark'},
+    {l:'300',h:'#cbd5e1',t:'light'},{l:'200',h:'#e2e8f0',t:'light'},{l:'100',h:'#f1f5f9',t:'light'},
   ]},
   { name:'Paper', sub:'White Scale', colors:[
     {l:'white',h:'#fdfdfc',t:'light'},{l:'cream',h:'#faf9f7',t:'light'},{l:'warm',h:'#f5f4f0',t:'light'},
     {l:'kraft',h:'#eeedea',t:'light'},{l:'aged',h:'#e8e7e3',t:'light'},{l:'shadow',h:'#dddcd8',t:'light'},
   ]},
   { name:'Accent Ink', sub:'Colored Ink', colors:[
-    {l:'blue',h:'#4a6d8c',t:'dark'},{l:'green',h:'#4a7c5c',t:'dark'},
-    {l:'amber',h:'#8c6d3f',t:'dark'},{l:'red',h:'#8c4a4a',t:'dark'},
+    {l:'blue',h:'#2563eb',t:'dark'},{l:'green',h:'#16a34a',t:'dark'},
+    {l:'amber',h:'#d97706',t:'dark'},{l:'red',h:'#dc2626',t:'dark'},
   ]},
   { name:'Accent Wash', sub:'Ink Wash Background', colors:[
-    {l:'wash-blue',h:'#eef2f7',t:'light'},{l:'wash-green',h:'#edf4ef',t:'light'},
-    {l:'wash-amber',h:'#f5f1ea',t:'light'},{l:'wash-red',h:'#f5eded',t:'light'},
+    {l:'wash-blue',h:'#dbeafe',t:'light'},{l:'wash-green',h:'#dcfce7',t:'light'},
+    {l:'wash-amber',h:'#fef3c7',t:'light'},{l:'wash-red',h:'#fee2e2',t:'light'},
   ]},
 ];
 
@@ -820,22 +830,22 @@ const semanticTokens = [
   {name:'bg-surface',      hex:'#faf9f7', maps:'paper-cream',  desc:'カード・パネル背景',desc_en:'Card / panel surface'},
   {name:'bg-surface-raised',hex:'#fdfdfc',maps:'paper-white',  desc:'モーダル・浮上パネル',desc_en:'Modal / raised panel'},
   {name:'bg-recessed',     hex:'#f5f4f0', maps:'paper-warm',   desc:'凹んだ領域・インプット',desc_en:'Recessed area / input'},
-  {name:'border-default',  hex:'#e0e0e0', maps:'ink-100',      desc:'通常のボーダー',desc_en:'Default border'},
-  {name:'border-strong',   hex:'#c4c4c4', maps:'ink-200',      desc:'強調ボーダー',desc_en:'Strong border'},
+  {name:'border-default',  hex:'#e2e8f0', maps:'slate-200',    desc:'通常のボーダー・カード枠',desc_en:'Default border / card frame'},
+  {name:'border-strong',   hex:'#cbd5e1', maps:'slate-300',    desc:'強調ボーダー',desc_en:'Strong border'},
   {name:'border-heavy',    hex:'#000000', maps:'ink-1000',     desc:'ヘッダー下線・重要区切り',desc_en:'Header rule / major divider'},
   {name:'text-primary',    hex:'#1a1a1a', maps:'ink-900',      desc:'本文テキスト',desc_en:'Primary text'},
   {name:'text-heading',    hex:'#000000', maps:'ink-1000',     desc:'見出し',desc_en:'Headings'},
-  {name:'text-secondary',  hex:'#525252', maps:'ink-600',      desc:'補助テキスト',desc_en:'Secondary text'},
-  {name:'text-muted',      hex:'#8a8a8a', maps:'ink-400',      desc:'非活性テキスト',desc_en:'Muted text'},
-  {name:'interactive',     hex:'#4a6d8c', maps:'ink-blue',     desc:'リンク・選択状態',desc_en:'Link / selected state'},
-  {name:'focus-ring',      hex:'#4a6d8c', maps:'ink-blue',     desc:'フォーカスインジケーター',desc_en:'Focus indicator'},
+  {name:'text-secondary',  hex:'#64748b', maps:'slate-500',    desc:'補助テキスト・UI ラベル',desc_en:'Secondary text / UI labels'},
+  {name:'text-muted',      hex:'#94a3b8', maps:'slate-400',    desc:'ヒントテキスト・メタデータ',desc_en:'Muted text / metadata'},
+  {name:'interactive',     hex:'#2563eb', maps:'ink-blue',     desc:'リンク・選択状態',desc_en:'Link / selected state'},
+  {name:'focus-ring',      hex:'#2563eb', maps:'ink-blue',     desc:'フォーカスインジケーター',desc_en:'Focus indicator'},
 ];
 
 const statusItems = [
-  {name:'Success', label:'Complete', symbol:'\u2713', color:'var(--ink-green)', bg:'var(--wash-green)', border:'ink-green', borderHex:'#4a7c5c'},
-  {name:'Warning', label:'Attention', symbol:'!', color:'var(--ink-amber)', bg:'var(--wash-amber)', border:'ink-amber', borderHex:'#8c6d3f'},
-  {name:'Error',   label:'Error',     symbol:'\u00d7', color:'var(--ink-red)', bg:'var(--wash-red)', border:'ink-red', borderHex:'#8c4a4a'},
-  {name:'Info',    label:'Note',      symbol:'i', color:'var(--ink-blue)', bg:'var(--wash-blue)', border:'ink-blue', borderHex:'#4a6d8c'},
+  {name:'Success', label:'Complete', symbol:'\u2713', color:'var(--ink-green)', bg:'var(--wash-green)', border:'ink-green', borderHex:'#16a34a'},
+  {name:'Warning', label:'Attention', symbol:'!', color:'var(--ink-amber)', bg:'var(--wash-amber)', border:'ink-amber', borderHex:'#d97706'},
+  {name:'Error',   label:'Error',     symbol:'\u00d7', color:'var(--ink-red)', bg:'var(--wash-red)', border:'ink-red', borderHex:'#dc2626'},
+  {name:'Info',    label:'Note',      symbol:'i', color:'var(--ink-blue)', bg:'var(--wash-blue)', border:'ink-blue', borderHex:'#2563eb'},
 ];
 
 const typeScale = [
@@ -883,14 +893,14 @@ const strokeWidths = [
 
 const flatPaperMaterials = [
   {name:'Flat Paper',desc:'基本カード \u2014 罫線のみで区画',desc_en:'Basic card \u2014 sectioned by rules only',
-   style:'background:#faf9f7;border:1px solid #e0e0e0;',
-   code:'background: var(--paper-cream);\nborder: 1px solid var(--ink-100);'},
+   style:'background:#faf9f7;border:1px solid #e2e8f0;',
+   code:'background: var(--paper-cream);\nborder: 1px solid var(--border-default);'},
   {name:'Paper Recessed',desc:'凹面 \u2014 インプット・埋め込み領域',desc_en:'Recessed \u2014 input, embedded areas',
-   style:'background:#f5f4f0;border:1px solid #e0e0e0;',
-   code:'background: var(--paper-warm);\nborder: 1px solid var(--ink-100);'},
+   style:'background:#f5f4f0;border:1px solid #e2e8f0;',
+   code:'background: var(--paper-warm);\nborder: 1px solid var(--border-default);'},
   {name:'Paper Kraft',desc:'サイドバー・ヘッダー背景',desc_en:'Sidebar / header background',
-   style:'background:#eeedea;border:1px solid #e0e0e0;',
-   code:'background: var(--paper-kraft);\nborder: 1px solid var(--ink-100);'},
+   style:'background:#eeedea;border:1px solid #e2e8f0;',
+   code:'background: var(--paper-kraft);\nborder: 1px solid var(--border-default);'},
 ];
 
 const layeredPaperMaterials = [
@@ -913,10 +923,10 @@ const shadows = [
 ];
 
 const lineStyles = [
-  {name:'Standard',desc:'基本の罫線',desc_en:'Standard rule',style:'border-top:1px solid #e0e0e0;'},
+  {name:'Standard',desc:'基本の罫線',desc_en:'Standard rule',style:'border-top:1px solid #e2e8f0;'},
   {name:'Strong',desc:'セクション区切り',desc_en:'Section divider',style:'border-top:1px solid #000000;'},
   {name:'Double',desc:'重要なセクション区切り',desc_en:'Major section divider',style:'border-top:3px double #000000;'},
-  {name:'Dashed',desc:'補助的な区切り',desc_en:'Auxiliary divider',style:'border-top:1px dashed #c4c4c4;'},
+  {name:'Dashed',desc:'補助的な区切り',desc_en:'Auxiliary divider',style:'border-top:1px dashed #cbd5e1;'},
   {name:'Editorial Rule',desc:'ヘッダー下の太い罫線',desc_en:'Heavy rule below headers',style:'border-top:2px solid #000000;'},
 ];
 
@@ -967,14 +977,14 @@ const platformData = {
       'サーフェス階層: bg-page (paper-white) \u2192 bg-surface (paper-cream) \u2192 bg-surface-raised (paper-white)',
       'サイドバーには paper-kraft 背景 + 右辺 stroke-sm ボーダー',
       'ヘッダーには paper-white 背景 + backdrop-filter: blur(8px) + 下辺 stroke-sm ボーダー',
-      'フォーカスリングは ink-700 の 2px solid outline + 2px offset',
+      'フォーカスリングは ink-blue (#2563eb) の 2px solid outline + 2px offset',
       '本文は body-md (14px)\u3001密度の高い UI では body-sm (12px)',
     ],
     en:[
       'Surface hierarchy: bg-page (paper-white) \u2192 bg-surface (paper-cream) \u2192 bg-surface-raised (paper-white)',
       'Sidebar: paper-kraft background + right border stroke-sm',
       'Header: paper-white background + backdrop-filter: blur(8px) + bottom border stroke-sm',
-      'Focus ring: ink-700 2px solid outline + 2px offset',
+      'Focus ring: ink-blue (#2563eb) 2px solid outline + 2px offset',
       'Body: body-md (14px); dense UI: body-sm (12px)',
     ],
   },
@@ -1000,7 +1010,7 @@ const platformData = {
     ja:[
       'アスペクト比: 16:9 (1920x1080)',
       '背景: paper-white + グリッドパターン (opacity: 0.15)',
-      'タイトル: display-xl (56px)\u3001Crimson Pro Light 300',
+      'タイトルスライド見出し: 72px / Crimson Pro Light 300（スライド専用サイズ）',
       '本文: body-lg (16px) 以上（視認性確保）',
       'コードブロック: mono-md\u3001paper-warm 背景',
       '数値強調はセリフ体 light + 大サイズで表現（色は使わない）',
@@ -1009,7 +1019,7 @@ const platformData = {
     en:[
       'Aspect ratio: 16:9 (1920x1080)',
       'Background: paper-white + grid pattern (opacity: 0.15)',
-      'Title: display-xl (56px), Crimson Pro Light 300',
+      'Title slide heading: 72px / Crimson Pro Light 300 (slide-specific size, distinct from display-xl 56px)',
       'Body: body-lg (16px) or larger for readability',
       'Code blocks: mono-md, paper-warm background',
       'Emphasize numbers with serif light + large size (no color)',
@@ -1024,7 +1034,7 @@ const interactionPatterns = [
     title_en:'Drill-Down Navigation',
     steps:[
       {n:'1', ja:'概要カード群をグリッド表示', en:'Display overview cards in grid'},
-      {n:'2', ja:'カードクリック → selected 状態（border-color: ink-900）', en:'Click card → selected state (border-color: ink-900)'},
+      {n:'2', ja:'カードクリック → selected 状態（border-color: ink-blue, box-shadow: 0 0 0 2px rgba(37,99,235,0.2)）', en:'Click card → selected state (border-color: ink-blue, selection ring shadow)'},
       {n:'3', ja:'詳細セクションにスムーズスクロール + コンテンツレンダリング', en:'Smooth scroll to detail section + render content'},
       {n:'4', ja:'詳細内の行クリック → アコーディオンで打ち手展開', en:'Click detail row → expand measures via accordion'},
     ]
@@ -1088,7 +1098,7 @@ document.getElementById('fontWeights').innerHTML = fontWeights.map(fw => {
   const fi = fw.font === 'serif' ? 'var(--font-serif)' : fw.font === 'mono' ? 'var(--font-mono)' : 'var(--font-sans)';
   const w = typeof fw.weight === 'string' && fw.weight.includes('italic') ? '400' : fw.weight;
   const fs = typeof fw.weight === 'string' && fw.weight.includes('italic') ? 'font-style:italic;' : '';
-  return `<div style="display:flex;align-items:baseline;gap:16px;padding:12px 16px;border:1px solid var(--ink-100);"><span class="label-mono" style="width:52px;text-align:right;flex-shrink:0;">${fw.weight}</span><span style="font-family:${fi};font-size:24px;font-weight:${w};${fs}color:var(--ink-1000);flex:1;">The quick brown fox jumps over the lazy dog</span><span class="label-mono" style="flex-shrink:0;">${fw.name} (${fw.font})</span></div>`;
+  return `<div style="display:flex;align-items:baseline;gap:16px;padding:12px 16px;border:1px solid var(--border-default);"><span class="label-mono" style="width:52px;text-align:right;flex-shrink:0;">${fw.weight}</span><span style="font-family:${fi};font-size:24px;font-weight:${w};${fs}color:var(--ink-1000);flex:1;">The quick brown fox jumps over the lazy dog</span><span class="label-mono" style="flex-shrink:0;">${fw.name} (${fw.font})</span></div>`;
 }).join('');
 
 // Type Scale
@@ -1118,7 +1128,7 @@ document.getElementById('paletteContainer').innerHTML = palettes.map(p =>
 
 // Semantic tokens
 document.getElementById('semanticGrid').innerHTML = semanticTokens.map(s =>
-  `<div class="card-base semantic-card" onclick="copyHex('${s.hex}')"><div class="semantic-dot" style="background:${s.hex};border:1px solid var(--ink-100);"></div><div><div class="semantic-name">${s.name}</div><div class="semantic-detail">${s.maps} \u00b7 ${s.hex} \u00b7 ${t(s.desc, s.desc_en)}</div></div></div>`
+  `<div class="card-base semantic-card" onclick="copyHex('${s.hex}')"><div class="semantic-dot" style="background:${s.hex};border:1px solid var(--border-default);"></div><div><div class="semantic-name">${s.name}</div><div class="semantic-detail">${s.maps} \u00b7 ${s.hex} \u00b7 ${t(s.desc, s.desc_en)}</div></div></div>`
 ).join('');
 
 // Status
