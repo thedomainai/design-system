@@ -415,6 +415,29 @@ Web Page / Web App / Mobile App / Visual Presentation の全アウトプット�
 Apple Liquid Glass にインスパイアされた動的マテリアルです。
 背景コンテンツに応じてティンティングが変化し、上縁にスペキュラハイライト（光沢の帯）が走ることで、水面のような生きた透明感を生み出します。
 
+#### 設計原則
+
+| 原則 | 詳細 |
+|------|------|
+| **背景依存性** | ガラスは背後に動きや色のある要素（グラデーション・ビデオ・メッシュ）があるとき最も映える。白・黒の無地背景には使わない |
+| **使用量の制御** | 画面内の Liquid Glass 要素は最大 3〜4 個。すべてをガラスにすると奥行きが失われる |
+| **レイヤー構成** | ベース（backdrop-filter）→ スペキュラ（::before）→ 屈折（::after / refraction） の順で疑似要素を重ねる |
+| **アニメーションの節度** | `specularSweep` はユーザー操作（hover/click）にのみ発火させる。自動ループには `liquidFloat` を使う |
+| **パフォーマンス** | `backdrop-filter` は GPU 負荷が高い。モバイルでは `blur` を 20px 以下に抑えるか `@supports` でフォールバックを用意する |
+
+#### バリアント早見表
+
+| クラス | blur | 用途 |
+|--------|------|------|
+| `.liquid-glass` | 40px | カード・パネル（標準） |
+| `.liquid-glass-deep` | 60px | ヘッダー・ナビゲーション |
+| `.liquid-glass-subtle` | 30px | ツールチップ・ポップオーバー |
+| `.liquid-glass-pill` | 20px | バッジ・タグ・チップ |
+| `.liquid-glass-input` | 20px | フォーム入力 |
+| `.liquid-glass-nav-item` | 16px | サイドバー・タブ ナビアイテム |
+| `.liquid-glass-refraction` | +2px hue-rotate | 屈折エフェクト（::after で重ねる） |
+| `.liquid-glass-edge-sheen` | — | 側縁ハイライト（::after で重ねる） |
+
 ```css
 /* ─── Dark Mode ─── */
 
@@ -514,6 +537,185 @@ Apple Liquid Glass にインスパイアされた動的マテリアルです。
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 12px 40px rgba(80, 104, 164, 0.08);
+}
+
+/* ─── Compact Variants ─── */
+
+/* Liquid Glass — Pill (タグ・バッジ・チップ) */
+.liquid-glass-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(80, 104, 164, 0.12) 0%,
+    rgba(142, 124, 180, 0.08) 50%,
+    rgba(80, 104, 164, 0.12) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.liquid-glass-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Liquid Glass — Input / Form Element */
+.liquid-glass-input {
+  background: rgba(10, 10, 12, 0.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.liquid-glass-input:focus {
+  border-color: rgba(107, 132, 192, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgba(80, 104, 164, 0.2),
+    0 0 16px rgba(80, 104, 164, 0.1);
+}
+
+/* Liquid Glass — Nav Item (サイドバー・タブ ナビゲーション) */
+.liquid-glass-nav-item {
+  position: relative;
+  background: transparent;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.liquid-glass-nav-item:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(80, 104, 164, 0.1) 0%,
+    rgba(142, 124, 180, 0.06) 100%
+  );
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.liquid-glass-nav-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(80, 104, 164, 0.16) 0%,
+    rgba(142, 124, 180, 0.1) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border-color: rgba(107, 132, 192, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ─── Effect Utilities ─── */
+
+/* Refraction Layer — 光の屈折・色収差を疑似要素で演出 */
+/* Usage: .liquid-glass-refraction クラスを追加して ::after で屈折オーバーレイを有効化 */
+.liquid-glass-refraction::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 35%,
+    rgba(80, 104, 164, 0.03) 65%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(2px) hue-rotate(8deg);
+  -webkit-backdrop-filter: blur(2px) hue-rotate(8deg);
+  pointer-events: none;
+}
+
+/* Edge Sheen — 左右・上縁に光沢帯を追加するユーティリティ */
+/* Usage: .liquid-glass-edge-sheen クラスを追加（::after が必要なコンポーネントと競合しない場合） */
+.liquid-glass-edge-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 15%,
+      transparent 85%,
+      rgba(255, 255, 255, 0.04) 100%),
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 30%);
+  pointer-events: none;
+}
+
+/* ─── Light Mode Compact ─── */
+
+/* Liquid Glass — Light Pill */
+.liquid-glass-light-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(238, 240, 245, 0.4) 50%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 8px rgba(80, 104, 164, 0.08);
+  overflow: hidden;
+}
+
+/* Liquid Glass — Light Input */
+.liquid-glass-light-input {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 2px 4px rgba(0, 0, 0, 0.04),
+    0 1px 3px rgba(80, 104, 164, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.liquid-glass-light-input:focus {
+  border-color: rgba(80, 104, 164, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 2px 4px rgba(0, 0, 0, 0.02),
+    0 0 0 2px rgba(80, 104, 164, 0.15),
+    0 0 16px rgba(80, 104, 164, 0.06);
 }
 ```
 
@@ -911,6 +1113,33 @@ Liquid Glass では `inset` シャドウによるスペキュラ表現が主要�
   100% { background-position: 200% 0; }
 }
 /* Usage: 疑似要素に linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent) を適用 */
+
+/* Specular Sweep — ホバー時にスペキュラが左端から右端へ一閃する */
+@keyframes specularSweep {
+  0%   { background-position: -200% 0; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { background-position: 200% 0; opacity: 0; }
+}
+/* Usage: .liquid-glass:hover::after {
+     animation: specularSweep 0.8s ease-out forwards;
+     background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+     background-size: 200% 100%;
+   } */
+
+/* Glass Edge Shine — エッジハイライトが呼吸するように輝く */
+@keyframes glassEdgeShine {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+/* Usage: animation: glassEdgeShine 2.5s ease-in-out infinite; */
+
+/* Liquid Float — 浮遊感のある縦揺れ（ヒーロー内カード・CTA に使用） */
+@keyframes liquidFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
+}
+/* Usage: animation: liquidFloat 4s ease-in-out infinite; */
 ```
 
 
@@ -1632,8 +1861,11 @@ background: linear-gradient(90deg, #e8e8ec 0%, #8f99b8 100%);
 | Card | `glass` | `liquid-glass` | `glass-light-frosted` |
 | Header | `liquid-glass-deep` | — | `liquid-glass-light-deep` |
 | Sidebar | `glass-frosted` | — | `glass-light-frosted` |
+| Sidebar Nav Item | `liquid-glass-nav-item` | — | 同左 |
 | Button (Primary) | `btn-gradient-shift` | `btn-liquid` | 同左 |
 | Button (Secondary) | `btn-glow-line` | — | 同左 |
+| Badge / Tag | `liquid-glass-pill` | — | `liquid-glass-light-pill` |
+| Input / Select | `liquid-glass-input` | — | `liquid-glass-light-input` |
 | Modal | `glass-frosted` | — | `glass-light-frosted` |
 | Tooltip | `liquid-glass-subtle` | — | `liquid-glass-light` |
 | Pricing (Featured) | `glass` | `liquid-glass-deep` | `liquid-glass-light-deep` |
