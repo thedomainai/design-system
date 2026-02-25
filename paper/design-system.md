@@ -381,7 +381,7 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
 | Platform | 要点 |
 |----------|------|
 | **Web Page / LP** | 下記「セクション 11.1（Web Page / LP）」に展開 |
-| **Web App** | サーフェス階層: `bg-page` → `bg-surface` → `bg-surface-raised`。サイドバー `paper-kraft`。ヘッダー `backdrop-filter: blur(8px)`。本文 `body-md`、密度の高いUIは `body-sm` |
+| **Web App** | サーフェス階層: `bg-page` → `bg-surface` → `bg-surface-raised`。サイドバー `paper-kraft`。ヘッダー `backdrop-filter: blur(8px)`。本文 `body-md`、密度の高いUIは `body-sm`。**フォント: `--font-sans` のみ使用。Crimson Pro (serif) 不使用。** |
 | **Mobile (iOS)** | 下記「セクション 11.3（Mobile App (iOS)）」に展開 |
 | **Presentation** | 下記「セクション 11.4（Presentation (pptx)）」に展開 |
 
@@ -397,7 +397,7 @@ Glassmorphism / Liquid Glass を使用しない。紙とインクの物理特性
 
 - iOS Human Interface Guidelines / Layered Paper ガイドラインを優先し、トークンで色・タイポを上書き
 - `Layered Paper` は iOS ネイティブの `.glass` modifier と対応させて実装
-- SF Pro を基本フォントとし、カラートークンのみ本システムから適用
+- SF Pro を基本フォントとし（サンセリフ系のみ使用）、カラートークンのみ本システムから適用。Crimson Pro (serif) は使用しない
 - Dynamic Type をサポートし、Type Scale は参考値として扱う
 - テクスチャ・マテリアルはパフォーマンスを考慮し、背景色のみでフォールバックする
 
